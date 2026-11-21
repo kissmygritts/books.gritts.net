@@ -1,0 +1,225 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ----------------------------------------------------------------------------
+   books-ui tokens. Rules live in .claude/skills/books-ui/SKILL.md; /styleguide
+   renders every token live.
+
+   Seeded from the Reading Ledger's :root (vault: .claude/skills/book/ledger/
+   template.html), converted to oklch. Ledger name → token:
+     --bg → background      --surface → card       --ink → foreground
+     --ink-2 → muted-foreground                    --muted → faint
+     --grid → muted / rule  --line → border        --ring → edge
+     --good → success       --bad → destructive    --other/--wm → other/wm
+     --untag → untagged     --place → place        --audio → audiobook
+
+   Themes follow the system. `data-theme="light|dark"` on any element forces
+   that theme for its subtree (the styleguide renders both side by side).
+---------------------------------------------------------------------------- */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --background: oklch(96.4% 0.003 264.5);
+  --foreground: oklch(20% 0.009 264.4);
+  --card: oklch(99.1% 0.001 0);
+  --card-foreground: oklch(20% 0.009 264.4);
+  --popover: oklch(99.1% 0.001 0);
+  --popover-foreground: oklch(20% 0.009 264.4);
+  --primary: oklch(20% 0.009 264.4);
+  --primary-foreground: oklch(99.1% 0.001 0);
+  --secondary: oklch(92.2% 0.007 268.5);
+  --secondary-foreground: oklch(20% 0.009 264.4);
+  --muted: oklch(92.2% 0.007 268.5);
+  --muted-foreground: oklch(43.5% 0.026 268.1);
+  --faint: oklch(60.6% 0.019 267.7);
+  --accent: oklch(92.2% 0.007 268.5);
+  --accent-foreground: oklch(20% 0.009 264.4);
+  --destructive: oklch(50.1% 0.178 28.7);
+  --destructive-foreground: oklch(99.1% 0.001 0);
+  --success: oklch(43.3% 0.147 142.5);
+  --border: oklch(84.5% 0.012 269.5);
+  --rule: oklch(92.2% 0.007 268.5);
+  --edge: oklch(20% 0.009 264.4 / 9%);
+  --input: oklch(84.5% 0.012 269.5);
+  --ring: oklch(57.5% 0.163 255.5);
+
+  /* domain */
+  --other: oklch(57.5% 0.163 255.5);
+  --wm: oklch(67.1% 0.175 40.6);
+  --untagged: oklch(78.2% 0.013 266.7);
+  --place: oklch(51.7% 0.169 290.7);
+  --audiobook: oklch(54.3% 0.086 191.8);
+
+  /* charts: the ledger's series colors, in the order panels reach for them */
+  --chart-1: var(--other);
+  --chart-2: var(--wm);
+  --chart-3: var(--place);
+  --chart-4: var(--audiobook);
+  --chart-5: var(--muted-foreground);
+
+  --radius: 0.625rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --background: oklch(17.2% 0.007 258.4);
+    --foreground: oklch(96.4% 0.003 264.5);
+    --card: oklch(21.3% 0.008 264.4);
+    --card-foreground: oklch(96.4% 0.003 264.5);
+    --popover: oklch(21.3% 0.008 264.4);
+    --popover-foreground: oklch(96.4% 0.003 264.5);
+    --primary: oklch(96.4% 0.003 264.5);
+    --primary-foreground: oklch(21.3% 0.008 264.4);
+    --secondary: oklch(28.4% 0.012 264.4);
+    --secondary-foreground: oklch(96.4% 0.003 264.5);
+    --muted: oklch(28.4% 0.012 264.4);
+    --muted-foreground: oklch(79.2% 0.015 268.5);
+    --faint: oklch(63.3% 0.019 267.7);
+    --accent: oklch(28.4% 0.012 264.4);
+    --accent-foreground: oklch(96.4% 0.003 264.5);
+    --destructive: oklch(71.3% 0.144 25.4);
+    --destructive-foreground: oklch(17.2% 0.007 258.4);
+    --success: oklch(70.7% 0.217 142.8);
+    --border: oklch(36.3% 0.015 264.4);
+    --rule: oklch(28.4% 0.012 264.4);
+    --edge: oklch(100% 0 0 / 9%);
+    --input: oklch(36.3% 0.015 264.4);
+    --ring: oklch(62.2% 0.161 255.1);
+
+    --other: oklch(62.2% 0.161 255.1);
+    --wm: oklch(62.2% 0.173 40.1);
+    --untagged: oklch(42.7% 0.016 266.5);
+    --place: oklch(67.1% 0.146 293.1);
+    --audiobook: oklch(66.9% 0.103 191.7);
+  }
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: oklch(17.2% 0.007 258.4);
+  --foreground: oklch(96.4% 0.003 264.5);
+  --card: oklch(21.3% 0.008 264.4);
+  --card-foreground: oklch(96.4% 0.003 264.5);
+  --popover: oklch(21.3% 0.008 264.4);
+  --popover-foreground: oklch(96.4% 0.003 264.5);
+  --primary: oklch(96.4% 0.003 264.5);
+  --primary-foreground: oklch(21.3% 0.008 264.4);
+  --secondary: oklch(28.4% 0.012 264.4);
+  --secondary-foreground: oklch(96.4% 0.003 264.5);
+  --muted: oklch(28.4% 0.012 264.4);
+  --muted-foreground: oklch(79.2% 0.015 268.5);
+  --faint: oklch(63.3% 0.019 267.7);
+  --accent: oklch(28.4% 0.012 264.4);
+  --accent-foreground: oklch(96.4% 0.003 264.5);
+  --destructive: oklch(71.3% 0.144 25.4);
+  --destructive-foreground: oklch(17.2% 0.007 258.4);
+  --success: oklch(70.7% 0.217 142.8);
+  --border: oklch(36.3% 0.015 264.4);
+  --rule: oklch(28.4% 0.012 264.4);
+  --edge: oklch(100% 0 0 / 9%);
+  --input: oklch(36.3% 0.015 264.4);
+  --ring: oklch(62.2% 0.161 255.1);
+
+  --other: oklch(62.2% 0.161 255.1);
+  --wm: oklch(62.2% 0.173 40.1);
+  --untagged: oklch(42.7% 0.016 266.5);
+  --place: oklch(67.1% 0.146 293.1);
+  --audiobook: oklch(66.9% 0.103 191.7);
+}
+
+@theme {
+  --font-display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* type scale, from the ledger's px sizes */
+  --text-label: 0.6875rem; /* 11px: eyebrows, column heads, axis ticks */
+  --text-label--line-height: 1rem;
+  --text-meta: 0.8125rem; /* 13px: authors, notes, subtitles, chips */
+  --text-meta--line-height: 1.25rem;
+  --text-body: 0.9375rem; /* 15px: prose (set on body; never write it) */
+  --text-body--line-height: 1.5;
+  --text-heading: 1.0625rem; /* 17px: panel titles */
+  --text-heading--line-height: 1.4;
+  --text-stat: 1.875rem; /* 30px: stat tile figures */
+  --text-stat--line-height: 1;
+  --text-title: clamp(1.75rem, 5vw, 2.5rem); /* page title */
+  --text-title--line-height: 1.05;
+  --text-figure: clamp(2.75rem, 9vw, 4.5rem); /* the goal's big numbers */
+  --text-figure--line-height: 0.9;
+
+  --tracking-label: 0.09em;
+  --tracking-display: -0.02em;
+  --font-weight-heavy: 750;
+
+  --container-ledger: 65rem; /* 1040px reading column */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-border: var(--border);
+  --color-rule: var(--rule);
+  --color-edge: var(--edge);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-other: var(--other);
+  --color-wm: var(--wm);
+  --color-untagged: var(--untagged);
+  --color-place: var(--place);
+  --color-audiobook: var(--audiobook);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body,
+  [data-theme] {
+    @apply bg-background text-foreground font-sans text-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+}
