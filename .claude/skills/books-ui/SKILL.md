@@ -64,7 +64,8 @@ exceptions. **Never `dark:`**: tokens carry both themes.
 Custom utilities (in `main.css`): `border-dot` (a dot's 1.5px outline),
 `dot-scale` + `w-dot-grid` + `dot-grid` (the home grid), `w-stack` (a dot
 column, `--per-row` wide), `dot-delay` + `animate-dot-in` (the home
-entrance), `grid-cols-book` (a book row, columns from a 56rem container),
+entrance), `grid-cols-book` (a book row, columns from a 56rem
+container),
 `filter-dither` (covers). A new color or size is **promoted in `main.css`
 first** (`:root`, both dark blocks, `@theme inline`), added to
 `/styleguide`, then used.
@@ -99,6 +100,7 @@ titles and author names exactly as the vault spells them.
 | A dashboard page | `<DashPage id title caption :years v-model:year>`; one chart in the slot |
 | Dot columns | `<DotColumns :columns :per-row>` |
 | Dot rows | `<DotRows :rows>` |
+| A map of where books were set | `<PlaceMap :books :view>` (`us`, `world`) |
 | A hovered book in words | `<BookCaption :book>` (a `DashPage` caption does this itself) |
 | Figures | `<StatTile value suffix label>` in `<StatGrid>` |
 | Year scope | `<YearFilter v-model :years>` |
@@ -112,8 +114,11 @@ titles and author names exactly as the vault spells them.
 
 A dashboard chart is a `components/ledger/*` component that renders a
 `<DashPage>` and passes `v-model:year` through. Dots inside `<DotColumns>` /
-`<DotRows>` set the page's hovered book via `useHoverBook()`; the caption
-shows it, and the chart's `role="img"` aria-label states the count.
+`<DotRows>` set the page's hovered book via `useHoverBook()`;
+the caption shows it, and the chart's `role="img"` aria-label states the
+count. A mark that isn't one book (a region on `<PlaceMap>`) sets a line of words via
+`useHoverNote()` instead; the caption shows a book first, then the note.
+No tooltips.
 
 ## Signature elements: restraint is the rule
 
@@ -149,7 +154,10 @@ what's left out (`34 books unrated, not shown.`).
 ## Anti-patterns
 
 - Stars or rescaled ratings.
-- Bars, lines, areas or pies: every book is a dot.
+- Bars, lines, areas or pies: every book is a dot. The one exception is
+  `<PlaceMap>`: regions shaded with the ink at an opacity by count, empty
+  regions at 10%, every region stroked 1.5px in `field` as a gap, a legend
+  of opacity dots. No other color ramp.
 - Text on the home page.
 - A second chart on a dashboard page, or a different color per page.
 - Cards, shadows, gradients, textures, skeuomorphic touches.

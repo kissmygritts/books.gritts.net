@@ -49,4 +49,5 @@ const numbersCaption = computed(() =>
   <LedgerGenres v-model:year="year" :books="books" :years="years" />
   <LedgerAuthors v-model:year="year" :books="books" :years="years" />
   <LedgerPlaces v-model:year="year" :books="books" :years="years" />
+  <LedgerMap v-model:year="year" :books="books" :years="years" />
 </template>

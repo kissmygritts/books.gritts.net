@@ -1,12 +1,13 @@
 <script setup lang="ts">
 // One dashboard page: a full-height stretch of the field holding one chart,
 // its title, the year filter, and a caption that turns into the hovered
-// book.
+// book (or a hovered region's note).
 import type { LedgerYear } from '@/lib/ledger'
 
 defineProps<{ id: string; title: string; caption: string; years: number[] }>()
 const year = defineModel<LedgerYear>('year', { required: true })
 const hovered = provideHoverBook()
+const note = provideHoverNote()
 </script>
 
 <template>
@@ -20,13 +21,13 @@ const hovered = provideHoverBook()
       </div>
       <div
         class="flex min-w-0 flex-1 flex-col justify-center py-10 sm:py-24"
-        @mouseleave="hovered = null"
+        @mouseleave="hovered = note = null"
       >
         <slot />
       </div>
       <p class="min-h-12 max-w-prose border-current border-t pt-3 text-sm" aria-live="polite">
         <BookCaption v-if="hovered" :book="hovered" />
-        <template v-else>{{ caption }}</template>
+        <template v-else>{{ note ?? caption }}</template>
       </p>
     </div>
   </section>

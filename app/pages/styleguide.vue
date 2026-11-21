@@ -63,6 +63,9 @@ const type = [
 const sgYear = ref<LedgerYear>('all')
 const sgStatus = ref<BookStatus>('read')
 const sample = computed(() => finished.value.slice(0, 18))
+const mapBooks = computed(() =>
+	finished.value.filter((b) => b.regions.length).slice(0, 24),
+)
 const tableBooks = computed(() => [
 	...finished.value.filter((b) => b.audible).slice(0, 1),
 	...finished.value.filter((b) => b.white_male_author === true).slice(0, 1),
@@ -160,6 +163,15 @@ const columns = computed(() =>
       <DotColumns :columns="columns" :per-row="2" />
       <DotRows :rows="rows" />
       <p class="font-extralight text-verdict">Ahead by 13 books</p>
+    </StyleguideThemePair>
+
+    <StyleguideThemePair title="Map" field>
+      <PlaceMap :books="mapBooks" view="us" />
+      <p class="max-w-prose text-meta">
+        Regions shaded with the ink, more opaque for more books; empty regions
+        are the ink at 10%; field-colored gaps split them all. A region's count and cities go to the caption through
+        useHoverNote().
+      </p>
     </StyleguideThemePair>
 
     <StyleguideThemePair title="Figures" field>

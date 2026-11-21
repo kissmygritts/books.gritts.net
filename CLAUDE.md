@@ -36,14 +36,15 @@ share the year filter through one localStorage key (`useLedgerYear`).
   arrow keys name the book. Nothing else on the page.
 - `/dashboard`: one chart per full-height page, all on the field: the goal,
   in numbers, by month (by year under "All"), ratings, when it was
-  published, what it was, most read authors, where it was set.
+  published, what it was, most read authors, where it was set, on the map.
 - `/books`: the table of books by status (Finished, Reading, Up next,
   Abandoned). Finished follows the year filter and sorts; Up next carries
   the goal projection.
 
-The redesign dropped the US and world maps (places are dot rows; the owner
-wants the maps back), the "Every year" panel and the Author / Format switch
-on the month chart.
+The redesign dropped the "Every year" panel and the Author / Format switch
+on the month chart. The US and world maps are back as "On the map", after
+"Where it was set": states or countries shaded white by book count, empty
+regions faint, split by field-colored gaps (`<PlaceMap>`), US / World persisted under `books-map`.
 
 All panel numbers matched the private ledger for 2018 and 2021–2026 plus
 "All" on 2026-11-21, before the redesign; `ledger.ts` is unchanged since.
@@ -62,6 +63,9 @@ no finish date. The home grid and dashboard leave those out.
 - `app/components/ledger/*`: one component per dashboard page, each
   rendering a `<DashPage>`.
 - `app/components/Dot*.vue`, `BookDot.vue`: the dot grid and dot charts.
+  `PlaceMap.vue` draws the map with d3-geo + topojson-client.
+- `public/geo/`: us-atlas@3.0.1 / world-atlas@2.0.2 outlines, copies of the
+  vault's `ledger/geo/`. Biome ignores them.
 - `prototypes/`: the design rounds; 11-dots.html is the approved one. Biome ignores it.
 
 ## Gotchas
@@ -76,6 +80,9 @@ no finish date. The home grid and dashboard leave those out.
   are sRGB copies of `--foreground` / `--background`. Change both together.
 - **Runtime config before the await:** `useRuntimeConfig()` must run before
   the `await` in an async composable.
+- **Maps load on the client:** `<PlaceMap>` fetches `public/geo/` after mount,
+  so SSR renders an empty map. A dev server started before `public/`
+  existed won't serve it; restart it.
 - **Per-viewer state:** the year is kept in
   localStorage via `usePersisted` and read after mount, so SSR always renders
   the default (the latest year).
