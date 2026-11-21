@@ -22,6 +22,11 @@ const props = withDefaults(
 )
 const emit = defineEmits<{ pick: [column: Column] }>()
 
+const hovered = shallowRef<{ el: Element; col: Column } | null>(null)
+function hover(e: Event | null, col?: Column) {
+	hovered.value = e && col ? { el: e.currentTarget as Element, col } : null
+}
+
 const GUTTER = 26 // tick labels
 const GAP = 6 // between columns
 const SEG_GAP = 2 // between stacked segments
@@ -81,6 +86,11 @@ function onKey(e: KeyboardEvent, c: Column) {
 
 <template>
   <div ref="box" class="w-full">
+    <ChartHover
+      :tip="hovered?.col.tip ?? null"
+      :anchor="hovered?.el ?? null"
+      :max-titles="maxTitles"
+    >
     <svg
       :viewBox="`0 0 ${W} ${H + LABELS}`"
       class="block h-auto w-full overflow-visible"
@@ -102,13 +112,9 @@ function onKey(e: KeyboardEvent, c: Column) {
         </g>
         <line :x1="GUTTER" :x2="W" :y1="H" :y2="H" class="stroke-border" />
       </g>
-      <ChartTip
-        v-for="col in cols"
-        :key="col.c.key"
-        :tip="col.c.tip"
-        :max-titles="maxTitles"
-      >
         <g
+          v-for="col in cols"
+          :key="col.c.key"
           class="group outline-none"
           :class="interactive && 'cursor-pointer'"
           :role="interactive ? 'button' : undefined"
@@ -117,6 +123,10 @@ function onKey(e: KeyboardEvent, c: Column) {
           :aria-pressed="interactive ? !!col.c.current : undefined"
           @click="interactive && emit('pick', col.c)"
           @keydown="interactive && onKey($event, col.c)"
+          @pointerenter="hover($event, col.c)"
+          @pointerleave="hover(null)"
+          @focus="hover($event, col.c)"
+          @blur="hover(null)"
         >
           <rect
             :x="col.x"
@@ -144,7 +154,7 @@ function onKey(e: KeyboardEvent, c: Column) {
             {{ col.c.label }}
           </text>
         </g>
-      </ChartTip>
     </svg>
+    </ChartHover>
   </div>
 </template>

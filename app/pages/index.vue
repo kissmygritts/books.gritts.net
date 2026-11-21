@@ -2,6 +2,7 @@
 import { Bookmark, BookOpen } from '@lucide/vue'
 import { plural } from '@/lib/format'
 import {
+	finishBuckets,
 	inYear,
 	type LedgerYear,
 	monthDay,
@@ -10,7 +11,8 @@ import {
 	yearStats,
 } from '@/lib/ledger'
 
-const { all, finished, years, generatedAt, currentYear } = await useLedger()
+const { all, finished, years, generatedAt, currentYear, currentMonth } =
+	await useLedger()
 
 const reading = computed(() =>
 	all.value
@@ -55,6 +57,13 @@ const goalVerdict = computed(() =>
 	}),
 )
 const stats = computed(() => yearStats(books.value))
+const months = computed(() =>
+	finishBuckets(books.value, {
+		year: year.value,
+		years: years.value,
+		currentMonth: isCurrent.value ? currentMonth : -1,
+	}),
+)
 // The shelf under "All" keeps every read book, dated or not.
 const shelf = computed(() =>
 	isAll.value ? all.value.filter((b) => b.status === 'read') : books.value,
@@ -110,6 +119,8 @@ const shelf = computed(() =>
   <LedgerGoal :tally="yearTally" :verdict="goalVerdict" :total="books.length" />
 
   <LedgerNumbers :stats="stats" />
+
+  <LedgerMonths :buckets="months" :by-year="isAll" />
 
   <LedgerShelf :books="shelf" />
 </template>
