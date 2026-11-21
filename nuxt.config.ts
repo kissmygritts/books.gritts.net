@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
 	modules: ['@nuxt/content', 'shadcn-nuxt'],
 	devtools: { enabled: true },
+	devServer: { port: 8008 }, // 8008 reads like "BOOK"
 	compatibilityDate: '2025-07-15',
 
 	components: [
