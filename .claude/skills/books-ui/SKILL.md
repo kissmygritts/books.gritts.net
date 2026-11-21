@@ -62,7 +62,7 @@ exceptions. **Never `dark:`**: tokens carry both themes.
 | `border-rule` | Hairline between book rows. Also `faint`; never text. |
 
 Custom utilities (in `main.css`): `border-dot` (a dot's 1.5px outline),
-`dot-scale` + `w-dot-grid` + `dot-grid` (the home grid), `w-stack` (a dot
+`--dot` / `--dot-gap` (the one dot size, on `:root`), `w-dot-grid` + `dot-grid` (the home grid), `w-stack` (a dot
 column, `--per-row` wide), `dot-delay` + `animate-dot-in` (the home
 entrance), `grid-cols-book` (a book row, columns from a 56rem
 container),

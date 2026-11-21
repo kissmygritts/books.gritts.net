@@ -10,7 +10,7 @@ const props = withDefaults(
 		/** A book's `white_male_author`; or pass `tag` directly. */
 		value?: boolean | null
 		tag?: AuthorTag
-		/** `grid` takes its size from the home grid's `dot-grid`. */
+		/** `md` is the site's `--dot`; `grid` takes it from the home grid's `dot-grid`. */
 		size?: 'grid' | 'md' | 'sm'
 	}>(),
 	{ size: 'md' },
@@ -23,7 +23,7 @@ const dot = cva('relative block shrink-0 rounded-full border-dot', {
 			wm: 'border-current',
 			untagged: 'border-transparent',
 		},
-		size: { grid: '', md: 'size-3', sm: 'size-2.5' },
+		size: { grid: '', md: 'size-(--dot)', sm: 'size-2.5' },
 	},
 })
 const t = computed(() => props.tag ?? authorTag(props.value))

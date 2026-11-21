@@ -121,10 +121,11 @@
   border-width: 1.5px;
 }
 
-/* The home grid. `dot-scale` sets the dot size and gap (bigger from `sm`);
-   `w-dot-grid` caps the width at `--cols` dots (set in `style`), so the grid
-   reads wide on a desktop and reflows on a phone; `dot-grid` lays the dots. */
-@utility dot-scale {
+/* The dot size, one for the whole site (bigger from `sm`), and the home
+   grid's gap. `w-dot-grid` caps the grid's width at `--cols` dots (set in
+   `style`), so it reads wide on a desktop and reflows on a phone;
+   `dot-grid` lays the dots. */
+:root {
   --dot: 1rem;
   --dot-gap: 0.875rem;
   @media (width >= 40rem) {
@@ -157,9 +158,9 @@
   }
 }
 
-/* A column's stack of 12px dots, `--per-row` wide (set in `style`). */
+/* A column's stack of `--dot` dots, `--per-row` wide (set in `style`). */
 @utility w-stack {
-  width: calc(var(--per-row, 2) * 0.75rem + (var(--per-row, 2) - 1) * 0.3125rem);
+  width: calc(var(--per-row, 2) * var(--dot) + (var(--per-row, 2) - 1) * 0.3125rem);
 }
 
 /* The staggered entrance of the home grid; `--i` is the dot's index. */

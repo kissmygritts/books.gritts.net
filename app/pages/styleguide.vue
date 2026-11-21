@@ -144,7 +144,7 @@ const columns = computed(() =>
         <span class="flex items-center gap-2.5"><BookDot tag="wm" />White man</span>
         <span class="flex items-center gap-2.5"><BookDot tag="untagged" />Untagged</span>
       </div>
-      <div class="dot-scale flex items-center gap-4 text-meta">
+      <div class="flex items-center gap-4 text-meta">
         <div class="dot-grid w-30">
           <BookDot tag="other" size="grid" /><BookDot tag="wm" size="grid" /><BookDot tag="untagged" size="grid" />
         </div>

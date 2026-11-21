@@ -56,7 +56,7 @@ function onKey(e: KeyboardEvent) {
 
 <template>
   <div class="grid min-h-svh content-center px-4 pt-28 pb-14 sm:px-8">
-    <div class="dot-scale w-dot-grid mx-auto" :style="{ '--cols': cols }">
+    <div class="w-dot-grid mx-auto" :style="{ '--cols': cols }">
       <h1 class="sr-only">Every book read, one dot each</h1>
       <div
         ref="grid"
