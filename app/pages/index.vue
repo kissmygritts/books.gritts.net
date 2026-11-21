@@ -129,6 +129,7 @@ const shelf = computed(() =>
 
   <LedgerGenres :books="books" />
 
+  <LedgerAuthors :books="books" />
 
   <LedgerShelf :books="shelf" />
 </template>
