@@ -24,6 +24,17 @@ const upNext = computed(() =>
 		.filter((b) => b.status === 'to-read')
 		.sort((a, b) => a.title.localeCompare(b.title)),
 )
+// The ledger's projection, always against the current year: the nightstand
+// sits above the year filter, so it doesn't follow it.
+const projection = computed(() => {
+	const q = tally(upNext.value)
+	if (!upNext.value.length) return ''
+	const t = tally(finished.value.filter((b) => inYear(b, currentYear)))
+	return (
+		`Up next: ${q.other} by everyone else, ${q.wm} by white men${q.untagged ? `, ${q.untagged} untagged` : ''}. ` +
+		`Reading them all this year would end ${currentYear} at ${t.other + q.other} vs ${t.wm + q.wm}.`
+	)
+})
 const readCount = computed(
 	() => all.value.filter((b) => b.status === 'read').length,
 )
@@ -99,6 +110,9 @@ const shelf = computed(() =>
         <BookRow v-for="b in upNext" :key="b.slug" :book="b" />
         <EmptyState v-if="!upNext.length" title="Nothing queued" class="mt-3" />
       </section>
+      <p v-if="projection" class="text-meta text-muted-foreground tabular-nums">
+        {{ projection }}
+      </p>
     </div>
   </Panel>
 
