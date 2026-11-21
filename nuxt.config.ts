@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
+import { PALETTE_BOOT } from './app/lib/palette'
 
 export default defineNuxtConfig({
 	modules: ['@nuxt/content', 'shadcn-nuxt'],
@@ -26,6 +27,7 @@ export default defineNuxtConfig({
 			htmlAttrs: { lang: 'en' },
 			title: 'Books',
 			meta: [{ name: 'color-scheme', content: 'light dark' }],
+			script: [{ innerHTML: PALETTE_BOOT, tagPosition: 'head' }],
 			link: [
 				{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
 				{

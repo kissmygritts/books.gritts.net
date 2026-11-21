@@ -15,7 +15,53 @@
 
    Themes follow the system. `data-theme="light|dark"` on any element forces
    that theme for its subtree (the styleguide renders both side by side).
+
+   Palettes swap the field's hue. `data-palette` on <html> (set by
+   usePalette, before paint) picks a pair; each theme block reads its half,
+   so an element needs `data-theme` too to repaint a subtree (styleguide).
+   Every pair keeps white ink legible. Ids are listed in app/lib/palette.ts.
 ---------------------------------------------------------------------------- */
+
+:root {
+  --field-light: oklch(54.1% 0.209 263.5);
+  --field-dark: oklch(47.6% 0.188 264.2);
+}
+[data-palette="red"] {
+  --field-light: oklch(55% 0.2 27);
+  --field-dark: oklch(47% 0.17 27);
+}
+[data-palette="green"] {
+  --field-light: oklch(52% 0.13 155);
+  --field-dark: oklch(44% 0.11 155);
+}
+[data-palette="violet"] {
+  --field-light: oklch(52% 0.2 300);
+  --field-dark: oklch(45% 0.18 300);
+}
+[data-palette="teal"] {
+  --field-light: oklch(52% 0.1 200);
+  --field-dark: oklch(44% 0.085 200);
+}
+[data-palette="rust"] {
+  --field-light: oklch(50% 0.15 45);
+  --field-dark: oklch(43% 0.13 45);
+}
+[data-palette="plum"] {
+  --field-light: oklch(40% 0.12 330);
+  --field-dark: oklch(33% 0.1 330);
+}
+[data-palette="forest"] {
+  --field-light: oklch(42% 0.09 150);
+  --field-dark: oklch(35% 0.075 150);
+}
+[data-palette="slate"] {
+  --field-light: oklch(48% 0.04 250);
+  --field-dark: oklch(40% 0.035 250);
+}
+[data-palette="ink"] {
+  --field-light: oklch(32% 0.02 264);
+  --field-dark: oklch(24% 0.015 264);
+}
 
 :root,
 [data-theme="light"] {
@@ -29,7 +75,7 @@
   --border: oklch(37.6% 0.053 264.2);
   --rule: oklch(72% 0.033 263.5);
 
-  --field: oklch(54.1% 0.209 263.5);
+  --field: var(--field-light);
   --field-foreground: oklch(100% 0 0);
 
   /* Cover dither: an SVG filter rendered once by <DitherFilters>. Its two
@@ -49,7 +95,7 @@
     --border: oklch(92.4% 0.009 264.5);
     --rule: oklch(45.1% 0.047 267.3);
 
-    --field: oklch(47.6% 0.188 264.2);
+    --field: var(--field-dark);
     --field-foreground: oklch(100% 0 0);
 
     --dither: url(#dither-dark);
@@ -67,7 +113,7 @@
   --border: oklch(92.4% 0.009 264.5);
   --rule: oklch(45.1% 0.047 267.3);
 
-  --field: oklch(47.6% 0.188 264.2);
+  --field: var(--field-dark);
   --field-foreground: oklch(100% 0 0);
 
   --dither: url(#dither-dark);

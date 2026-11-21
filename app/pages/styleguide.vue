@@ -2,6 +2,7 @@
 // Every token and primitive, both themes, both surfaces. The rules are in
 // .claude/skills/books-ui/SKILL.md.
 import type { BookStatus } from '@/lib/book'
+import { PALETTES } from '@/lib/palette'
 
 useHead({ title: 'Styleguide' })
 
@@ -126,6 +127,28 @@ const columns = computed(() =>
         </li>
       </ul>
     </StyleguideThemePair>
+
+    <section class="grid gap-4">
+      <h2 class="font-normal text-heading">Field palettes</h2>
+      <p class="max-w-prose">
+        The field's hue, one per viewer, cycled from the menu. Light, then
+        dark. Only the field changes; the page surface stays blue-grey.
+      </p>
+      <ul class="flex flex-wrap gap-6 border-border border-t pt-4">
+        <li v-for="p in PALETTES" :key="p.id" class="grid justify-items-center gap-2">
+          <span class="flex">
+            <span
+              v-for="theme in ['light', 'dark']"
+              :key="theme"
+              :data-palette="p.id"
+              :data-theme="theme"
+              class="size-8 bg-field first:rounded-l-full last:rounded-r-full"
+            />
+          </span>
+          <span class="text-meta">{{ p.label }}</span>
+        </li>
+      </ul>
+    </section>
 
     <section class="grid gap-4">
       <h2 class="font-normal text-heading">Type scale</h2>

@@ -84,6 +84,11 @@ no finish date. The home grid and dashboard leave those out.
 - **Maps load on the client:** `<PlaceMap>` fetches `public/geo/` after mount,
   so SSR renders an empty map. A dev server started before `public/`
   existed won't serve it; restart it.
+- **Field palette:** `--field` reads `--field-light` / `--field-dark`, which
+  `[data-palette]` on <html> swaps (ids in `app/lib/palette.ts`, cycled by
+  the menu's palette blob, kept in localStorage as `books-palette`). An
+  inline head script (`PALETTE_BOOT`, nuxt.config) sets it before paint.
+  Only the field changes; the page surface and dither inks stay blue.
 - **Per-viewer state:** the map view (`books-map`) is kept in localStorage
   via `usePersisted` and read after mount, so SSR renders the default.
 

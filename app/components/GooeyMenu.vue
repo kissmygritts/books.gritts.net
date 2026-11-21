@@ -2,7 +2,7 @@
 // Floating page menu, lower right. The blobs merge through an SVG "goo"
 // filter (blur, then a hard alpha threshold); SourceGraphic is composited
 // back on top so the icons stay crisp. Items stack straight up.
-import { House, LayoutDashboard, Library, Plus } from '@lucide/vue'
+import { House, LayoutDashboard, Library, Palette, Plus } from '@lucide/vue'
 import { onClickOutside, onKeyStroke } from '@vueuse/core'
 
 const GAP = 88 // px from the toggle to the first item
@@ -12,6 +12,9 @@ const LINKS = [
 	{ to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
 	{ to: '/books', label: 'All books', icon: Library },
 ].map((l, i) => ({ ...l, x: '0px', y: `${-(GAP + i * STEP)}px` }))
+const PALETTE_Y = `${-(GAP + LINKS.length * STEP)}px`
+
+const { label: paletteLabel, next: nextPalette } = usePalette()
 
 const open = ref(false)
 const root = useTemplateRef<HTMLElement>('root')
@@ -32,7 +35,7 @@ onKeyStroke('Escape', () => (open.value = false))
       </filter>
     </svg>
 
-    <nav id="gooey-items" aria-label="Pages" :inert="!open">
+    <nav id="gooey-items" aria-label="Menu" :inert="!open">
       <NuxtLink
         v-for="(l, i) in LINKS"
         :key="l.to"
@@ -44,6 +47,15 @@ onKeyStroke('Escape', () => (open.value = false))
       >
         <component :is="l.icon" class="size-5" :stroke-width="1.75" />
       </NuxtLink>
+      <button
+        type="button"
+        class="blob item"
+        :aria-label="`Color: ${paletteLabel}. Next color`"
+        :style="{ '--x': '0px', '--y': PALETTE_Y, '--i': LINKS.length }"
+        @click="nextPalette"
+      >
+        <Palette class="size-5" :stroke-width="1.75" />
+      </button>
     </nav>
 
     <button
@@ -69,7 +81,7 @@ onKeyStroke('Escape', () => (open.value = false))
   z-index: 50;
   /* Big enough that the filter region holds the whole fan. */
   width: 6rem;
-  height: 19rem;
+  height: 23rem;
   pointer-events: none;
   filter: url(#goo);
   /* Blobs are the surface's ink (currentColor: white on the field, the
@@ -119,7 +131,7 @@ onKeyStroke('Escape', () => (open.value = false))
   text-decoration: none;
   transform: translate(0, 0) scale(0.6);
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition-delay: calc((2 - var(--i)) * 40ms);
+  transition-delay: calc((3 - var(--i)) * 40ms);
 }
 
 .open .item {
