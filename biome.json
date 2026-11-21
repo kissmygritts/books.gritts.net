@@ -18,7 +18,8 @@
 			"!app/assets/css",
 			"!tsconfig.json",
 			"!server/tsconfig.json",
-			"!**/*.md"
+			"!**/*.md",
+			"!public/geo"
 		]
 	},
 	"formatter": {

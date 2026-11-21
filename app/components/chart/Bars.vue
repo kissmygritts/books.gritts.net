@@ -38,7 +38,7 @@ const share = (v: number) => ({ '--share': `${(v / top.value) * 100}%` })
             ]"
             :title="r.sub ? `${r.label} (${r.sub})` : r.label"
           >
-            {{ r.label }}<span v-if="r.sub" class="text-faint"> {{ r.sub }}</span>
+            {{ r.label }}<span v-if="r.sub" class="ms-1 text-faint"> {{ r.sub }}</span>
           </span>
           <span class="flex h-3 min-w-0 flex-1 gap-0.5" aria-hidden="true">
             <span
