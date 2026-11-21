@@ -133,6 +133,14 @@ card). If the four don't cover it, raise it first.
 | A book in a list | `<BookRow :book>` | title/author markup per page |
 | Nothing to show | `<EmptyState title>` + prose slot | a centered grey sentence |
 | Divider | `<Separator>` (shadcn, `bg-rule`) | `<hr>` |
+| Year scope | `<YearFilter v-model :years>` (reka ToggleGroup) | hand-rolled pill buttons |
+| Mode / sort switch | `<SegmentedControl v-model :options label>` | tabs by hand |
+| Legend | `<Legend :items>` (swatch + label + count) | swatch spans in a flex row |
+| Column chart | `<ChartColumns :columns :series label>` | divs with heights |
+| Bar list | `<ChartBars :rows>` (label, track, count, avg) | grid rows by hand |
+| Bar width | `w-share` + `:style="{ '--share': '40%' }"` | `w-[40%]`, inline `width:` |
+| Tooltip on an HTML row | `<ChartTip :tip>` (reka Tooltip) | `title=` for data |
+| Tooltip on SVG marks | `<ChartHover :tip :anchor>` around the `<svg>` | `<ChartTip>` inside `<svg>` |
 
 New primitives follow `components/ui/badge`: reka-ui underneath when it has
 the behavior, `cva` variants for shape, `cn()` for merging.
@@ -158,6 +166,11 @@ Hand-built SVG Vue components (d3-array for binning, d3-geo + topojson-client
 for maps; npm, never a CDN). Marks fill with token classes (`fill-other`,
 `fill-chart-3`) or `var(--…)`; gridlines `stroke-rule`, baseline
 `stroke-border`, tick text `fill-faint` mono `text-label` `tabular-nums`.
+Panel math lives in `app/lib/ledger.ts`, ported from the ledger's JS; keep
+it in step so numbers match the private ledger. Hover content is a
+`ChartTip` object (title · meta, lines, book titles up to 12). A reka Portal
+declared inside `<svg>` mounts in the SVG namespace and renders nothing, so
+SVG charts use one controlled `<ChartHover>` anchored to the hovered mark.
 Every chart sits in a `<Panel>` with its scale in `note` (`your 1–8 scale`,
 `by decade`), a legend of `<Swatch>`es, and an accessible label
 (`role="img"` + `aria-label` stating the numbers). Motion only under
