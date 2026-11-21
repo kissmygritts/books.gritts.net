@@ -19,7 +19,7 @@
 			"!tsconfig.json",
 			"!server/tsconfig.json",
 			"!**/*.md",
-			"!public/geo"
+			"!prototypes"
 		]
 	},
 	"formatter": {

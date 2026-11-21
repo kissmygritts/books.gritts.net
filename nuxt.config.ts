@@ -24,7 +24,7 @@ export default defineNuxtConfig({
 	app: {
 		head: {
 			htmlAttrs: { lang: 'en' },
-			title: 'Books',
+			title: 'Gritts Books',
 			meta: [{ name: 'color-scheme', content: 'light dark' }],
 			link: [
 				{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -35,13 +35,13 @@ export default defineNuxtConfig({
 				},
 				{
 					rel: 'stylesheet',
-					href: 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap',
+					href: 'https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&display=swap',
 				},
 			],
 		},
 	},
 
-	nitro: { prerender: { crawlLinks: true, routes: ['/', '/dashboard', '/styleguide'] } },
+	nitro: { prerender: { crawlLinks: true, routes: ['/', '/dashboard', '/books', '/styleguide'] } },
 
 	vite: { plugins: [tailwindcss()] },
 

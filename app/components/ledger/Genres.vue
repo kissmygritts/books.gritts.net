@@ -1,110 +1,51 @@
 <script setup lang="ts">
-// What it was: the fiction / non-fiction split, then each side's top genres,
-// stacked by author tag, with the average rating.
-import { AUTHOR_TAG_LABEL } from '@/lib/book'
-import type { BarRow } from '@/lib/chart'
+// What it was: fiction and non-fiction, then the most read genres.
 import { plural } from '@/lib/format'
 import {
-	avgRating,
-	fixed1,
 	genreGroups,
 	isNonFiction,
 	type LedgerBook,
-	TAG_KEYS,
-	tally,
+	type LedgerYear,
 } from '@/lib/ledger'
 
-const props = defineProps<{ books: LedgerBook[] }>()
+const props = defineProps<{ books: LedgerBook[]; years: number[] }>()
+const year = defineModel<LedgerYear>('year', { required: true })
 
-const nonFiction = computed(() => props.books.filter(isNonFiction))
-const fiction = computed(() => props.books.filter((b) => !isNonFiction(b)))
-const share = (n: number) => ({
-	'--share': `${(n / (props.books.length || 1)) * 100}%`,
-})
-
-const legend = computed(() => {
-	const t = tally(props.books)
-	return TAG_KEYS.filter((k) => t[k]).map((k) => ({
-		tone: k,
-		label: AUTHOR_TAG_LABEL[k],
-	}))
-})
-
-function side(label: string, bs: LedgerBook[]) {
-	const groups = genreGroups(bs)
-	const max = Math.max(1, ...groups.map((g) => g.books.length))
-	const rows: BarRow[] = groups.map((g) => {
-		const t = tally(g.books)
-		const avg = fixed1(avgRating(g.books))
-		return {
+const rows = computed(() => {
+	const non = props.books.filter(isNonFiction)
+	const fic = props.books.filter((b) => !isNonFiction(b))
+	return [
+		{
+			key: 'fiction',
+			label: 'Fiction',
+			sub: plural(fic.length, 'book'),
+			books: fic,
+		},
+		{
+			key: 'non-fiction',
+			label: 'Non-fiction',
+			sub: plural(non.length, 'book'),
+			books: non,
+		},
+		...genreGroups(props.books).map((g) => ({
 			key: g.key,
 			label: g.key,
-			segments: TAG_KEYS.map((k) => ({ tone: k, value: t[k] })),
-			value: g.books.length,
-			avg,
-			tip: {
-				title: g.key,
-				meta: [
-					plural(g.books.length, 'book'),
-					...(avg ? [`avg ${avg}/8`] : []),
-				],
-				lines: [
-					`Everyone else ${t.other} · White men ${t.wm}${t.untagged ? ` · Not tagged ${t.untagged}` : ''}`,
-				],
-				books: g.books.map((b) => b.title),
-			},
-		}
-	})
-	return { label, count: bs.length, avg: fixed1(avgRating(bs)), rows, max }
-}
-const sides = computed(() => [
-	side('Fiction', fiction.value),
-	side('Non-fiction', nonFiction.value),
-])
+			sub: plural(g.books.length, 'book'),
+			books: g.books,
+		})),
+	].filter((r) => r.books.length)
+})
 </script>
 
 <template>
-  <Panel title="What it was">
-    <template #aside>
-      <Legend :items="legend" />
-    </template>
-
-    <div v-if="books.length" class="mb-5 grid gap-2.5">
-      <div class="flex h-7 gap-0.5 overflow-hidden rounded-md" aria-hidden="true">
-        <span
-          v-if="fiction.length"
-          class="flex h-full w-share shrink-0 items-center overflow-hidden whitespace-nowrap bg-muted-foreground px-2.5 font-semibold text-background text-xs"
-          :style="share(fiction.length)"
-          >Fiction</span
-        >
-        <span
-          v-if="nonFiction.length"
-          class="flex h-full w-share shrink-0 items-center overflow-hidden whitespace-nowrap bg-border px-2.5 font-semibold text-foreground text-xs"
-          :style="share(nonFiction.length)"
-          >Non-fiction</span
-        >
-      </div>
-      <div class="flex flex-wrap justify-between gap-2.5 text-meta text-muted-foreground tabular-nums">
-        <span>{{ fiction.length }} fiction</span>
-        <span>{{ nonFiction.length }} non-fiction</span>
-      </div>
-    </div>
-
-    <div class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-      <section v-for="s in sides" :key="s.label" :aria-label="s.label">
-        <h3 class="mb-2.5 flex justify-between gap-2">
-          <Eyebrow as="span" class="tabular-nums">{{ s.label }} · {{ s.count }}</Eyebrow>
-          <span v-if="s.avg" class="font-mono text-faint text-label tabular-nums">
-            avg {{ s.avg }}/8
-          </span>
-        </h3>
-        <ChartBars
-          :rows="s.rows"
-          :max="s.max"
-          wide
-          :empty="`No ${s.label.toLowerCase()} this year.`"
-        />
-      </section>
-    </div>
-  </Panel>
+  <DashPage
+    id="genres"
+    v-model:year="year"
+    title="What it was"
+    caption="Fiction and non-fiction, then the eight most read genres. A book with several genres has a dot in each of its rows."
+    :years="years"
+  >
+    <DotRows v-if="rows.length" :rows="rows" />
+    <p v-else class="font-extralight text-verdict">No books finished.</p>
+  </DashPage>
 </template>

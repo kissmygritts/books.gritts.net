@@ -1,33 +1,28 @@
 <script setup lang="ts">
-// Ratings on the owner's 1–8 scale.
-import type { Column } from '@/lib/chart'
+// Ratings on the owner's 1–8 scale, one column per step.
 import { plural } from '@/lib/format'
-import { type LedgerBook, ratingBuckets } from '@/lib/ledger'
+import { type LedgerBook, type LedgerYear, ratingBuckets } from '@/lib/ledger'
 
-const props = defineProps<{ books: LedgerBook[] }>()
+const props = defineProps<{ books: LedgerBook[]; years: number[] }>()
+const year = defineModel<LedgerYear>('year', { required: true })
 
-const columns = computed<Column[]>(() =>
+const columns = computed(() =>
 	ratingBuckets(props.books).map((b) => ({
 		key: b.key,
-		label: b.label,
-		parts: { r: b.books.length },
-		aria: `${b.name}: ${plural(b.books.length, 'book')}`,
-		tip: {
-			title: b.name,
-			meta: [plural(b.books.length, 'book')],
-			books: b.books.map((x) => x.title),
-		},
+		label: `${b.key}/8`,
+		name: `Rated ${b.key} of 8`,
+		books: b.books,
 	})),
+)
+const unrated = computed(() => props.books.filter((b) => !b.rating).length)
+const caption = computed(
+	() =>
+		`Ratings on the 1–8 scale. ${unrated.value ? `${plural(unrated.value, 'book')} unrated, not shown.` : 'Every book rated.'}`,
 )
 </script>
 
 <template>
-  <Panel title="Ratings" note="books · your 1–8 scale">
-    <ChartColumns
-      :columns="columns"
-      :series="[{ key: 'r', tone: 'chart-1' }]"
-      :height="150"
-      label="Books by rating, on a 1–8 scale"
-    />
-  </Panel>
+  <DashPage id="ratings" v-model:year="year" title="Ratings" :caption="caption" :years="years">
+    <DotColumns :columns="columns" :per-row="2" />
+  </DashPage>
 </template>

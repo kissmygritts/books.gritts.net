@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading Ledger Zine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Figtree:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3EDF0; --desk:#E3DBE0; --edge:#D8CDD3;
+  --pink:#FF48B0; --blue:#0078BF; --ink:#1A2280; --ink2:#4B4F86;
+  --tint-p:#FFD1EA; --tint-b:#BFDDEF;
+  --disp:"Bagel Fat One", "Arial Black", sans-serif;
+  --text:"Figtree", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--desk)}
+body{margin:0;background:var(--desk);color:var(--ink);font:400 16px/1.5 var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.zine{max-width:920px;margin:0 auto;padding:20px 16px 64px}
+
+/* ---- pages ---- */
+.page{background:var(--paper);border:1px solid var(--edge);padding:28px clamp(18px,4vw,48px) 36px;margin:0 0 28px;position:relative}
+.page:nth-of-type(odd){transform:rotate(-.35deg)}
+.page:nth-of-type(even){transform:rotate(.3deg)}
+.page-no{position:absolute;bottom:10px;right:16px;font-size:12px;color:var(--ink2)}
+
+/* ---- misregistered display type ---- */
+.mis{font-family:var(--disp);font-weight:400;color:var(--blue);position:relative;line-height:.92;letter-spacing:-.01em;margin:0}
+.mis::before{content:attr(data-t);position:absolute;left:0;top:0;width:100%;color:var(--pink);mix-blend-mode:multiply;transform:translate(.06em,-.035em);pointer-events:none}
+.mis.flip{color:var(--pink)}
+.mis.flip::before{color:var(--blue);transform:translate(-.05em,.03em)}
+h2.mis{font-size:clamp(34px,7vw,56px);margin-bottom:18px}
+h3{font:800 18px/1.2 var(--text);margin:0 0 12px}
+
+/* ---- cover ---- */
+.cover{padding-top:40px;overflow:hidden}
+.staple{position:absolute;top:14px;width:34px;height:5px;background:#9A97A6;border-radius:1px;box-shadow:inset 0 -1px 0 #6f6c7b}
+.staple.l{left:22%}.staple.r{right:22%}
+.dots{position:absolute;right:-60px;top:-40px;width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,var(--pink) 0 2.2px,transparent 2.6px) 0 0/9px 9px;opacity:.55;mix-blend-mode:multiply;
+  -webkit-mask:radial-gradient(circle,#000 30%,transparent 72%);mask:radial-gradient(circle,#000 30%,transparent 72%)}
+.cover h1.mis{font-size:clamp(64px,17vw,156px);max-width:7ch;position:relative}
+.issue{display:flex;flex-wrap:wrap;gap:6px 22px;margin:22px 0 0;font-weight:500;position:relative}
+.issue b{font-weight:800}
+
+/* ---- view switch (cut-out tabs) ---- */
+.tabs{display:flex;gap:10px;margin:22px 0 0;position:relative}
+.tab{border:2px solid var(--ink);background:transparent;padding:8px 18px 7px;font:400 22px/1 var(--disp);color:var(--ink)}
+.tab:nth-child(1){transform:rotate(-1.5deg)}.tab:nth-child(2){transform:rotate(1deg)}
+.tab[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:var(--paper)}
+
+/* ---- year filter ---- */
+.years{display:flex;flex-wrap:wrap;gap:6px 4px;margin:0 0 22px}
+.yr{border:0;background:transparent;font:400 clamp(22px,4.5vw,30px)/1 var(--disp);color:var(--ink2);padding:6px 9px;position:relative}
+.yr[aria-pressed="true"]{color:var(--paper);z-index:1}
+.yr[aria-pressed="true"]::before{content:"";position:absolute;inset:0;background:var(--pink);z-index:-1;transform:rotate(-2deg)}
+.yr[aria-pressed="true"]::after{content:"";position:absolute;inset:2px -2px -2px 2px;background:var(--blue);mix-blend-mode:multiply;z-index:-1;transform:rotate(1.5deg)}
+.yr-label{font-weight:700;margin:0 0 6px;font-size:14px}
+
+/* ---- covers: one-ink screen prints ---- */
+.cov{position:relative;aspect-ratio:2/3;overflow:hidden;background:#fff;mix-blend-mode:multiply;isolation:isolate}
+.plate{position:absolute;inset:0;mix-blend-mode:multiply}
+.plate img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.35) brightness(1.08);mix-blend-mode:screen}
+.plate.p{background:var(--pink)}.plate.b{background:var(--blue)}
+.cov.both .plate.p{transform:translate(2px,-1px) scale(1.02)}
+.cov::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,transparent 0 1.1px,rgba(255,255,255,.5) 1.5px) 0 0/4px 4px;pointer-events:none}
+.cov .blank{position:absolute;inset:0;display:flex;align-items:flex-end;padding:10px;font:400 18px/1 var(--disp);color:#fff;mix-blend-mode:normal}
+
+/* ---- nightstand ---- */
+.now{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:28px}
+.now-book{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:start}
+.now-book:nth-child(2){transform:rotate(1.2deg)}
+.now-book .t{font:400 26px/1 var(--disp);margin:0 0 6px;color:var(--ink)}
+.now-book p{margin:0 0 4px}
+.next{columns:2 260px;column-gap:32px;margin:0;padding:0;list-style:none}
+.next li{break-inside:avoid;padding:6px 0;border-bottom:1.5px dotted var(--tint-b)}
+.next .t{font-weight:700}
+.next .a{color:var(--ink2)}
+.down{margin-top:22px;color:var(--ink2);font-size:15px}
+.down s{color:var(--ink)}
+
+/* ---- shelf ---- */
+.shelf-bar{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:18px}
+.sorts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.sort{border:1.5px solid var(--ink);background:transparent;padding:4px 10px;font-weight:700;font-size:14px}
+.sort[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:30px 20px;list-style:none;margin:0;padding:0}
+.card{font-size:14px;line-height:1.35}
+.card .cov{margin-bottom:10px}
+.card .t{font-weight:800;font-size:15px;line-height:1.2;margin:0 0 2px}
+.card .a{color:var(--ink2);margin:0 0 6px}
+.meta{margin:0;display:flex;flex-wrap:wrap;gap:2px 10px}
+.rate{display:flex;align-items:center;gap:6px;margin:6px 0 4px}
+.marks{display:inline-flex;gap:2px}
+.marks i{width:8px;height:8px;border:1.5px solid var(--blue);display:block}
+.marks i.on{background:var(--blue)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:13px}
+.chip::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c)}
+.chip.else{--c:var(--pink)}.chip.wm{--c:var(--blue)}
+.chip.un::before{background:var(--pink);box-shadow:inset 0 0 0 10px rgba(0,120,191,.6)}
+.aud{font-size:13px;font-weight:700;border:1.5px solid var(--ink);padding:0 5px;border-radius:2px}
+
+/* ---- dashboard ---- */
+.goal-band{position:relative;height:64px;margin:18px 0 10px}
+.goal-band span{position:absolute;left:0;height:100%;mix-blend-mode:multiply}
+.goal-band .p{background:var(--pink);top:-2px;left:3px}
+.goal-band .b{background:var(--blue)}
+.goal-nums{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:8px 40px;margin-top:14px}
+.goal-nums .n{font:400 clamp(44px,10vw,76px)/1 var(--disp)}
+.goal-nums .n.p{color:var(--pink)}.goal-nums .n.b{color:var(--blue)}.goal-nums .n.u{color:var(--ink2)}
+.goal-nums .l{font-weight:700}
+.verdict{font:400 clamp(26px,5vw,38px)/1.05 var(--disp);margin:18px 0 4px;color:var(--ink)}
+.note{color:var(--ink2);font-size:14px;margin:6px 0 0}
+.untag-band{height:14px;margin-top:10px;background:repeating-linear-gradient(-45deg,var(--pink) 0 3px,transparent 3px 7px);position:relative;mix-blend-mode:multiply}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:0}
+.stats div{border-top:3px solid var(--ink);padding-top:8px}
+.stats dt{font-weight:700;font-size:14px}
+.stats dd{margin:0;font:400 clamp(30px,6vw,44px)/1.05 var(--disp);color:var(--blue)}
+.stats dd small{font:700 15px/1 var(--text);color:var(--ink);margin-left:4px}
+
+.cols{display:flex;align-items:flex-end;gap:4px;height:210px;padding-top:22px;border-bottom:2px solid var(--ink)}
+.col{flex:1;display:flex;flex-direction:column-reverse;align-items:stretch;height:100%;position:relative;min-width:0}
+.col .tot{position:absolute;left:0;right:0;text-align:center;font-weight:800;font-size:14px}
+.seg{mix-blend-mode:multiply;width:100%}
+.seg.p{background:var(--pink);transform:translate(2px,-1px)}
+.seg.b{background:var(--blue)}
+.seg.u{background:var(--blue);position:relative}
+.seg.u::after{content:"";position:absolute;inset:0;background:var(--pink);mix-blend-mode:multiply;transform:translate(2px,-1px)}
+.col-labels{display:flex;gap:4px;margin-top:6px}
+.col-labels span{flex:1;text-align:center;font-size:13px;font-weight:700;min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;margin:12px 0 0}
+
+.spread{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.vbars{display:flex;align-items:flex-end;gap:6px;height:150px;border-bottom:2px solid var(--ink);padding-top:22px}
+.vbars .c{flex:1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;height:100%;min-width:0}
+.vbars .c b{position:absolute;left:0;right:0;text-align:center;font-size:13px}
+.vbars .bar{mix-blend-mode:multiply}
+.vbars.pink .bar{background:var(--pink)}
+.vbars.blue .bar{background:var(--blue)}
+.vlabels{display:flex;gap:6px;margin-top:5px}
+.vlabels span{flex:1;text-align:center;font-size:12px;font-weight:700;min-width:0;overflow:hidden}
+
+.hrows{list-style:none;margin:0;padding:0}
+.hrows li{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:8px;align-items:center;padding:3px 0;position:relative}
+.hrows .lbl{position:relative;z-index:1;padding:3px 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
+.hrows .fill{position:absolute;left:0;top:3px;bottom:3px;mix-blend-mode:multiply}
+.hrows.blue .fill{background:var(--tint-b)}
+.hrows.pink .fill{background:var(--tint-p)}
+.hrows .v{font-weight:800;text-align:right;font-size:14px}
+.places{columns:2 220px;column-gap:28px;list-style:none;margin:0;padding:0}
+.places li{break-inside:avoid;padding:5px 0;border-bottom:1.5px dotted var(--tint-p)}
+.places b{font-weight:800}
+.places .c{color:var(--ink2);font-size:14px}
+.empty{color:var(--ink2);font-weight:500}
+
+.view[hidden]{display:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* one orchestrated moment: the pink plate drops into register on load */
+@media (prefers-reduced-motion:no-preference){
+  .cover h1.mis::before{animation:reg 900ms cubic-bezier(.2,.8,.2,1) both}
+  @keyframes reg{from{transform:translate(.4em,-.25em);opacity:0}to{transform:translate(.06em,-.035em);opacity:1}}
+}
+@media (max-width:640px){
+  .stats{grid-template-columns:1fr 1fr}
+  .spread{grid-template-columns:1fr}
+  .now-book{grid-template-columns:90px 1fr}
+  .shelf{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 14px}
+  .goal-nums{gap:8px 22px}
+  .col-labels span{font-size:11px}
+  .page:nth-of-type(odd),.page:nth-of-type(even){transform:none}
+}
+</style>
+</head>
+<body>
+<main class="zine">
+  <section class="page cover" aria-labelledby="ttl">
+    <span class="staple l"></span><span class="staple r"></span>
+    <div class="dots" aria-hidden="true"></div>
+    <h1 class="mis" id="ttl" data-t="the reading ledger">the reading ledger</h1>
+    <p class="issue" id="counts"></p>
+    <div class="tabs" role="group" aria-label="View">
+      <button class="tab" data-view="books" aria-pressed="true">Books</button>
+      <button class="tab" data-view="dash" aria-pressed="false">Dashboard</button>
+    </div>
+  </section>
+
+  <div class="view" id="v-books">
+    <section class="page" aria-labelledby="h-night">
+      <h2 class="mis" id="h-night" data-t="on the nightstand">on the nightstand</h2>
+      <div class="now" id="now"></div>
+      <h3 id="next-h"></h3>
+      <ol class="next" id="next"></ol>
+      <p class="down" id="down"></p>
+      <span class="page-no">2</span>
+    </section>
+    <section class="page" aria-labelledby="h-shelf">
+      <h2 class="mis flip" id="h-shelf" data-t="the shelf">the shelf</h2>
+      <p class="yr-label">Finished in</p>
+      <div class="years" role="group" aria-label="Year"></div>
+      <div class="shelf-bar">
+        <h3 id="shelf-n" aria-live="polite" style="margin:0"></h3>
+        <div class="sorts" role="group" aria-label="Sort by">
+          <button class="sort" data-sort="date" aria-pressed="true">Finish date</button>
+          <button class="sort" data-sort="rating" aria-pressed="false">Rating</button>
+          <button class="sort" data-sort="pages" aria-pressed="false">Pages</button>
+        </div>
+      </div>
+      <ul class="shelf" id="shelf"></ul>
+      <span class="page-no">3</span>
+    </section>
+  </div>
+
+  <div class="view" id="v-dash" hidden>
+    <section class="page" aria-labelledby="h-goal">
+      <p class="yr-label">Showing</p>
+      <div class="years" role="group" aria-label="Year"></div>
+      <h2 class="mis" id="h-goal" data-t="the goal">the goal</h2>
+      <p style="margin:0;max-width:60ch">Finish more books by everyone else than by white men. Where the two inks overlap, the counts are even; the ink that runs past the overlap is the lead.</p>
+      <div id="goal"></div>
+      <span class="page-no">2</span>
+    </section>
+    <section class="page" aria-labelledby="h-num">
+      <h2 class="mis flip" id="h-num" data-t="the year in numbers">the year in numbers</h2>
+      <dl class="stats" id="stats"></dl>
+      <p class="note" id="stats-n"></p>
+      <h3 style="margin-top:34px" id="m-h"></h3>
+      <div id="months"></div>
+      <span class="page-no">3</span>
+    </section>
+    <section class="page" aria-label="Ratings and publication decades">
+      <div class="spread">
+        <div><h2 class="mis" data-t="ratings">ratings</h2><div id="ratings"></div></div>
+        <div><h2 class="mis flip" data-t="published">published</h2><div id="decades"></div></div>
+      </div>
+      <span class="page-no">4</span>
+    </section>
+    <section class="page" aria-label="Genres and authors">
+      <div class="spread">
+        <div><h2 class="mis flip" data-t="what it was">what it was</h2><ul class="hrows pink" id="genres"></ul></div>
+        <div><h2 class="mis" data-t="who wrote it">who wrote it</h2><ul class="hrows blue" id="authors"></ul><p class="note" id="authors-n"></p></div>
+      </div>
+      <span class="page-no">5</span>
+    </section>
+    <section class="page" aria-labelledby="h-pl">
+      <h2 class="mis" id="h-pl" data-t="where it was set">where it was set</h2>
+      <ul class="places" id="places"></ul>
+      <p class="note" id="places-n"></p>
+      <span class="page-no">6</span>
+    </section>
+  </div>
+</main>
+
+<script src="books-data.js"></script>
+<script>
+(function(){
+"use strict";
+var B = window.BOOKS, AS_OF = window.AS_OF, NOW_Y = +AS_OF.slice(0,4);
+var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var READ = B.filter(function(b){return b.status==="read"});
+function yr(b){return b.finished_at ? +b.finished_at.slice(0,4) : null}
+var YEARS = Array.from(new Set(READ.map(yr).filter(Boolean))).sort(function(a,b){return b-a});
+function scope(y){return y==="all" ? READ : READ.filter(function(b){return yr(b)===y})}
+function tag(b){return b.white_male_author===false ? "else" : b.white_male_author===true ? "wm" : "un"}
+var TAGNAME = {else:"everyone else", wm:"white man", un:"untagged"};
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function n(x,unit,plural){return x.toLocaleString("en-US")+" "+(x===1?unit:(plural||unit+"s"))}
+function fdate(d){if(!d)return "no finish date";return +d.slice(8,10)+" "+MON[+d.slice(5,7)-1]+" "+d.slice(0,4)}
+function authors(b){return (b.author||[]).join(", ")}
+function $(id){return document.getElementById(id)}
+
+/* ---- data functions ---- */
+function tally(list){var t={else:0,wm:0,un:0};list.forEach(function(b){t[tag(b)]++});return t}
+function stats(list){
+  var withP=list.filter(function(b){return b.pages!=null});
+  var rated=list.filter(function(b){return b.rating!=null});
+  var rec=list.filter(function(b){return b.audible!==null && b.audible!==undefined});
+  var aud=rec.filter(function(b){return b.audible===true});
+  return {books:list.length, pages:withP.reduce(function(s,b){return s+b.pages},0), noPages:list.length-withP.length,
+    avg: rated.length ? rated.reduce(function(s,b){return s+b.rating},0)/rated.length : null, rated:rated.length,
+    audShare: rec.length ? aud.length/rec.length : null, aud:aud.length, rec:rec.length};
+}
+function byMonth(list,y){
+  if(y==="all"){
+    return YEARS.slice().reverse().map(function(Y){var l=list.filter(function(b){return yr(b)===Y});return Object.assign({label:String(Y),full:String(Y)},tally(l))});
+  }
+  return MON.map(function(m,i){var l=list.filter(function(b){return b.finished_at && +b.finished_at.slice(5,7)===i+1});return Object.assign({label:m,full:m+" "+y},tally(l))});
+}
+function ratingDist(list){var r=[0,0,0,0,0,0,0,0];list.forEach(function(b){if(b.rating>=1&&b.rating<=8)r[b.rating-1]++});return r}
+function decades(list){var d={};list.forEach(function(b){if(b.publication_year!=null){var k=Math.floor(b.publication_year/10)*10;d[k]=(d[k]||0)+1}});
+  return Object.keys(d).map(Number).sort(function(a,b){return a-b}).map(function(k){return [k,d[k]]})}
+function countBy(list,fn){var m={};list.forEach(function(b){(fn(b)||[]).forEach(function(k){m[k]=(m[k]||0)+1})});
+  return Object.entries(m).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0])})}
+function places(list){
+  var m={};list.forEach(function(b){(b.places||[]).forEach(function(p){var parts=p.split(",").map(function(s){return s.trim()});var r=parts[0];
+    m[r]=m[r]||{n:0,cities:{}};m[r].n++;if(parts[1])m[r].cities[parts[1]]=1})});
+  return Object.entries(m).sort(function(a,b){return b[1].n-a[1].n||a[0].localeCompare(b[0])});
+}
+
+/* ---- state ---- */
+var state={view:"books",year:YEARS[0],sort:"date"};
+try{var sy=localStorage.getItem("riso-year");if(sy) state.year = sy==="all"?"all":(YEARS.indexOf(+sy)>-1?+sy:state.year)}catch(e){}
+
+/* ---- pieces ---- */
+function cover(b,cls){
+  var t=tag(b), plates = t==="else" ? ["p"] : t==="wm" ? ["b"] : ["b","p"];
+  var inner = b.cover_image
+    ? plates.map(function(p){return '<div class="plate '+p+'"><img src="'+esc(b.cover_image)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest(\'.cov\').classList.add(\'nocov\');this.remove()"></div>'}).join("")
+    : plates.map(function(p){return '<div class="plate '+p+'"></div>'}).join("")+'<span class="blank">'+esc(b.title)+'</span>';
+  return '<div class="cov '+(plates.length>1?"both ":"")+(cls||"")+'" aria-hidden="true">'+inner+'</div>';
+}
+function marks(r){
+  if(r==null) return '<span class="rate"><span class="note" style="margin:0">unrated</span></span>';
+  var s="";for(var i=1;i<=8;i++) s+='<i class="'+(i<=r?"on":"")+'"></i>';
+  return '<span class="rate"><span class="marks" aria-hidden="true">'+s+'</span><b>'+r+'/8</b></span>';
+}
+function chip(b){var t=tag(b);return '<span class="chip '+t+'">'+TAGNAME[t]+'</span>'}
+
+/* ---- render: header + nightstand (static) ---- */
+var C={};B.forEach(function(b){C[b.status]=(C[b.status]||0)+1});
+$("counts").innerHTML = "<span><b>"+n(C.read||0,"book")+"</b> read</span><span><b>"+(C.reading||0)+"</b> reading now</span><span><b>"+(C["to-read"]||0)+"</b> up next</span><span><b>"+(C.abandoned||0)+"</b> put down</span><span>as of "+fdate(AS_OF)+"</span>";
+var reading=B.filter(function(b){return b.status==="reading"});
+$("now").innerHTML = reading.map(function(b){
+  return '<article class="now-book">'+cover(b)+'<div><p class="t">'+esc(b.title)+'</p><p>'+esc(authors(b))+'</p><p class="note">'+
+    (b.started_at?"started "+fdate(b.started_at):"start date not recorded")+(b.pages?", "+n(b.pages,"page"):"")+'</p><p>'+chip(b)+(b.audible?' <span class="aud">audiobook</span>':'')+'</p></div></article>';
+}).join("");
+var next=B.filter(function(b){return b.status==="to-read"});
+$("next-h").textContent = "Up next: "+n(next.length,"book");
+$("next").innerHTML = next.map(function(b){return '<li><span class="t">'+esc(b.title)+'</span> <span class="a">'+esc(authors(b))+'</span></li>'}).join("");
+var ab=B.filter(function(b){return b.status==="abandoned"});
+$("down").innerHTML = "Put down: "+ab.map(function(b){return "<s>"+esc(b.title)+"</s> ("+esc(authors(b))+")"}).join(", ");
+
+/* ---- year buttons ---- */
+document.querySelectorAll(".years").forEach(function(g){
+  g.innerHTML = ['all'].concat(YEARS).map(function(y){return '<button class="yr" data-y="'+y+'" aria-pressed="false">'+(y==="all"?"All":y)+'</button>'}).join("");
+});
+document.addEventListener("click",function(e){
+  var y=e.target.closest(".yr"); if(y){state.year = y.dataset.y==="all"?"all":+y.dataset.y; try{localStorage.setItem("riso-year",String(state.year))}catch(_){} render(); return;}
+  var s=e.target.closest(".sort"); if(s){state.sort=s.dataset.sort; render(); return;}
+  var t=e.target.closest(".tab"); if(t){state.view=t.dataset.view; render(); return;}
+});
+
+function renderShelf(list){
+  var L=list.slice();
+  var by={
+    date:function(a,b){return (b.finished_at||"").localeCompare(a.finished_at||"")||a.title.localeCompare(b.title)},
+    rating:function(a,b){return (b.rating||0)-(a.rating||0)||(b.finished_at||"").localeCompare(a.finished_at||"")},
+    pages:function(a,b){return (b.pages||0)-(a.pages||0)||a.title.localeCompare(b.title)}
+  };
+  L.sort(by[state.sort]);
+  $("shelf-n").textContent = n(L.length,"book")+" finished"+(state.year==="all"?", all years":" in "+state.year);
+  $("shelf").innerHTML = L.map(function(b,i){
+    var rot=[-1.4,.8,-.4,1.2,-.9,.3][i%6];
+    return '<li class="card" style="transform:rotate('+rot+'deg)">'+cover(b)+'<p class="t">'+esc(b.title)+'</p><p class="a">'+esc(authors(b))+'</p>'+
+      marks(b.rating)+'<p class="meta"><span>'+fdate(b.finished_at)+'</span><span>'+(b.pages?n(b.pages,"page"):"pages not recorded")+'</span></p>'+
+      '<p class="meta" style="margin-top:4px">'+chip(b)+(b.audible?'<span class="aud">audiobook</span>':'')+'</p></li>';
+  }).join("") || '<li class="empty">Nothing finished in this year yet.</li>';
+}
+
+function renderGoal(list){
+  var t=tally(list), max=Math.max(t.else,t.wm,1), y=state.year, d=t.else-t.wm, v;
+  if(y===NOW_Y) v = d>0 ? "Ahead by "+n(d,"book") : d<0 ? "Behind by "+n(-d,"book") : "Level, with "+n(t.else,"book")+" each";
+  else if(y==="all") v = d>0 ? "Everyone else leads by "+n(d,"book") : d<0 ? "White men lead by "+n(-d,"book") : "Level across all years";
+  else v = d>0 ? "Goal met by "+n(d,"book") : d<0 ? "Goal missed by "+n(-d,"book") : "Goal missed: a tie";
+  var total=t.else+t.wm+t.un;
+  $("goal").innerHTML =
+    '<p class="verdict">'+(y==="all"?"All years":y)+': '+v.charAt(0).toLowerCase()+v.slice(1)+'</p>'+
+    '<div class="goal-band" role="img" aria-label="Everyone else '+t.else+' books, white men '+t.wm+' books">'+
+      '<span class="b" style="width:'+(t.wm/max*100)+'%"></span><span class="p" style="width:calc('+(t.else/max*100)+'% - 3px)"></span></div>'+
+    '<div class="goal-nums"><div><div class="n p">'+t.else+'</div><div class="l">'+(t.else===1?"book":"books")+' by everyone else</div></div>'+
+    '<div><div class="n b">'+t.wm+'</div><div class="l">'+(t.wm===1?"book":"books")+' by white men</div></div>'+
+    '<div><div class="n u">'+t.un+'</div><div class="l">untagged</div></div></div>'+
+    (t.un ? '<div class="untag-band" style="width:'+(t.un/max*100)+'%" aria-hidden="true"></div><p class="note">Untagged books count for neither side: '+n(t.un,"book")+' of '+n(total,"book")+'.</p>' : '<p class="note">Every book this year is tagged.</p>');
+}
+
+function renderStats(list){
+  var s=stats(list);
+  $("stats").innerHTML =
+    '<div><dt>Books</dt><dd>'+s.books+'<small>'+(s.books===1?"book":"books")+'</small></dd></div>'+
+    '<div><dt>Pages</dt><dd>'+s.pages.toLocaleString("en-US")+'<small>pages</small></dd></div>'+
+    '<div><dt>Average rating</dt><dd>'+(s.avg==null?'none':s.avg.toFixed(1)+'<small>/8</small>')+'</dd></div>'+
+    '<div><dt>Audiobooks</dt><dd>'+(s.audShare==null?'none':Math.round(s.audShare*100)+'<small>%</small>')+'</dd></div>';
+  var notes=[];
+  if(s.noPages) notes.push("Pages leave out "+n(s.noPages,"book")+" with no page count.");
+  notes.push("Average rating from "+n(s.rated,"rated book")+".");
+  notes.push("Audiobooks: "+s.aud+" of "+n(s.rec,"book")+" with a recorded format.");
+  $("stats-n").textContent=notes.join(" ");
+}
+
+function renderMonths(list){
+  var y=state.year, rows=byMonth(list,y), max=Math.max.apply(null,rows.map(function(r){return r.else+r.wm+r.un}).concat([1]));
+  $("m-h").textContent = y==="all" ? "Books finished by year" : "Books finished by month, "+y;
+  var cols=rows.map(function(r){
+    var tot=r.else+r.wm+r.un, h=function(v){return (v/max*100)+"%"};
+    return '<div class="col" role="img" aria-label="'+r.full+': '+n(tot,"book")+', '+r.else+' by everyone else, '+r.wm+' by white men, '+r.un+' untagged">'+
+      (r.else?'<div class="seg p" style="height:'+h(r.else)+'"></div>':'')+
+      (r.wm?'<div class="seg b" style="height:'+h(r.wm)+'"></div>':'')+
+      (r.un?'<div class="seg u" style="height:'+h(r.un)+'"></div>':'')+
+      (tot?'<span class="tot" style="bottom:calc('+h(tot)+' + 3px)">'+tot+'</span>':'')+'</div>';
+  }).join("");
+  var undated = y==="all" ? list.filter(function(b){return !b.finished_at}).length : 0;
+  $("months").innerHTML = '<div class="cols">'+cols+'</div><div class="col-labels" aria-hidden="true">'+rows.map(function(r){return '<span>'+(y==="all"?"’"+r.label.slice(2):r.label)+'</span>'}).join("")+'</div>'+
+    '<p class="legend"><span class="chip else">everyone else</span><span class="chip wm">white men</span><span class="chip un">untagged (both inks)</span></p>'+
+    (undated?'<p class="note">'+n(undated,"read book")+' with no finish date are left out of this chart.</p>':'');
+}
+
+function vbars(pairs,cls,unit){
+  var max=Math.max.apply(null,pairs.map(function(p){return p[1]}).concat([1]));
+  return '<div class="vbars '+cls+'">'+pairs.map(function(p){
+    return '<div class="c" role="img" aria-label="'+p[0]+': '+n(p[1],unit)+'"><b style="bottom:calc('+(p[1]/max*100)+'% + 2px)">'+(p[1]||"")+'</b><div class="bar" style="height:'+(p[1]/max*100)+'%"></div></div>';
+  }).join("")+'</div><div class="vlabels" aria-hidden="true">'+pairs.map(function(p){return '<span>'+p[0]+'</span>'}).join("")+'</div>';
+}
+
+function renderRest(list){
+  var r=ratingDist(list), rated=r.reduce(function(a,b){return a+b},0);
+  $("ratings").innerHTML = vbars(r.map(function(v,i){return [i+1,v]}),"pink","book")+'<p class="note">Rated out of 8. '+n(rated,"book")+' rated, '+(list.length-rated)+' unrated.</p>';
+  var d=decades(list);
+  $("decades").innerHTML = d.length ? vbars(d.map(function(p){return [d.length>6?"’"+String(p[0]).slice(2):p[0]+"s",p[1]]}),"blue","book")+'<p class="note">Books by the decade they were published.</p>' : '<p class="empty">No publication years recorded.</p>';
+  function hrows(rows,unit){var max=rows.length?rows[0][1]:1;return rows.map(function(e){return '<li><span class="fill" style="width:calc('+(e[1]/max*100)+'% - 52px)"></span><span class="lbl">'+esc(e[0])+'</span><span class="v">'+n(e[1],unit)+'</span></li>'}).join("")}
+  var g=countBy(list,function(b){return b.genre}).slice(0,10);
+  $("genres").innerHTML = g.length ? hrows(g,"book") : '<li class="empty">No genres recorded.</li>';
+  var a=countBy(list,function(b){return b.author}).filter(function(e){return e[1]>1}).slice(0,10);
+  $("authors").innerHTML = a.length ? hrows(a,"book") : '<li class="empty">No author was read twice in this year.</li>';
+  $("authors-n").textContent = a.length ? "Authors with two or more books." : "";
+  var p=places(list);
+  $("places").innerHTML = p.length ? p.map(function(e){var c=Object.keys(e[1].cities);return '<li><b>'+esc(e[0])+'</b> '+n(e[1].n,"book")+(c.length?'<br><span class="c">'+esc(c.join(", "))+'</span>':'')+'</li>'}).join("") : '<li class="empty">No places recorded for this year.</li>';
+  var withP=list.filter(function(b){return b.places&&b.places.length}).length;
+  $("places-n").textContent = n(withP,"book")+" of "+list.length+" have a place recorded.";
+}
+
+function render(){
+  document.querySelectorAll(".tab").forEach(function(t){t.setAttribute("aria-pressed",String(t.dataset.view===state.view))});
+  $("v-books").hidden = state.view!=="books"; $("v-dash").hidden = state.view!=="dash";
+  document.querySelectorAll(".yr").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.y===String(state.year)))});
+  document.querySelectorAll(".sort").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.sort===state.sort))});
+  var list=scope(state.year);
+  if(state.view==="books") renderShelf(list);
+  else { renderGoal(list); renderStats(list); renderMonths(list); renderRest(list); }
+}
+render();
+if(typeof module!=="undefined"){module.exports={scope:scope,tally:tally,stats:stats,byMonth:byMonth,ratingDist:ratingDist,decades:decades,countBy:countBy,places:places,YEARS:YEARS}}
+})();
+</script>
+</body>
+</html>

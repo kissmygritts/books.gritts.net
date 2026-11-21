@@ -1,100 +1,71 @@
 <script setup lang="ts">
-// The yearly goal: more books by everyone else than by white men.
-import { Check, Minus, X } from '@lucide/vue'
-import type { BadgeVariants } from '@/components/ui/badge'
+// The yearly goal: more books by everyone else than by white men. The
+// verdict, then the three groups as rows of dots.
 import { AUTHOR_TAG_LABEL } from '@/lib/book'
-import { TAG_KEYS, type Tally, type Verdict } from '@/lib/ledger'
-import { TONE_BG } from '@/lib/tone'
+import { plural } from '@/lib/format'
+import {
+	type LedgerBook,
+	type LedgerYear,
+	TAG_KEYS,
+	tally,
+	verdict,
+} from '@/lib/ledger'
 
-const props = defineProps<{ tally: Tally; verdict: Verdict; total: number }>()
+const props = defineProps<{
+	books: LedgerBook[]
+	finished: LedgerBook[]
+	years: number[]
+	isCurrent: boolean
+}>()
+const year = defineModel<LedgerYear>('year', { required: true })
 
-const badge = computed(() => {
-	const v = props.verdict
-	const variant: BadgeVariants['variant'] =
-		v.kind === 'met'
-			? 'success'
-			: v.kind === 'behind' || v.kind === 'missed'
-				? 'destructive'
-				: 'secondary'
-	const icon =
-		v.kind === 'met'
-			? Check
-			: v.kind === 'behind' || v.kind === 'missed'
-				? X
-				: v.kind === 'untagged'
-					? Minus
-					: null
-	const text =
-		v.kind === 'years'
-			? `Goal met in ${v.met} of ${v.of} years`
-			: v.kind === 'untagged'
-				? 'Not tagged yet'
-				: v.kind === 'met'
-					? `Goal met · +${v.by}`
-					: `${v.kind === 'behind' ? 'Behind' : 'Missed'} by ${v.by}`
-	return { variant, icon, text }
+const t = computed(() => tally(props.books))
+const text = computed(() => {
+	const v = verdict(t.value, {
+		year: year.value,
+		isCurrent: props.isCurrent,
+		finished: props.finished,
+	})
+	switch (v.kind) {
+		case 'years':
+			return `Goal met in ${v.met} of ${plural(v.of, 'year')}`
+		case 'untagged':
+			return 'No tagged books yet'
+		case 'met':
+			return props.isCurrent
+				? `Ahead by ${plural(v.by, 'book')}`
+				: `Goal met in ${year.value}, by ${plural(v.by, 'book')}`
+		case 'behind':
+			return `Behind: ${plural(v.by, 'more book')} by everyone else to pull ahead`
+		case 'missed':
+			return `Goal missed in ${year.value}: ${plural(v.by, 'more book')} by everyone else would have met it`
+	}
+	return ''
 })
-
-const tagged = computed(() => props.tally.other + props.tally.wm)
-const note = computed(() => {
-	const t = props.tally
-	let n = tagged.value
-		? `${Math.round((t.other / tagged.value) * 100)} % of tagged books are by authors other than white men.`
-		: ''
-	if (t.untagged)
-		n += ` ${t.untagged} ${t.untagged === 1 ? 'book has' : 'books have'} no author tag yet.`
-	return n.trim()
-})
-const share = (n: number) => ({
-	'--share': `${(n / (props.total || 1)) * 100}%`,
-})
+const rows = computed(() =>
+	TAG_KEYS.map((k) => ({
+		key: k,
+		label: AUTHOR_TAG_LABEL[k],
+		sub: plural(t.value[k], 'book'),
+		books: props.books.filter((b) =>
+			k === 'other'
+				? b.white_male_author === false
+				: k === 'wm'
+					? b.white_male_author === true
+					: b.white_male_author == null,
+		),
+	})),
+)
+const caption = computed(
+	() =>
+		'The goal: more books by everyone else than by white men. Untagged books count toward neither.' +
+		(year.value === 'all' ? ' Under All, each year is judged on its own.' : ''),
+)
 </script>
 
 <template>
-  <Panel aria-label="The yearly goal">
-    <div class="grid gap-4.5">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 class="font-display font-semibold text-heading">The yearly goal</h2>
-          <p class="text-meta text-muted-foreground">
-            More books by everyone else than by white men.
-          </p>
-        </div>
-        <Badge :variant="badge.variant" class="tabular-nums">
-          <component :is="badge.icon" v-if="badge.icon" class="size-3.5" aria-hidden="true" />
-          {{ badge.text }}
-        </Badge>
-      </div>
-
-      <div class="flex items-end justify-between gap-3">
-        <div class="grid gap-0.5">
-          <span class="inline-flex items-center gap-1.5 text-meta text-muted-foreground">
-            <Swatch tone="other" />{{ AUTHOR_TAG_LABEL.other }}
-          </span>
-          <span class="font-display font-heavy text-figure tabular-nums tracking-display">
-            {{ tally.other }}<span class="sr-only"> books</span>
-          </span>
-        </div>
-        <span class="pb-2 font-mono text-faint text-meta">vs</span>
-        <div class="grid justify-items-end gap-0.5">
-          <span class="inline-flex items-center gap-1.5 text-meta text-muted-foreground">
-            <Swatch tone="wm" />{{ AUTHOR_TAG_LABEL.wm }}
-          </span>
-          <span class="font-display font-heavy text-figure tabular-nums tracking-display">
-            {{ tally.wm }}<span class="sr-only"> books</span>
-          </span>
-        </div>
-      </div>
-
-      <div class="flex h-3.5 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true">
-        <span
-          v-for="k in TAG_KEYS.filter((k) => tally[k])"
-          :key="k"
-          :class="['h-full w-share shrink-0 motion-safe:transition-all', TONE_BG[k]]"
-          :style="share(tally[k])"
-        />
-      </div>
-      <p v-if="note" class="text-meta text-muted-foreground tabular-nums">{{ note }}</p>
-    </div>
-  </Panel>
+  <DashPage id="goal" v-model:year="year" title="The goal" :caption="caption" :years="years">
+    <p class="mb-8 max-w-4xl font-extralight text-verdict tabular-nums sm:mb-14">{{ text }}</p>
+    <DotRows :rows="rows" />
+  </DashPage>
 </template>

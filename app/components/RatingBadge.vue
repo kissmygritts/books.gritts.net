@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// The owner's 1–8 rating: eight small circles filled to the rating, then n/8.
 import { RATING_MAX } from '@/lib/book'
 
 const props = defineProps<{ rating: number | null | undefined }>()
@@ -14,27 +15,17 @@ const rated = computed(
 <template>
   <span
     v-if="rated"
-    class="inline-flex items-center gap-2 whitespace-nowrap font-medium font-mono text-xs tabular-nums"
+    class="inline-flex items-center gap-0.75 whitespace-nowrap"
     :aria-label="`Rated ${rating} of ${RATING_MAX}`"
     role="img"
   >
-    <svg
-      :width="RATING_MAX * 8 - 2"
-      height="6"
-      :viewBox="`0 0 ${RATING_MAX * 8 - 2} 6`"
+    <span
+      v-for="i in RATING_MAX"
+      :key="i"
+      :class="['size-2.25 rounded-full border border-current', i <= (rating as number) && 'bg-current']"
       aria-hidden="true"
-    >
-      <circle
-        v-for="i in RATING_MAX"
-        :key="i"
-        :cx="(i - 1) * 8 + 3"
-        cy="3"
-        :r="i <= (rating as number) ? 3 : 2.4"
-        :class="i <= (rating as number) ? 'fill-foreground' : 'fill-none stroke-faint'"
-        stroke-width="1.2"
-      />
-    </svg>
-    <span>{{ rating }}<span class="text-faint">/{{ RATING_MAX }}</span></span>
+    />
+    <span class="ml-1.5 text-xs tabular-nums" aria-hidden="true">{{ rating }}/{{ RATING_MAX }}</span>
   </span>
-  <span v-else class="font-mono text-faint text-xs">unrated</span>
+  <span v-else class="text-meta">Unrated</span>
 </template>

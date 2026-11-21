@@ -5,13 +5,13 @@
    books-ui tokens. Rules live in .claude/skills/books-ui/SKILL.md; /styleguide
    renders every token live.
 
-   Seeded from the Reading Ledger's :root (vault: .claude/skills/book/ledger/
-   template.html), converted to oklch. Ledger name → token:
-     --bg → background      --surface → card       --ink → foreground
-     --ink-2 → muted-foreground                    --muted → faint
-     --grid → muted / rule  --line → border        --ring → edge
-     --good → success       --bad → destructive    --other/--wm → other/wm
-     --untag → untagged     --place → place        --audio → audiobook
+   Two surfaces (approved prototype: prototypes/11-dots.html):
+     field  the flat blue of `/` and `/dashboard`; ink is white, and every
+            line, dot and focus ring there is `currentColor`.
+     page   the desaturated blue-grey of `/books`; the ink is the same blue,
+            desaturated and dark, so it blends with the ground.
+   Prototype hex → token: #2A62E6 field · #E3E6EC background · #33415E
+   foreground · #4E5B78 muted-foreground · #9AA5BA rule / faint · #D6DBE4 muted.
 
    Themes follow the system. `data-theme="light|dark"` on any element forces
    that theme for its subtree (the styleguide renders both side by side).
@@ -21,193 +21,155 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --background: oklch(96.4% 0.003 264.5);
-  --foreground: oklch(20% 0.009 264.4);
-  --card: oklch(99.1% 0.001 0);
-  --card-foreground: oklch(20% 0.009 264.4);
-  --popover: oklch(99.1% 0.001 0);
-  --popover-foreground: oklch(20% 0.009 264.4);
-  --primary: oklch(20% 0.009 264.4);
-  --primary-foreground: oklch(99.1% 0.001 0);
-  --secondary: oklch(92.2% 0.007 268.5);
-  --secondary-foreground: oklch(20% 0.009 264.4);
-  --muted: oklch(92.2% 0.007 268.5);
-  --muted-foreground: oklch(43.5% 0.026 268.1);
-  --faint: oklch(60.6% 0.019 267.7);
-  --accent: oklch(92.2% 0.007 268.5);
-  --accent-foreground: oklch(20% 0.009 264.4);
-  --destructive: oklch(50.1% 0.178 28.7);
-  --destructive-foreground: oklch(99.1% 0.001 0);
-  --success: oklch(43.3% 0.147 142.5);
-  --border: oklch(84.5% 0.012 269.5);
-  --rule: oklch(92.2% 0.007 268.5);
-  --edge: oklch(20% 0.009 264.4 / 9%);
-  --input: oklch(84.5% 0.012 269.5);
-  --ring: oklch(57.5% 0.163 255.5);
+  --background: oklch(92.4% 0.009 264.5);
+  --foreground: oklch(37.6% 0.053 264.2);
+  --muted: oklch(89% 0.013 262.4);
+  --muted-foreground: oklch(47.2% 0.05 265.8);
+  --faint: oklch(72% 0.033 263.5);
+  --border: oklch(37.6% 0.053 264.2);
+  --rule: oklch(72% 0.033 263.5);
 
-  /* domain */
-  --other: oklch(57.5% 0.163 255.5);
-  --wm: oklch(67.1% 0.175 40.6);
-  --untagged: oklch(78.2% 0.013 266.7);
-  --place: oklch(51.7% 0.169 290.7);
-  --audiobook: oklch(54.3% 0.086 191.8);
+  --field: oklch(54.1% 0.209 263.5);
+  --field-foreground: oklch(100% 0 0);
 
-  /* charts: the ledger's series colors, in the order panels reach for them */
-  --chart-1: var(--other);
-  --chart-2: var(--wm);
-  --chart-3: var(--place);
-  --chart-4: var(--audiobook);
-  --chart-5: var(--muted-foreground);
-
-  --radius: 0.625rem;
+  /* Cover dither: an SVG filter rendered once by <DitherFilters>. Its two
+     ink values are foreground and background, written as sRGB in that file. */
+  --dither: url(#dither-light);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
-    --background: oklch(17.2% 0.007 258.4);
-    --foreground: oklch(96.4% 0.003 264.5);
-    --card: oklch(21.3% 0.008 264.4);
-    --card-foreground: oklch(96.4% 0.003 264.5);
-    --popover: oklch(21.3% 0.008 264.4);
-    --popover-foreground: oklch(96.4% 0.003 264.5);
-    --primary: oklch(96.4% 0.003 264.5);
-    --primary-foreground: oklch(21.3% 0.008 264.4);
-    --secondary: oklch(28.4% 0.012 264.4);
-    --secondary-foreground: oklch(96.4% 0.003 264.5);
-    --muted: oklch(28.4% 0.012 264.4);
-    --muted-foreground: oklch(79.2% 0.015 268.5);
-    --faint: oklch(63.3% 0.019 267.7);
-    --accent: oklch(28.4% 0.012 264.4);
-    --accent-foreground: oklch(96.4% 0.003 264.5);
-    --destructive: oklch(71.3% 0.144 25.4);
-    --destructive-foreground: oklch(17.2% 0.007 258.4);
-    --success: oklch(70.7% 0.217 142.8);
-    --border: oklch(36.3% 0.015 264.4);
-    --rule: oklch(28.4% 0.012 264.4);
-    --edge: oklch(100% 0 0 / 9%);
-    --input: oklch(36.3% 0.015 264.4);
-    --ring: oklch(62.2% 0.161 255.1);
+    --background: oklch(24.9% 0.03 267.4);
+    --foreground: oklch(92.4% 0.009 264.5);
+    --muted: oklch(30.2% 0.035 265.8);
+    --muted-foreground: oklch(79.4% 0.023 263.2);
+    --faint: oklch(45.1% 0.047 267.3);
+    --border: oklch(92.4% 0.009 264.5);
+    --rule: oklch(45.1% 0.047 267.3);
 
-    --other: oklch(62.2% 0.161 255.1);
-    --wm: oklch(62.2% 0.173 40.1);
-    --untagged: oklch(42.7% 0.016 266.5);
-    --place: oklch(67.1% 0.146 293.1);
-    --audiobook: oklch(66.9% 0.103 191.7);
+    --field: oklch(47.6% 0.188 264.2);
+    --field-foreground: oklch(100% 0 0);
+
+    --dither: url(#dither-dark);
   }
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --background: oklch(17.2% 0.007 258.4);
-  --foreground: oklch(96.4% 0.003 264.5);
-  --card: oklch(21.3% 0.008 264.4);
-  --card-foreground: oklch(96.4% 0.003 264.5);
-  --popover: oklch(21.3% 0.008 264.4);
-  --popover-foreground: oklch(96.4% 0.003 264.5);
-  --primary: oklch(96.4% 0.003 264.5);
-  --primary-foreground: oklch(21.3% 0.008 264.4);
-  --secondary: oklch(28.4% 0.012 264.4);
-  --secondary-foreground: oklch(96.4% 0.003 264.5);
-  --muted: oklch(28.4% 0.012 264.4);
-  --muted-foreground: oklch(79.2% 0.015 268.5);
-  --faint: oklch(63.3% 0.019 267.7);
-  --accent: oklch(28.4% 0.012 264.4);
-  --accent-foreground: oklch(96.4% 0.003 264.5);
-  --destructive: oklch(71.3% 0.144 25.4);
-  --destructive-foreground: oklch(17.2% 0.007 258.4);
-  --success: oklch(70.7% 0.217 142.8);
-  --border: oklch(36.3% 0.015 264.4);
-  --rule: oklch(28.4% 0.012 264.4);
-  --edge: oklch(100% 0 0 / 9%);
-  --input: oklch(36.3% 0.015 264.4);
-  --ring: oklch(62.2% 0.161 255.1);
+  --background: oklch(24.9% 0.03 267.4);
+  --foreground: oklch(92.4% 0.009 264.5);
+  --muted: oklch(30.2% 0.035 265.8);
+  --muted-foreground: oklch(79.4% 0.023 263.2);
+  --faint: oklch(45.1% 0.047 267.3);
+  --border: oklch(92.4% 0.009 264.5);
+  --rule: oklch(45.1% 0.047 267.3);
 
-  --other: oklch(62.2% 0.161 255.1);
-  --wm: oklch(62.2% 0.173 40.1);
-  --untagged: oklch(42.7% 0.016 266.5);
-  --place: oklch(67.1% 0.146 293.1);
-  --audiobook: oklch(66.9% 0.103 191.7);
+  --field: oklch(47.6% 0.188 264.2);
+  --field-foreground: oklch(100% 0 0);
+
+  --dither: url(#dither-dark);
 }
 
 @theme {
-  --font-display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
-  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* type scale, from the ledger's px sizes */
-  --text-label: 0.6875rem; /* 11px: eyebrows, column heads, axis ticks */
-  --text-label--line-height: 1rem;
-  --text-meta: 0.8125rem; /* 13px: authors, notes, subtitles, chips */
+  /* type scale, from the prototype's px sizes */
+  --text-meta: 0.8125rem; /* 13px: authors, column heads, legends, chips */
   --text-meta--line-height: 1.25rem;
-  --text-body: 0.9375rem; /* 15px: prose (set on body; never write it) */
+  --text-body: 1rem; /* 16px: prose (set on body; never write it) */
   --text-body--line-height: 1.5;
-  --text-heading: 1.0625rem; /* 17px: panel titles */
-  --text-heading--line-height: 1.4;
-  --text-stat: 1.875rem; /* 30px: stat tile figures */
-  --text-stat--line-height: 1;
-  --text-title: clamp(1.75rem, 5vw, 2.5rem); /* page title */
-  --text-title--line-height: 1.05;
-  --text-figure: clamp(2.75rem, 9vw, 4.5rem); /* the goal's big numbers */
-  --text-figure--line-height: 0.9;
+  --text-heading: 1.0625rem; /* 17px: a book's title in a row */
+  --text-heading--line-height: 1.25;
+  --text-verdict: clamp(1.875rem, 4.6vw, 3.5rem); /* the goal's verdict */
+  --text-verdict--line-height: 1.1;
+  --text-title: clamp(2.5rem, 7vw, 5.5rem); /* page and dashboard titles */
+  --text-title--line-height: 1;
+  --text-figure: clamp(3.25rem, 9vw, 7.5rem); /* the year in numbers */
+  --text-figure--line-height: 0.95;
 
-  --tracking-label: 0.09em;
-  --tracking-display: -0.02em;
-  --font-weight-heavy: 750;
+  --tracking-display: -0.015em;
 
-  --container-ledger: 65rem; /* 1040px reading column */
+  --container-ledger: 70rem; /* 1120px column */
+
+  --animate-dot-in: dot-in 0.5s both;
+
+  @keyframes dot-in {
+    from {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-faint: var(--faint);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-success: var(--success);
   --color-border: var(--border);
   --color-rule: var(--rule);
-  --color-edge: var(--edge);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  --color-other: var(--other);
-  --color-wm: var(--wm);
-  --color-untagged: var(--untagged);
-  --color-place: var(--place);
-  --color-audiobook: var(--audiobook);
-
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --color-field: var(--field);
+  --color-field-foreground: var(--field-foreground);
 }
 
-/* A bar's share of its track, from a `--share` CSS var set in `style`
-   (e.g. `class="w-share" :style="{ '--share': '40%' }"`). Hbars, the goal
-   meter and the fiction split use it instead of arbitrary widths. */
-@utility w-share {
-  width: var(--share);
+/* A dot's outline: between `border` (1px) and `border-2`. */
+@utility border-dot {
+  border-width: 1.5px;
+}
+
+/* The home grid. `dot-scale` sets the dot size and gap (bigger from `sm`);
+   `w-dot-grid` caps the width at `--cols` dots (set in `style`), so the grid
+   reads wide on a desktop and reflows on a phone; `dot-grid` lays the dots. */
+@utility dot-scale {
+  --dot: 1rem;
+  --dot-gap: 0.875rem;
+  @media (width >= 40rem) {
+    --dot: 1.25rem;
+    --dot-gap: 1.375rem;
+  }
+}
+
+@utility w-dot-grid {
+  width: min(100%, calc(var(--cols, 25) * (var(--dot) + var(--dot-gap)) - var(--dot-gap)));
+}
+
+@utility dot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--dot));
+  gap: var(--dot-gap);
+  & > * {
+    width: var(--dot);
+    height: var(--dot);
+  }
+}
+
+/* A book row on /books: cover, title, then date, pages, rating and author
+   tag as columns once its container (`@container` on <BookTable>) is 56rem
+   wide (`@4xl`); below that the meta wraps under the title. */
+@utility grid-cols-book {
+  grid-template-columns: 3.25rem minmax(0, 1fr) auto;
+  @container (width >= 56rem) {
+    grid-template-columns: 3.25rem minmax(0, 1fr) 7.25rem 6rem 8.25rem 9.5rem;
+  }
+}
+
+/* A column's stack of 12px dots, `--per-row` wide (set in `style`). */
+@utility w-stack {
+  width: calc(var(--per-row, 2) * 0.75rem + (var(--per-row, 2) - 1) * 0.3125rem);
+}
+
+/* The staggered entrance of the home grid; `--i` is the dot's index. */
+@utility dot-delay {
+  animation-delay: calc(var(--i, 0) * 4ms);
+}
+
+/* Covers: 1-bit noise dither in foreground / background. */
+@utility filter-dither {
+  filter: var(--dither);
 }
 
 @layer base {
@@ -217,7 +179,7 @@
 
   body,
   [data-theme] {
-    @apply bg-background text-foreground font-sans text-body antialiased;
+    @apply bg-background text-foreground font-sans font-light text-body antialiased;
   }
 
   h1,
@@ -226,7 +188,11 @@
     text-wrap: balance;
   }
 
+  button {
+    cursor: pointer;
+  }
+
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-ring;
+    @apply outline-2 outline-offset-4 outline-current;
   }
 }

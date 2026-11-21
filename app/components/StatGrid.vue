@@ -1,23 +1,12 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ label?: string; cols?: 2 | 3 | 4 }>(), {
-	cols: 4,
-})
-
-const COLS = {
-	2: 'grid-cols-2',
-	3: 'grid-cols-2 sm:grid-cols-3',
-	4: 'grid-cols-2 sm:grid-cols-4',
-} as const
+// The year in numbers: big light figures in a loose grid, lots of air.
+defineProps<{ label: string }>()
 </script>
 
 <template>
-  <section
-    :aria-label="label"
-    :class="[
-      'grid gap-px overflow-hidden rounded-xl bg-rule ring-1 ring-edge',
-      COLS[cols],
-    ]"
-  >
-    <slot />
-  </section>
+  <div class="@container">
+    <dl :aria-label="label" class="grid max-w-225 gap-x-24 gap-y-16 @xl:grid-cols-2">
+      <slot />
+    </dl>
+  </div>
 </template>

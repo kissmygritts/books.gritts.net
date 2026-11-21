@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gritts Books</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<!--
+  11 · Dots — merge of 6 flood, 8 orbit, 9 fields.
+  Palette
+    blue      #2A62E6  home field, dashboard field 1
+    forest    #0D6B4D  dashboard field
+    indigo    #2B2A7A  dashboard field
+    vermilion #D7263D  dashboard field
+    mist      #E3E6EC  books ground (blue, desaturated)
+    slate     #33415E  books ink (the same blue, desaturated and dark)
+  Type: Outfit 200–500, one family.
+  Dot code everywhere: solid = everyone else, ring = white man, pip = untagged.
+-->
+<style>
+:root{
+  --blue:#2A62E6; --forest:#0D6B4D; --indigo:#2B2A7A; --red:#D7263D;
+  --mist:#E3E6EC; --slate:#33415E; --slate-soft:#9AA5BA; --mist-deep:#D6DBE4;
+  --gut:clamp(16px,4vw,56px);
+  --measure:1120px;
+  --d:20px; --g:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Outfit,system-ui,sans-serif;font-weight:300;font-size:16px;line-height:1.5;background:var(--blue);color:#fff;min-height:100vh}
+body.v-books{background:var(--mist);color:var(--slate)}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+[hidden]{display:none!important}
+.wrap{max-width:var(--measure);margin:0 auto;padding:0 var(--gut)}
+
+/* ---------- top: wordmark in a circle, nav as ruled stack ---------- */
+.top{position:absolute;top:0;left:0;right:0;z-index:2}
+.top .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-top:28px}
+.mark{text-decoration:none;font-weight:500;font-size:17px;white-space:nowrap}
+.nav{display:flex;gap:28px}
+.nav a{display:flex;align-items:center;gap:10px;text-decoration:none;font-size:15px;font-weight:400}
+.nav a svg{width:18px;height:10px;flex:none}
+.nav a[aria-current="page"]{font-weight:500}
+.nav a[aria-current="page"] svg{visibility:hidden}
+
+/* ---------- dots ---------- */
+.d{display:block;width:var(--d);height:var(--d);border-radius:50%;border:1.5px solid currentColor;flex:none}
+.d.e{background:currentColor}
+.d.u{border-color:transparent;background:radial-gradient(circle,currentColor 0 24%,transparent 27%)}
+.d.on{outline:2px solid currentColor;outline-offset:3px}
+@media (hover:hover){ .d[data-s]:hover{outline:2px solid currentColor;outline-offset:3px} }
+
+/* ---------- home ---------- */
+.home{min-height:100vh;min-height:100svh;display:grid;align-content:center;padding:110px var(--gut) 56px}
+.home-in{width:min(100%,calc(var(--cols,19) * (var(--d) + var(--g)) - var(--g)));margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,var(--d));gap:var(--g);border-radius:4px}
+.grid:focus-visible{outline-offset:12px}
+.grid .d{border-width:1.5px;animation:in .5s both;animation-delay:calc(var(--i) * 4ms)}
+.grid.still .d{animation:none}
+@keyframes in{from{opacity:0;transform:scale(.3)}}
+.hcap{margin-top:48px;min-height:3em;font-size:15px;max-width:60ch}
+.hcap b{font-weight:500}
+
+/* ---------- dashboard: one field, one chart ---------- */
+.page{overflow-x:clip;min-height:100vh;min-height:100svh;color:#fff;display:flex;flex-direction:column}
+.page:first-child{padding-top:40px}
+.page{background:var(--blue)}
+.page .wrap{width:100%;min-width:0;flex:1;display:flex;flex-direction:column;padding-top:clamp(96px,12vw,176px);padding-bottom:clamp(96px,12vw,176px)}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:16px 32px;flex-wrap:wrap}
+.ph h2{font-weight:200;font-size:clamp(40px,7vw,88px);line-height:1;letter-spacing:-.01em}
+.years{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px}
+.years button{display:flex;align-items:center;gap:6px;padding:2px 0}
+.years button::before{content:"";width:7px;height:7px;border-radius:50%;border:1px solid currentColor}
+.years button[aria-pressed="true"]{font-weight:500}
+.years button[aria-pressed="true"]::before{background:currentColor}
+.chart{min-width:0;flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(40px,7vw,96px) 0}
+.cap{font-size:15px;min-height:3em;max-width:62ch;border-top:1px solid currentColor;padding-top:12px}
+.cap b{font-weight:500}
+
+.verdict{font-weight:200;font-size:clamp(30px,4.6vw,56px);line-height:1.1;max-width:18ch;margin-bottom:clamp(32px,5vw,56px)}
+.rows{list-style:none;display:grid;gap:18px}
+.rows li{display:grid;grid-template-columns:minmax(96px,200px) minmax(0,1fr);gap:18px;align-items:center}
+.rows .lab{font-size:15px;text-align:right;line-height:1.25}
+.rows .lab small{display:block;font-size:13px;opacity:.85}
+.rows .s{display:flex;flex-wrap:wrap;gap:6px}
+.rows .s .d{--d:12px}
+
+.cols{display:flex;align-items:flex-end;gap:clamp(10px,2.6vw,36px);overflow-x:auto;padding:12px 2px 2px;scrollbar-width:thin}
+.col{display:flex;flex-direction:column;align-items:center;gap:10px;flex:none}
+.stack{display:flex;flex-wrap:wrap-reverse;gap:5px;width:calc(var(--w) * 12px + (var(--w) - 1) * 5px)}
+.stack .d{--d:12px}
+.col .n{font-size:13px;font-weight:400}
+.col .l{font-size:13px;border-top:1px solid currentColor;padding-top:6px;align-self:stretch;text-align:center}
+
+.figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(32px,6vw,72px) clamp(24px,6vw,96px);max-width:900px}
+.figs b{display:block;font-weight:200;font-size:clamp(52px,9vw,120px);line-height:.95;letter-spacing:-.02em}
+.figs span{display:block;font-size:15px;margin-top:10px;border-top:1px solid currentColor;padding-top:8px;max-width:32ch}
+
+/* ---------- books: orbit rows, desaturated ---------- */
+.books{padding:120px 0 96px}
+.books .ph h2{font-size:clamp(40px,6vw,72px)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:32px;font-size:15px}
+.tabs button{display:flex;align-items:baseline;gap:7px;padding:4px 0;border-bottom:1px solid transparent}
+.tabs button small{font-size:13px;color:var(--slate);opacity:.8}
+.tabs button[aria-selected="true"]{border-bottom-color:currentColor;font-weight:500}
+.tabsub{font-size:14px;margin-top:14px;min-height:1.5em}
+.tbl{margin-top:28px;list-style:none;border-top:1px solid var(--slate)}
+.row{display:grid;grid-template-columns:52px minmax(0,1fr) 116px 92px 132px 150px;gap:8px 20px;align-items:center;padding:11px 0;border-bottom:1px solid var(--slate-soft)}
+.row.hd{padding:10px 0;font-size:13px;font-weight:400;border-bottom:1px solid var(--slate)}
+.row.hd button{display:flex;align-items:center;gap:6px;font-weight:400}
+.row.hd button[aria-sort]:not([aria-sort="none"]){font-weight:500}
+.row.hd .arr{font-size:11px}
+.row .c{width:52px;height:52px;border-radius:50%;border:1px solid var(--slate);overflow:hidden;background:var(--mist-deep)}
+.row .c img{width:100%;height:100%;object-fit:cover;filter:url(#dither)}
+.row .t{font-size:17px;line-height:1.25;font-weight:400}
+.row .a{font-size:13px}
+.row .m{font-size:14px;font-variant-numeric:tabular-nums}
+.rate{display:flex;gap:3px;align-items:center}
+.rate i{width:9px;height:9px;border-radius:50%;border:1px solid var(--slate)}
+.rate i.on{background:var(--slate)}
+.rate em{font-style:normal;font-size:12px;margin-left:6px}
+.rate.none{font-size:13px}
+.tagl{font-size:13px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tagl .d{--d:10px}
+.aud{font-size:12px;border:1px solid var(--slate);border-radius:999px;padding:0 7px}
+.empty{padding:24px 0;font-size:15px}
+.ml{display:none}
+
+@media (max-width:900px){
+  .row{grid-template-columns:52px minmax(0,1fr) auto;row-gap:6px}
+  .row .m,.row .rate,.row .tagl{grid-column:2 / -1}
+  .row .tagl{margin-bottom:2px}
+  .row .meta{display:flex;flex-wrap:wrap;gap:4px 18px;grid-column:2 / -1}
+  .row.hd{display:none}
+  .ml{display:inline}
+  .sortm{display:flex!important}
+}
+.sortm{display:none;gap:18px;flex-wrap:wrap;font-size:14px;margin-top:20px}
+.sortm button[aria-pressed="true"]{font-weight:500;text-decoration:underline;text-underline-offset:4px}
+
+@media (max-width:560px){
+  :root{--d:16px;--g:14px}
+  .nav{gap:18px}
+  .nav a svg{display:none}
+  .rows li{grid-template-columns:minmax(0,1fr);gap:6px}
+  .rows .lab{text-align:left}
+  .figs{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body class="v-home">
+<!-- 1-bit noise dither for covers: grey, add noise, threshold to slate / mist -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="dither" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+    <feColorMatrix in="SourceGraphic" type="matrix" values=".3 .59 .11 0 0  .3 .59 .11 0 0  .3 .59 .11 0 0  0 0 0 1 0" result="g"/>
+    <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="7" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="1 0 0 0 0  1 0 0 0 0  1 0 0 0 0  0 0 0 0 1" result="ng"/>
+    <feComposite in="g" in2="ng" operator="arithmetic" k1="0" k2="1.15" k3="1" k4="-.62" result="m"/>
+    <feComponentTransfer in="m">
+      <feFuncR type="discrete" tableValues=".2 .89"/>
+      <feFuncG type="discrete" tableValues=".255 .902"/>
+      <feFuncB type="discrete" tableValues=".369 .925"/>
+      <feFuncA type="identity"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#/" aria-label="Gritts Books, every book">Gritts Books</a>
+    <nav class="nav" aria-label="Pages">
+      <a href="#/dashboard" data-v="dashboard"><svg viewBox="0 0 18 10" fill="none" stroke="currentColor" aria-hidden="true"><path d="M0 5h17M12 .5 17 5l-5 4.5"/></svg>Dashboard</a>
+      <a href="#/books" data-v="books"><svg viewBox="0 0 18 10" fill="none" stroke="currentColor" aria-hidden="true"><path d="M0 5h17M12 .5 17 5l-5 4.5"/></svg>Books</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="v-home" class="home" aria-label="Every book">
+    <div class="home-in">
+      <h1 class="vh" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Every book read, one dot each</h1>
+      <div class="grid" id="grid" tabindex="0" aria-describedby="hcap" aria-label="Every finished book, one dot each, in the order finished. Solid: everyone else. Ring: white man. Small dot: untagged. Use the arrow keys to step through them."></div>
+      <p class="hcap" id="hcap" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <div id="v-dashboard" hidden></div>
+
+  <section id="v-books" class="books" hidden aria-labelledby="booksH">
+    <div class="wrap">
+      <div class="ph"><h2 id="booksH">Books</h2><div class="years" data-years></div></div>
+      <div class="tabs" role="tablist" aria-label="Status" id="tabs"></div>
+      <p class="tabsub" id="tabsub"></p>
+      <div class="sortm" id="sortm" role="group" aria-label="Sort"></div>
+      <ul class="tbl" id="tbl"></ul>
+    </div>
+  </section>
+</main>
+
+<script src="books-data.js"></script>
+<script>
+(function(){
+"use strict";
+var BOOKS = window.BOOKS, AS_OF = window.AS_OF, CUR = +AS_OF.slice(0,4);
+var BY_SLUG = {}; BOOKS.forEach(function(b){ BY_SLUG[b.slug] = b; });
+var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var READ = BOOKS.filter(function(b){ return b.status === "read"; });
+var yr = function(b){ return b.finished_at ? +b.finished_at.slice(0,4) : null; };
+var YEARS = Array.from(new Set(READ.map(yr).filter(Boolean))).sort(function(a,b){ return b-a; });
+var tag = function(b){ return b.white_male_author === true ? "w" : b.white_male_author === false ? "e" : "u"; };
+var TAGN = {e:"everyone else", w:"white man", u:"untagged"};
+function byFinish(a,b){ return (a.finished_at||"9999").localeCompare(b.finished_at||"9999") || a.title.localeCompare(b.title); }
+function plural(n,w,p){ return n.toLocaleString("en-US") + " " + (n === 1 ? w : (p || w + "s")); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function fdate(iso){ if(!iso) return "no date"; var p = iso.split("-"); return (+p[2]) + " " + MONTHS[+p[1]-1] + " " + p[0]; }
+function authors(b){ var a = b.author || []; return a.length > 1 ? a.slice(0,-1).join(", ") + " and " + a[a.length-1] : (a[0] || "Unknown author"); }
+
+var store = { get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+var state = { year: store.get("dots-year") || "all", view:"home", status:"read", sort:"finished", dir:-1 };
+if (state.year !== "all" && YEARS.indexOf(+state.year) < 0) state.year = "all";
+
+/* --- data --- */
+function finished(y){ return y === "all" ? READ.slice() : READ.filter(function(b){ return yr(b) === +y; }); }
+function dated(y){ return finished(y).filter(function(b){ return b.finished_at; }); }
+function tally(list){ var t = {e:0,w:0,u:0}; list.forEach(function(b){ t[tag(b)]++; }); return t; }
+function verdict(y, t){
+  var diff = t.e - t.w;
+  if (y === "all") return diff > 0 ? "Ahead overall by " + plural(diff,"book") : diff < 0 ? "Behind overall by " + plural(-diff,"book") : "Level overall";
+  if (+y === CUR) return diff > 0 ? "Ahead by " + plural(diff,"book") : diff < 0 ? "Behind by " + plural(-diff,"book") : "Level, with the year still open";
+  return diff > 0 ? "Goal met in " + y + ", by " + plural(diff,"book") : diff < 0 ? "Goal missed in " + y + ", by " + plural(-diff,"book") : "A tie in " + y + ", so the goal was missed";
+}
+function dot(b, extra){ return '<i class="d ' + tag(b) + (extra||"") + '" data-s="' + esc(b.slug) + '"></i>'; }
+function capFor(b){
+  return "<b>" + esc(b.title) + "</b>, " + esc(authors(b)) + ". " +
+    (b.finished_at ? "Finished " + fdate(b.finished_at) : "Read, no finish date") + ". " +
+    (b.rating ? b.rating + "/8" : "Unrated") + ", " + TAGN[tag(b)] + (b.audible ? ", audiobook" : "") + ".";
+}
+function yearsHTML(){
+  return ["all"].concat(YEARS.map(String)).map(function(y){
+    return '<button type="button" data-year="' + y + '" aria-pressed="' + (state.year === y) + '">' + (y === "all" ? "All" : y) + "</button>";
+  }).join("");
+}
+
+/* --- home --- */
+var HOME = READ.filter(function(b){ return b.finished_at; }).sort(byFinish), hi = -1, homeDrawn = false;
+/* wide grid: columns so that cols / rows is about 3:1; narrower screens reflow */
+document.querySelector(".home-in").style.setProperty("--cols", Math.ceil(Math.sqrt(HOME.length * 3)));
+function renderHome(){
+  var g = document.getElementById("grid");
+  if (!homeDrawn){
+    g.innerHTML = HOME.map(function(b,i){ return '<i class="d ' + tag(b) + '" data-s="' + esc(b.slug) + '" data-i="' + i + '" style="--i:' + i + '"></i>'; }).join("");
+    homeDrawn = true;
+    setTimeout(function(){ g.classList.add("still"); }, 1600);
+  }
+  setHomeCap();
+}
+function setHomeCap(){
+  document.getElementById("hcap").innerHTML = hi < 0 ? "" : capFor(HOME[hi]);
+}
+function homeActive(i){
+  var g = document.getElementById("grid"), old = g.querySelector(".d.on");
+  if (old) old.classList.remove("on");
+  hi = i;
+  if (i >= 0) g.children[i].classList.add("on");
+  setHomeCap();
+}
+
+/* --- dashboard --- */
+function colsHTML(groups, w){
+  var max = 0; groups.forEach(function(g){ max = Math.max(max, g.books.length); });
+  return '<div class="cols">' + groups.map(function(g){
+    return '<div class="col" role="img" aria-label="' + esc(g.aria || (g.label + ": " + plural(g.books.length,"book"))) + '"><span class="n" aria-hidden="true">' + g.books.length + '</span>' +
+      '<div class="stack" style="--w:' + w + '">' + g.books.map(function(b){ return dot(b); }).join("") + "</div>" +
+      '<span class="l" aria-hidden="true">' + esc(g.label) + "</span></div>";
+  }).join("") + "</div>";
+}
+function rowsHTML(groups){
+  return '<ul class="rows">' + groups.map(function(g){
+    return '<li><span class="lab">' + esc(g.label) + (g.sub ? "<small>" + esc(g.sub) + "</small>" : "") + '</span>' +
+      '<span class="s" role="img" aria-label="' + esc(g.label + ": " + plural(g.books.length,"book")) + '">' + g.books.map(function(b){ return dot(b); }).join("") + "</span></li>";
+  }).join("") + "</ul>";
+}
+function topGroups(list, keyFn, n){
+  var m = {};
+  list.forEach(function(b){ (keyFn(b) || []).forEach(function(k){ (m[k] = m[k] || []).push(b); }); });
+  return Object.keys(m).map(function(k){ return {label:k, books:m[k].sort(byFinish)}; })
+    .sort(function(a,b){ return b.books.length - a.books.length || a.label.localeCompare(b.label); }).slice(0,n);
+}
+function scope(){ return state.year === "all" ? "every year" : state.year; }
+
+var PANELS = [
+  { id:"goal", title:"The goal", f:"blue", render:function(list){
+      var t = tally(list);
+      var sorted = list.slice().sort(byFinish);
+      var pick = function(k){ return sorted.filter(function(b){ return tag(b) === k; }); };
+      return { html:'<p class="verdict">' + verdict(state.year, t) + "</p>" + rowsHTML([
+          {label:"Everyone else", sub:plural(t.e,"book"), books:pick("e")},
+          {label:"White men", sub:plural(t.w,"book"), books:pick("w")},
+          {label:"Untagged", sub:plural(t.u,"book"), books:pick("u")}
+        ]),
+        cap:"The goal: more books by everyone else than by white men. Untagged books count toward neither." };
+  }},
+  { id:"numbers", title:"In numbers", f:"forest", render:function(list){
+      var pages = list.reduce(function(s,b){ return s + (b.pages || 0); }, 0);
+      var rated = list.filter(function(b){ return b.rating; });
+      var avg = rated.length ? (rated.reduce(function(s,b){ return s + b.rating; }, 0) / rated.length).toFixed(1) : "–";
+      var known = list.filter(function(b){ return b.audible !== null && b.audible !== undefined; });
+      var aud = known.filter(function(b){ return b.audible; }).length;
+      var share = known.length ? Math.round(aud / known.length * 100) : 0;
+      return { html:'<div class="figs">' +
+        "<div><b>" + list.length + "</b><span>books finished, " + scope() + "</span></div>" +
+        "<div><b>" + pages.toLocaleString("en-US") + "</b><span>pages</span></div>" +
+        (rated.length ? "<div><b>" + avg + "/8</b><span>average rating, from " + plural(rated.length,"rated book") + "</span></div>" : "<div><b>–</b><span>average rating: no books rated</span></div>") +
+        "<div><b>" + share + "%</b><span>audiobooks, " + aud + " of " + plural(known.length,"book") + " with a format recorded</span></div></div>",
+        cap: state.year === "all" ? "Counts every book with a finish date. " + (READ.length - list.length) + " read books have none and appear only on the Books page." : "Every book finished in " + state.year + "." };
+  }},
+  { id:"month", title:"By month", f:"indigo", render:function(list){
+      var groups, w;
+      if (state.year === "all"){
+        var lo = Math.min.apply(null, YEARS), hiY = Math.max.apply(null, YEARS); groups = [];
+        for (var y = lo; y <= hiY; y++){ (function(y){ groups.push({label:String(y), books:list.filter(function(b){ return yr(b) === y; }).sort(byFinish)}); })(y); }
+        w = 4;
+      } else {
+        groups = MONTHS.map(function(m,i){ return {label:m, books:list.filter(function(b){ return +b.finished_at.slice(5,7) === i+1; }).sort(byFinish)}; });
+        w = 2;
+      }
+      return { html:colsHTML(groups, w), cap: state.year === "all" ? "Books finished each year. Pick a year to see its months." : "Books finished each month of " + state.year + ", earliest at the bottom." };
+  }},
+  { id:"ratings", title:"Ratings", f:"red", render:function(list){
+      var groups = [1,2,3,4,5,6,7,8].map(function(r){ return {label:r + "/8", books:list.filter(function(b){ return b.rating === r; }).sort(byFinish)}; });
+      var un = list.filter(function(b){ return !b.rating; }).length;
+      return { html:colsHTML(groups, 2), cap:"Ratings out of 8. " + (un ? plural(un,"book") + " unrated, not shown." : "Every book rated.") };
+  }},
+  { id:"decades", title:"When it was published", f:"blue", render:function(list){
+      var m = {};
+      list.forEach(function(b){ if (b.publication_year){ var d = Math.floor(b.publication_year/10)*10; (m[d] = m[d] || []).push(b); } });
+      var ks = Object.keys(m).map(Number).sort(function(a,b){ return a-b; });
+      var groups = ks.map(function(d){ return {label:d + "s", books:m[d].sort(byFinish)}; });
+      var none = list.filter(function(b){ return !b.publication_year; }).length;
+      return { html:colsHTML(groups, 3), cap:"Publication decade. " + (none ? plural(none,"book") + " without a year, not shown." : "") };
+  }},
+  { id:"genre", title:"Genre", f:"forest", render:function(list){
+      return { html:rowsHTML(topGroups(list, function(b){ return b.genre; }, 10)), cap:"The ten most read genres. A book with several genres has a dot in each row." };
+  }},
+  { id:"authors", title:"Most read authors", f:"indigo", render:function(list){
+      var g = topGroups(list, function(b){ return b.author; }, 10).filter(function(x){ return x.books.length > 1; });
+      return { html: g.length ? rowsHTML(g) : '<p class="verdict">No author read twice in ' + state.year + ".</p>", cap:"Authors with more than one book, " + scope() + "." };
+  }},
+  { id:"places", title:"Where it was set", f:"red", render:function(list){
+      var g = topGroups(list, function(b){ return b.places ? Array.from(new Set(b.places.map(function(p){ return p.split(",")[0].trim(); }))) : null; }, 12);
+      var none = list.filter(function(b){ return !b.places || !b.places.length; }).length;
+      return { html: g.length ? rowsHTML(g) : '<p class="verdict">No places recorded.</p>', cap:"Settings by US state or country, top twelve. " + plural(none,"book") + " have no place recorded." };
+  }}
+];
+function renderDash(){
+  var list = dated(state.year);
+  document.getElementById("v-dashboard").innerHTML = PANELS.map(function(p){
+    var r = p.render(list);
+    return '<section class="page f-' + p.f + '" id="p-' + p.id + '" aria-labelledby="h-' + p.id + '"><div class="wrap">' +
+      '<div class="ph"><h2 id="h-' + p.id + '">' + p.title + '</h2><div class="years" role="group" aria-label="Year">' + yearsHTML() + "</div></div>" +
+      '<div class="chart">' + r.html + "</div>" +
+      '<p class="cap" aria-live="polite" data-def="' + esc(r.cap) + '">' + esc(r.cap) + "</p></div></section>";
+  }).join("");
+}
+
+/* --- books --- */
+var STATUS = [["read","Finished"],["reading","Reading"],["to-read","Up next"],["abandoned","Abandoned"]];
+function sortList(list){
+  var k = state.sort, d = state.dir;
+  return list.sort(function(a,b){
+    var va, vb;
+    if (k === "rating"){ va = a.rating || 0; vb = b.rating || 0; }
+    else if (k === "pages"){ va = a.pages || 0; vb = b.pages || 0; }
+    else { va = a.finished_at || ""; vb = b.finished_at || ""; if (!va && vb) return 1; if (va && !vb) return -1; }
+    return va < vb ? -d : va > vb ? d : a.title.localeCompare(b.title);
+  });
+}
+function rateHTML(r){
+  if (!r) return '<span class="rate none">Unrated</span>';
+  var s = ""; for (var i = 1; i <= 8; i++) s += '<i class="' + (i <= r ? "on" : "") + '"></i>';
+  return '<span class="rate" aria-label="' + r + ' out of 8">' + s + "<em>" + r + "/8</em></span>";
+}
+function renderBooks(){
+  var fin = state.status === "read";
+  document.querySelector("#v-books [data-years]").innerHTML = fin ? yearsHTML() : "";
+  document.querySelector("#v-books [data-years]").setAttribute("role","group");
+  document.querySelector("#v-books [data-years]").setAttribute("aria-label","Year");
+  document.getElementById("tabs").innerHTML = STATUS.map(function(s){
+    var n = s[0] === "read" ? finished(state.year).length : BOOKS.filter(function(b){ return b.status === s[0]; }).length;
+    return '<button type="button" role="tab" data-status="' + s[0] + '" aria-selected="' + (state.status === s[0]) + '">' + s[1] + "<small>" + n + "</small></button>";
+  }).join("");
+  var list = fin ? finished(state.year) : BOOKS.filter(function(b){ return b.status === state.status; });
+  var pages = list.reduce(function(s,b){ return s + (b.pages || 0); }, 0);
+  var sub = {
+    read: plural(list.length,"book") + ", " + plural(pages,"page") + (state.year === "all" ? ", every year. Books without a finish date sort last." : ", finished in " + state.year + "."),
+    reading: plural(list.length,"book") + " on the go.",
+    "to-read": plural(list.length,"book") + " waiting, " + plural(pages,"page") + ".",
+    abandoned: plural(list.length,"book") + " put down for good."
+  }[state.status];
+  document.getElementById("tabsub").textContent = sub;
+  if (fin) list = sortList(list); else list.sort(function(a,b){ return (b.started_at||"").localeCompare(a.started_at||"") || a.title.localeCompare(b.title); });
+
+  var SORTS = [["finished","Finished"],["rating","Rating"],["pages","Pages"]];
+  document.getElementById("sortm").innerHTML = fin ? "Sort by " + SORTS.map(function(s){ return '<button type="button" data-sort="' + s[0] + '" aria-pressed="' + (state.sort === s[0]) + '">' + s[1] + (state.sort === s[0] ? (state.dir < 0 ? " ↓" : " ↑") : "") + "</button>"; }).join("") : "";
+  document.getElementById("sortm").hidden = !fin;
+
+  function th(k, label){
+    if (!fin) return "<span>" + label + "</span>";
+    var on = state.sort === k;
+    return '<button type="button" data-sort="' + k + '" aria-sort="' + (on ? (state.dir < 0 ? "descending" : "ascending") : "none") + '">' + label + (on ? '<span class="arr" aria-hidden="true">' + (state.dir < 0 ? "↓" : "↑") + "</span>" : "") + "</button>";
+  }
+  var dateLabel = fin ? "Finished" : state.status === "to-read" ? "Published" : "Started";
+  var head = '<li class="row hd" aria-hidden="' + (!fin) + '"><span></span><span>Title and author</span>' + th("finished", dateLabel) + th("pages","Pages") + th("rating","Rating") + "<span>Author</span></li>";
+  if (!list.length){
+    document.getElementById("tbl").innerHTML = head + '<li class="empty">No books here for ' + scope() + ". Pick another year or status above.</li>";
+    return;
+  }
+  document.getElementById("tbl").innerHTML = head + list.map(function(b){
+    var dt = fin ? fdate(b.finished_at) : state.status === "to-read" ? (b.publication_year ? String(b.publication_year) : "–") : fdate(b.started_at);
+    return '<li class="row"><span class="c">' + (b.cover_image ? '<img src="' + esc(b.cover_image) + '" alt="" loading="lazy" decoding="async">' : "") + "</span>" +
+      '<div><div class="t">' + esc(b.title) + '</div><div class="a">' + esc(authors(b)) + "</div></div>" +
+      '<span class="m"><span class="ml">' + dateLabel + " </span>" + dt + "</span>" +
+      '<span class="m">' + (b.pages ? plural(b.pages,"page") : "Pages unknown") + "</span>" +
+      rateHTML(b.rating) +
+      '<span class="tagl"><i class="d ' + tag(b) + '" aria-hidden="true"></i>' + (tag(b) === "w" ? "White man" : tag(b) === "e" ? "Everyone else" : "Untagged") + (b.audible ? ' <span class="aud">Audiobook</span>' : "") + "</span></li>";
+  }).join("");
+}
+
+/* --- routing and events --- */
+function route(){
+  var h = location.hash.replace(/^#\/?/, "");
+  state.view = h === "dashboard" ? "dashboard" : h === "books" ? "books" : "home";
+  document.body.className = "v-" + state.view;
+  ["home","dashboard","books"].forEach(function(v){ document.getElementById("v-" + v).hidden = v !== state.view; });
+  document.querySelectorAll(".nav a").forEach(function(a){ if (a.dataset.v === state.view) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  render();
+  window.scrollTo(0,0);
+}
+function render(){
+  if (state.view === "home") renderHome();
+  else if (state.view === "dashboard") renderDash();
+  else renderBooks();
+}
+document.addEventListener("click", function(e){
+  var y = e.target.closest("[data-year]");
+  if (y){
+    state.year = y.dataset.year; store.set("dots-year", state.year);
+    var sec = y.closest("section"), id = sec && sec.id, top = sec ? sec.getBoundingClientRect().top : 0;
+    render();
+    if (state.view === "dashboard" && id){ var n = document.getElementById(id); window.scrollBy(0, n.getBoundingClientRect().top - top); n.querySelector('[data-year="' + state.year + '"]').focus(); }
+    else { var f = document.querySelector('#v-books [data-year="' + state.year + '"]'); if (f) f.focus(); }
+    return;
+  }
+  var s = e.target.closest("[data-status]");
+  if (s){ state.status = s.dataset.status; if (s.tagName === "A") return; renderBooks(); var t = document.querySelector('#tabs [data-status="' + state.status + '"]'); if (t) t.focus(); return; }
+  var so = e.target.closest("[data-sort]");
+  if (so){
+    var k = so.dataset.sort;
+    if (state.sort === k) state.dir = -state.dir; else { state.sort = k; state.dir = -1; }
+    renderBooks(); var b = document.querySelector('#tbl [data-sort="' + k + '"], #sortm [data-sort="' + k + '"]'); if (b && b.offsetParent) b.focus();
+    return;
+  }
+  var dd = e.target.closest(".grid .d");
+  if (dd) homeActive(+dd.dataset.i);
+});
+document.addEventListener("mouseover", function(e){
+  var d = e.target.closest(".d[data-s]");
+  if (!d) return;
+  if (d.closest(".grid")){ homeActive(+d.dataset.i); return; }
+  var cap = d.closest("section").querySelector(".cap");
+  if (cap) cap.innerHTML = capFor(BY_SLUG[d.dataset.s]);
+});
+document.addEventListener("mouseout", function(e){
+  var c = e.target.closest(".chart");
+  if (c && !c.contains(e.relatedTarget)){ var cap = c.parentNode.querySelector(".cap"); cap.textContent = cap.dataset.def; }
+  var g = e.target.closest(".grid");
+  if (g && !g.contains(e.relatedTarget) && document.activeElement !== g) homeActive(-1);
+});
+var grid = document.getElementById("grid");
+grid.addEventListener("focus", function(){ if (hi < 0) homeActive(HOME.length - 1); });
+grid.addEventListener("blur", function(){ homeActive(-1); });
+grid.addEventListener("keydown", function(e){
+  var cols = Math.max(1, Math.round(grid.clientWidth / (grid.children[0].offsetWidth + parseFloat(getComputedStyle(grid).columnGap))));
+  var map = {ArrowRight:1, ArrowLeft:-1, ArrowDown:cols, ArrowUp:-cols};
+  if (e.key === "Home") { e.preventDefault(); homeActive(0); return; }
+  if (e.key === "End") { e.preventDefault(); homeActive(HOME.length - 1); return; }
+  if (!(e.key in map)) return;
+  e.preventDefault();
+  homeActive(Math.min(HOME.length - 1, Math.max(0, (hi < 0 ? 0 : hi) + map[e.key])));
+});
+window.addEventListener("hashchange", route);
+route();
+})();
+</script>
+</body>
+</html>

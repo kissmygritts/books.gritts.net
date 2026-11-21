@@ -1,43 +1,22 @@
 <script setup lang="ts">
-import { plural } from '@/lib/format'
-import {
-	finishBuckets,
-	inYear,
-	monthDay,
-	tally,
-	verdict,
-	yearStats,
-} from '@/lib/ledger'
+// The dashboard: one chart per full-height page, all on the field, every
+// book a dot. The year filter repeats on each page and is shared with
+// /books.
+import { finishBuckets, inYear, monthDay } from '@/lib/ledger'
 
-useHead({ title: 'Dashboard · Books' })
+useHead({
+	title: 'Dashboard · Gritts Books',
+	bodyAttrs: { class: 'bg-field text-field-foreground' },
+})
 
 const { finished, years, generatedAt, currentYear, currentMonth } =
 	await useLedger()
 
-// ---- the year filter: scopes every panel below it -------------------------
 const year = useLedgerYear(years)
-const isAll = computed(() => year.value === 'all')
 const isCurrent = computed(() => year.value === currentYear)
 const books = computed(() =>
 	finished.value.filter((b) => inYear(b, year.value)),
 )
-const asOf = computed(() => {
-	const n = plural(books.value.length, 'book')
-	if (isAll.value)
-		return `${n} finished, ${years.value.at(-1)}–${years.value[0]}`
-	return isCurrent.value
-		? `${n} finished as of ${monthDay(generatedAt)}`
-		: `${n} finished`
-})
-const yearTally = computed(() => tally(books.value))
-const goalVerdict = computed(() =>
-	verdict(yearTally.value, {
-		year: year.value,
-		isCurrent: isCurrent.value,
-		finished: finished.value,
-	}),
-)
-const stats = computed(() => yearStats(books.value))
 const months = computed(() =>
 	finishBuckets(books.value, {
 		year: year.value,
@@ -45,45 +24,29 @@ const months = computed(() =>
 		currentMonth: isCurrent.value ? currentMonth : -1,
 	}),
 )
+const numbersCaption = computed(() =>
+	year.value === 'all'
+		? `Every book with a finish date, ${years.value.at(-1)}–${years.value[0]}. Read books without one are on the Books page.`
+		: isCurrent.value
+			? `${year.value} as of ${monthDay(generatedAt)}.`
+			: `Every book finished in ${year.value}.`,
+)
 </script>
 
 <template>
-  <PageHeader eyebrow="books.gritts.net" title="Dashboard">
-    <template #actions>
-      <SiteNav />
-    </template>
-  </PageHeader>
-
-  <section
-    aria-labelledby="ledger-h"
-    class="flex flex-wrap items-end justify-between gap-x-6 gap-y-3"
-  >
-    <div class="grid gap-1">
-      <Eyebrow>The ledger</Eyebrow>
-      <h2 id="ledger-h" class="font-display font-semibold text-heading tabular-nums">
-        {{ isAll ? 'All years' : year }}
-      </h2>
-      <p class="text-meta text-muted-foreground tabular-nums">{{ asOf }}</p>
-    </div>
-    <YearFilter v-model="year" :years="years" />
-  </section>
-
-  <LedgerGoal :tally="yearTally" :verdict="goalVerdict" :total="books.length" />
-
-  <LedgerNumbers :stats="stats" />
-
-  <LedgerMonths :buckets="months" :by-year="isAll" />
-
-  <div class="grid gap-5 md:grid-cols-2">
-    <LedgerRatings :books="books" />
-    <LedgerDecades :books="books" />
-  </div>
-
-  <LedgerGenres :books="books" />
-
-  <LedgerAuthors :books="books" />
-
-  <LedgerPlaces :books="books" />
-
-  <LedgerYears v-if="!isAll" v-model="year" :finished="finished" :years="years" />
+  <h1 class="sr-only">Dashboard</h1>
+  <LedgerGoal
+    v-model:year="year"
+    :books="books"
+    :finished="finished"
+    :years="years"
+    :is-current="isCurrent"
+  />
+  <LedgerNumbers v-model:year="year" :books="books" :years="years" :caption="numbersCaption" />
+  <LedgerMonths v-model:year="year" :buckets="months" :years="years" />
+  <LedgerRatings v-model:year="year" :books="books" :years="years" />
+  <LedgerDecades v-model:year="year" :books="books" :years="years" />
+  <LedgerGenres v-model:year="year" :books="books" :years="years" />
+  <LedgerAuthors v-model:year="year" :books="books" :years="years" />
+  <LedgerPlaces v-model:year="year" :books="books" :years="years" />
 </template>

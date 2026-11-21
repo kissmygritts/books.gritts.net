@@ -1,19 +1,23 @@
 <script setup lang="ts">
 // Styleguide only: renders the slot twice, forced light and forced dark.
-defineProps<{ title: string }>()
+// `field` paints both on the blue field instead of the page surface.
+defineProps<{ title: string; field?: boolean }>()
 </script>
 
 <template>
-  <section class="grid gap-3">
-    <h2 class="font-display font-semibold text-heading">{{ title }}</h2>
+  <section class="grid gap-4">
+    <h2 class="font-normal text-heading">{{ title }}</h2>
     <div class="grid gap-4 lg:grid-cols-2">
       <div
         v-for="theme in ['light', 'dark']"
         :key="theme"
         :data-theme="theme"
-        class="grid min-w-0 content-start gap-4 rounded-xl p-5 ring-1 ring-edge"
+        :class="[
+          'grid min-w-0 content-start gap-5 border border-rule p-5',
+          field && 'bg-field text-field-foreground',
+        ]"
       >
-        <Eyebrow>{{ theme }}</Eyebrow>
+        <p class="text-meta">{{ theme }}</p>
         <slot />
       </div>
     </div>

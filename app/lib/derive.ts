@@ -134,3 +134,11 @@ export function byFinishDesc(a: Book, b: Book): number {
 	if (fa !== fb) return fa < fb ? 1 : -1
 	return a.title.localeCompare(b.title)
 }
+
+/** Oldest finish first, then by title: the order of the home grid. */
+export function byFinishAsc(a: Book, b: Book): number {
+	const fa = a.finished_at ?? ''
+	const fb = b.finished_at ?? ''
+	if (fa !== fb) return fa < fb ? -1 : 1
+	return a.title.localeCompare(b.title)
+}

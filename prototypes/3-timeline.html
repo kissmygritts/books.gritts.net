@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FFFFFF;
+  --black:#000000;
+  --blue:#002FA7;      /* everyone else, primary */
+  --grey:#B8B8B8;      /* untagged */
+  --wash:#F1F1EF;      /* flat ground blocks */
+  --ink2:#5A5A5A;      /* secondary text */
+  --gut:clamp(16px,3vw,40px);
+  --col:calc((100% - 11 * var(--gut)) / 12);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--white);color:var(--black);font-family:"Schibsted Grotesk",system-ui,sans-serif;font-size:16px;line-height:1.45}
+/* tnum only on figures: in Schibsted it also widens commas and periods */
+.gc b,.yearbig,table,td,.stat,.num{font-feature-settings:"tnum" 1}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.on-blue :focus-visible,.on-blue:focus-visible{outline-color:var(--black)}
+.wrap{max-width:1440px;margin:0 auto;padding:0 var(--gut)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* header */
+.top{padding:28px 0 0}
+.top .grid{align-items:end}
+.mast{grid-column:1/6;font-weight:800;font-size:1.375rem;letter-spacing:-.01em;line-height:1.1}
+.mast span{display:block;font-weight:400;color:var(--ink2);font-size:1rem;letter-spacing:0;margin-top:4px}
+.views{grid-column:9/13;display:flex;gap:4px;justify-content:flex-start}
+.views button{padding:10px 16px 9px;font-weight:600;font-size:1rem;background:var(--wash)}
+.views button[aria-pressed="true"]{background:var(--black);color:var(--white)}
+
+/* year filter */
+.years{display:flex;flex-wrap:wrap;gap:2px;margin:0;padding:0;list-style:none}
+.years button{min-width:56px;padding:9px 10px 8px;text-align:left;font-weight:500;font-size:.9375rem;background:var(--wash)}
+.years button:hover{background:#E2E2DF}
+.years button[aria-pressed="true"]{background:var(--blue);color:var(--white);font-weight:700}
+
+/* hero */
+.hero{padding:56px 0 0}
+.hero .grid{row-gap:28px;align-items:start}
+.yearbig{grid-column:1/8;font-weight:900;font-size:clamp(5.5rem,17vw,15rem);line-height:.8;letter-spacing:-.055em;margin:0;margin-left:-.05em}
+.yearbig small{display:block;font-size:clamp(1.125rem,1.8vw,1.5rem);font-weight:500;letter-spacing:0;line-height:1.3;margin:22px 0 0 .1em;max-width:30ch}
+.goal{grid-column:8/13;align-self:end}
+.goalcells{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.gc{padding:14px 14px 12px;min-height:118px;display:flex;flex-direction:column;justify-content:space-between}
+.gc b{font-size:clamp(2.5rem,5vw,4rem);font-weight:800;line-height:.9;letter-spacing:-.03em}
+.gc span{font-size:.875rem;font-weight:500;line-height:1.2}
+.gc.ee{background:var(--blue);color:var(--white)}
+.gc.wm{background:var(--black);color:var(--white)}
+.gc.un{background:var(--white);box-shadow:inset 0 0 0 2px var(--grey)}
+.verdict{margin:14px 0 0;font-size:1.125rem;font-weight:600;line-height:1.3}
+.verdict span{font-weight:400;color:var(--ink2)}
+.filterrow{grid-column:1/13;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}
+
+/* timeline */
+.tl{margin-top:36px;position:relative}
+.tl-axis{position:relative;height:28px}
+.tl-axis span{position:absolute;top:0;font-size:.875rem;font-weight:600;padding-left:6px;white-space:nowrap}
+.tl-axis .s{display:none}
+.tl-field{position:relative;background:var(--white)}
+.tl-band{position:absolute;top:0;bottom:0;background:var(--wash)}
+.tl-today{position:absolute;top:-28px;bottom:0;width:2px;background:var(--black);z-index:2}
+.tl-today span{position:absolute;top:0;left:6px;font-size:.875rem;font-weight:600;white-space:nowrap}
+.tl-today.flip span{left:auto;right:6px}
+.mk{position:absolute;height:12px;min-width:3px;z-index:1;padding:0}
+.mk.ee{background:var(--blue)}
+.mk.wm{background:var(--black)}
+.mk.un{background:var(--grey)}
+.mk.tick{width:3px;height:16px;margin-top:-2px}
+.mk.carry{clip-path:polygon(6px 0,100% 0,100% 100%,6px 100%,0 50%)}
+.mk.open{background:transparent !important;box-shadow:inset 0 0 0 2px currentColor}
+.mk.open.ee{color:var(--blue)} .mk.open.wm{color:var(--black)} .mk.open.un{color:var(--grey)}
+.mk:hover,.mk.on{z-index:3;transform:scaleY(1.6)}
+.mk.tick:hover,.mk.tick.on{transform:scaleX(2) scaleY(1.4)}
+.mk:focus-visible{outline-offset:3px}
+.tl-dim .mk:not(.on){opacity:.35}
+.tl-foot{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:16px;font-size:.875rem;color:var(--ink2)}
+.key{display:inline-flex;align-items:center;gap:8px}
+.key i{display:inline-block;width:22px;height:12px}
+.key i.t{width:3px;height:16px}
+.key i.o{background:transparent;box-shadow:inset 0 0 0 2px var(--black)}
+
+.readout{margin-top:28px;min-height:132px;align-items:start;row-gap:12px}
+.ro-title{grid-column:1/8;font-size:clamp(1.75rem,3.4vw,2.75rem);font-weight:800;line-height:1.02;letter-spacing:-.025em;margin:0}
+.ro-title small{display:block;font-size:1.125rem;font-weight:500;letter-spacing:0;margin-top:8px}
+.ro-meta{grid-column:8/13;margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:.9375rem}
+.ro-meta dt{color:var(--ink2)}
+.ro-meta dd{margin:0;font-weight:500}
+.r8{display:inline-flex;gap:2px;vertical-align:-1px;margin-right:6px}
+.r8 i{width:9px;height:12px;background:currentColor}
+.r8 i.off{background:transparent;box-shadow:inset 0 0 0 1.5px currentColor;opacity:.45}
+
+/* sections */
+.sec{padding:112px 0 0}
+.h2{font-size:clamp(2.25rem,5vw,4rem);font-weight:800;letter-spacing:-.035em;line-height:.95;margin:0}
+.lede{margin:12px 0 0;color:var(--ink2);font-size:1.0625rem;max-width:40ch}
+.sec-head{grid-column:1/5}
+.sec-body{grid-column:5/13}
+
+/* nightstand */
+.now{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gut)}
+.nowbook{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:start}
+.cover{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;background:var(--wash)}
+.nowbook h3{margin:0;font-size:1.5rem;font-weight:700;line-height:1.1;letter-spacing:-.015em}
+.nowbook p{margin:6px 0 0;font-size:.9375rem}
+.nowbook .since{color:var(--ink2)}
+.bar{height:6px;background:var(--wash);margin-top:12px;position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--blue)}
+.next{margin-top:56px}
+.next h3{font-size:1.25rem;font-weight:700;margin:0 0 16px}
+.nextlist{list-style:none;margin:0;padding:0;columns:3 220px;column-gap:var(--gut)}
+.nextlist li{break-inside:avoid;padding:0 0 12px;font-size:.9375rem;line-height:1.3}
+.nextlist b{font-weight:600;display:block}
+.nextlist span{color:var(--ink2)}
+
+/* shelf */
+.shelf-ctl{display:flex;flex-wrap:wrap;gap:16px 32px;align-items:center;margin-bottom:28px}
+.sorts{display:flex;gap:2px;flex-wrap:wrap}
+.sorts button{padding:8px 12px 7px;background:var(--wash);font-weight:500;font-size:.9375rem}
+.sorts button[aria-pressed="true"]{background:var(--black);color:var(--white)}
+.shelf{list-style:none;margin:0;padding:0}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr) 9rem 6rem 7rem;gap:6px 20px;align-items:center;padding:12px 0}
+.row + .row{border-top:1px solid #E4E4E1}
+.row .cover{width:44px}
+.row .noc{width:44px;aspect-ratio:2/3}
+.row .noc.ee{background:var(--blue)} .row .noc.wm{background:var(--black)} .row .noc.un{background:var(--grey)}
+.row h3{margin:0;font-size:1.0625rem;font-weight:700;line-height:1.2}
+.row .au{font-size:.9375rem}
+.row .tags{font-size:.8125rem;color:var(--ink2);margin-top:3px;display:flex;gap:12px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:6px}
+.tag i{width:8px;height:8px;display:inline-block}
+.tag.ee i{background:var(--blue)} .tag.wm i{background:var(--black)} .tag.un i{box-shadow:inset 0 0 0 1.5px var(--grey)}
+.row .d,.row .p,.row .r{font-size:.9375rem}
+.row .r{font-weight:600}
+.row .muted{color:var(--ink2);font-weight:400}
+.empty{padding:28px 0;color:var(--ink2)}
+
+/* dashboard */
+.dash .sec{padding-top:88px}
+.dash .sec:first-of-type{padding-top:56px}
+.goalbar{display:flex;height:96px;margin-top:8px}
+.goalbar div{display:flex;align-items:flex-end;padding:10px 12px;color:var(--white);font-weight:700;font-size:1.125rem;min-width:0;overflow:hidden;white-space:nowrap}
+.goalbar .ee{background:var(--blue)} .goalbar .wm{background:var(--black)} .goalbar .un{background:var(--grey);color:var(--black)}
+.goalbig{font-size:clamp(1.75rem,3.6vw,3rem);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin:0 0 20px;max-width:22ch}
+.goallist{display:flex;flex-wrap:wrap;gap:8px 32px;margin-top:14px;font-size:.9375rem}
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gut)}
+.num b{display:block;font-size:clamp(2.5rem,5.5vw,4.75rem);font-weight:800;letter-spacing:-.04em;line-height:.9}
+.num span{display:block;margin-top:8px;font-size:.9375rem;font-weight:500}
+.num em{display:block;font-style:normal;color:var(--ink2);font-size:.875rem}
+.cols{display:flex;align-items:flex-end;gap:2px;height:220px}
+.cols .c{flex:1;display:flex;flex-direction:column-reverse;height:100%;min-width:0;position:relative}
+.cols .c i{display:block;width:100%}
+.cols .c i.ee{background:var(--blue)} .cols .c i.wm{background:var(--black)} .cols .c i.un{background:var(--grey)} .cols .c i.k{background:var(--black)}
+.cols .c b{position:absolute;left:0;right:0;text-align:center;font-size:.8125rem;font-weight:600}
+.colx{display:flex;gap:2px;margin-top:8px}
+.colx span{flex:1;font-size:.8125rem;text-align:center;color:var(--ink2);min-width:0;overflow:hidden}
+.hl{list-style:none;margin:0;padding:0}
+.hl li{display:grid;grid-template-columns:minmax(0,11rem) 1fr 4.5rem;gap:12px;align-items:center;padding:5px 0;font-size:.9375rem}
+.hl li > span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hl .t{height:14px;background:var(--wash);position:relative}
+.hl .t i{position:absolute;inset:0 auto 0 0;background:var(--black)}
+.hl .n{text-align:right;color:var(--ink2);font-size:.875rem}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px var(--gut)}
+.h3{font-size:1.5rem;font-weight:700;letter-spacing:-.015em;margin:0 0 4px}
+.note{color:var(--ink2);font-size:.875rem;margin:0 0 18px}
+.places{columns:2 260px;column-gap:var(--gut)}
+.places div{break-inside:avoid;padding-bottom:14px;font-size:.9375rem}
+.places b{font-weight:700}
+.places span{color:var(--ink2)}
+footer{padding:120px 0 40px;color:var(--ink2);font-size:.875rem}
+
+@media (max-width:900px){
+  .mast{grid-column:1/13}
+  .views{grid-column:1/13;margin-top:16px}
+  .yearbig,.goal,.ro-title,.ro-meta,.sec-head,.sec-body{grid-column:1/13}
+  .sec-head{margin-bottom:32px}
+  .sec{padding-top:80px}
+  .nums{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}
+  .pair{grid-template-columns:1fr}
+  .row{grid-template-columns:44px minmax(0,1fr) auto;row-gap:2px}
+  .row .d,.row .p,.row .r{grid-column:2/4;font-size:.875rem}
+  .row .d{grid-row:2} .row .p{display:none} .row .r{grid-column:3;grid-row:1}
+  .row .cover,.row .noc{grid-row:1/3}
+}
+@media (max-width:600px){
+  .tl-axis .f{display:none} .tl-axis .s{display:inline}
+  .now{grid-template-columns:1fr;row-gap:32px}
+  .nowbook{grid-template-columns:72px 1fr}
+  .gc{min-height:96px;padding:10px}
+  .hl li{grid-template-columns:minmax(0,8rem) 1fr 3.5rem}
+}
+@media (prefers-reduced-motion:no-preference){
+  .mk{transition:transform .12s ease-out,opacity .12s}
+}
+</style>
+</head>
+<body>
+<script src="books-data.js"></script>
+
+<header class="top"><div class="wrap grid">
+  <div class="mast">Reading ledger<span id="counts"></span></div>
+  <nav class="views" aria-label="View">
+    <button type="button" data-view="books" aria-pressed="true">Books</button>
+    <button type="button" data-view="dash" aria-pressed="false">Dashboard</button>
+  </nav>
+</div></header>
+
+<main id="v-books">
+  <section class="hero" aria-labelledby="yr-h"><div class="wrap">
+    <div class="grid">
+      <h1 class="yearbig" id="yr-h"><span id="yr-big"></span><small id="yr-sub"></small></h1>
+      <div class="goal" id="goal-hero"></div>
+      <div class="filterrow"><ul class="years" data-years aria-label="Year"></ul></div>
+    </div>
+    <div class="tl" id="tl">
+      <div class="tl-axis" id="tl-axis" aria-hidden="true"></div>
+      <div class="tl-field" id="tl-field" role="group" aria-label="Reading timeline"></div>
+      <div class="tl-foot">
+        <span class="key"><i style="background:var(--blue)"></i>Everyone else</span>
+        <span class="key"><i style="background:var(--black)"></i>White men</span>
+        <span class="key"><i style="background:var(--grey)"></i>Untagged</span>
+        <span class="key"><i class="t" style="background:var(--black)"></i>Finish date only</span>
+        <span class="key"><i class="o"></i>Still reading</span>
+        <span id="tl-note"></span>
+      </div>
+    </div>
+    <div class="grid readout" id="readout" aria-live="polite"></div>
+  </div></section>
+
+  <section class="sec" aria-labelledby="ns-h"><div class="wrap grid">
+    <div class="sec-head"><h2 class="h2" id="ns-h">On the nightstand</h2><p class="lede" id="ns-lede"></p></div>
+    <div class="sec-body">
+      <div class="now" id="now"></div>
+      <div class="next"><h3 id="next-h"></h3><ul class="nextlist" id="next"></ul></div>
+    </div>
+  </div></section>
+
+  <section class="sec" aria-labelledby="sh-h"><div class="wrap grid">
+    <div class="sec-head"><h2 class="h2" id="sh-h">The shelf</h2><p class="lede" id="sh-lede"></p></div>
+    <div class="sec-body">
+      <div class="shelf-ctl">
+        <ul class="years" data-years aria-label="Year"></ul>
+        <div class="sorts" role="group" aria-label="Sort by" id="sorts">
+          <button type="button" data-sort="date" aria-pressed="true">Newest first</button>
+          <button type="button" data-sort="old" aria-pressed="false">Oldest first</button>
+          <button type="button" data-sort="rating" aria-pressed="false">Rating</button>
+          <button type="button" data-sort="title" aria-pressed="false">Title</button>
+        </div>
+      </div>
+      <ul class="shelf" id="shelf"></ul>
+    </div>
+  </div></section>
+</main>
+
+<main id="v-dash" class="dash" hidden>
+  <section class="sec"><div class="wrap grid">
+    <div class="sec-head"><h1 class="h2" id="d-year"></h1><p class="lede">Every panel below follows this year.</p></div>
+    <div class="sec-body"><ul class="years" data-years aria-label="Year"></ul></div>
+  </div></section>
+
+  <section class="sec" aria-labelledby="g-h"><div class="wrap grid">
+    <div class="sec-head"><h2 class="h2" id="g-h">The goal</h2><p class="lede">Finish more books by everyone else than by white men.</p></div>
+    <div class="sec-body" id="d-goal"></div>
+  </div></section>
+
+  <section class="sec" aria-labelledby="n-h"><div class="wrap grid">
+    <div class="sec-head"><h2 class="h2" id="n-h">The year in numbers</h2></div>
+    <div class="sec-body nums" id="d-nums"></div>
+  </div></section>
+
+  <section class="sec" aria-labelledby="m-h"><div class="wrap grid">
+    <div class="sec-head"><h2 class="h2" id="m-h">By month</h2><p class="lede" id="m-lede"></p></div>
+    <div class="sec-body" id="d-months"></div>
+  </div></section>
+
+  <section class="sec"><div class="wrap grid">
+    <div class="sec-head"><h2 class="h2">How it rated, when it was written</h2></div>
+    <div class="sec-body pair">
+      <div><h3 class="h3">Ratings</h3><p class="note" id="r-note"></p><div id="d-ratings"></div></div>
+      <div><h3 class="h3">Publication decade</h3><p class="note" id="dec-note"></p><ul class="hl" id="d-dec"></ul></div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap grid">
+    <div class="sec-head"><h2 class="h2">What, and by whom</h2></div>
+    <div class="sec-body pair">
+      <div><h3 class="h3">Top genres</h3><p class="note">Books can carry several genres.</p><ul class="hl" id="d-gen"></ul></div>
+      <div><h3 class="h3">Most-read authors</h3><p class="note" id="au-note"></p><ul class="hl" id="d-au"></ul></div>
+    </div>
+  </div></section>
+
+  <section class="sec" aria-labelledby="p-h"><div class="wrap grid">
+    <div class="sec-head"><h2 class="h2" id="p-h">Where it was set</h2><p class="lede" id="p-lede"></p></div>
+    <div class="sec-body places" id="d-places"></div>
+  </div></section>
+</main>
+
+<footer><div class="wrap">Data as of <span id="asof"></span>. Ratings are out of 8.</div></footer>
+
+<script>
+(function(){
+"use strict";
+const BOOKS = window.BOOKS || [];
+const AS_OF = window.AS_OF || "2026-11-21";
+const YEARS = [2026,2025,2024,2023,2022,2021,2020,2019,2018];
+const CUR = +AS_OF.slice(0,4);
+const MON = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const MS = MON.map(m=>m.slice(0,3));
+const DAY = 864e5;
+
+const state = { year: CUR, view: "books", sort: "date", sel: null };
+try { const y = localStorage.getItem("ledger-year"); if (y === "all" || YEARS.includes(+y)) state.year = y === "all" ? "all" : +y; } catch(e){}
+try { const v = localStorage.getItem("ledger-view"); if (v === "dash" || v === "books") state.view = v; } catch(e){}
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const t = d => Date.UTC(+d.slice(0,4), +d.slice(5,7)-1, +d.slice(8,10));
+const n = x => x.toLocaleString("en-US");
+const pl = (x, one, many) => n(x) + " " + (x === 1 ? one : (many || one + "s"));
+const fmtD = (d, withYear=true) => { const m = MS[+d.slice(5,7)-1]; return +d.slice(8,10) + " " + m + (withYear ? " " + d.slice(0,4) : ""); };
+const authors = b => (b.author || []).join(", ");
+const grp = b => b.white_male_author === true ? "wm" : b.white_male_author === false ? "ee" : "un";
+const GRP = { ee:"Everyone else", wm:"White man", un:"Untagged" };
+const rating = r => r == null ? '<span class="muted">Not rated</span>' : r + "/8";
+const r8 = r => '<span class="r8" aria-hidden="true">' + Array.from({length:8},(_,i)=>'<i class="'+(i<r?"":"off")+'"></i>').join("") + "</span>";
+
+const read = BOOKS.filter(b => b.status === "read");
+const finished = read.filter(b => b.finished_at);
+const inYear = y => y === "all" ? read : finished.filter(b => +b.finished_at.slice(0,4) === y);
+const yLabel = y => y === "all" ? "All years" : String(y);
+
+function goal(list){
+  const g = { ee:0, wm:0, un:0 };
+  list.forEach(b => g[grp(b)]++);
+  return g;
+}
+function verdict(g, y){
+  const d = g.ee - g.wm;
+  if (y === CUR) return d > 0 ? "Ahead by " + pl(d,"book") : d === 0 ? "Level" : "Behind by " + pl(-d,"book");
+  if (y === "all") return d > 0 ? "Everyone else leads by " + pl(d,"book") : d === 0 ? "Level" : "White men lead by " + pl(-d,"book");
+  return d > 0 ? "Goal met, by " + pl(d,"book") : d === 0 ? "Goal missed: level" : "Goal missed, by " + pl(-d,"book");
+}
+
+/* ---------- year filters ---------- */
+function renderYears(){
+  const opts = ["all", ...YEARS.filter(y => finished.some(b => +b.finished_at.slice(0,4) === y))];
+  document.querySelectorAll("[data-years]").forEach(ul => {
+    ul.innerHTML = opts.map(y => '<li><button type="button" data-year="'+y+'" aria-pressed="'+(state.year===y)+'">'+(y==="all"?"All":y)+'</button></li>').join("");
+  });
+}
+document.addEventListener("click", e => {
+  const yb = e.target.closest("[data-year]");
+  if (yb){ const v = yb.dataset.year; state.year = v === "all" ? "all" : +v; state.sel = null; try{localStorage.setItem("ledger-year", v)}catch(_){} render(); return; }
+  const vb = e.target.closest("[data-view]");
+  if (vb){ state.view = vb.dataset.view; try{localStorage.setItem("ledger-view", state.view)}catch(_){} render(); window.scrollTo(0,0); return; }
+  const sb = e.target.closest("[data-sort]");
+  if (sb){ state.sort = sb.dataset.sort; renderShelf(); }
+});
+
+/* ---------- timeline ---------- */
+function timelineItems(y){
+  const d0 = y === "all" ? Date.UTC(2018,0,1) : Date.UTC(y,0,1);
+  const d1 = y === "all" ? Date.UTC(2027,0,1) : Date.UTC(y+1,0,1);
+  const span = d1 - d0;
+  const now = t(AS_OF);
+  const src = (y === "all" ? finished : inYear(y)).slice();
+  BOOKS.filter(b => b.status === "reading" && b.started_at).forEach(b => {
+    if (y === "all" || y === CUR) src.push(b);
+  });
+  const items = src.map(b => {
+    const fin = b.finished_at ? t(b.finished_at) : now;
+    let st = b.started_at ? t(b.started_at) : null;
+    if (st != null && st > fin) st = null; // bad data: treat as tick
+    const bar = st != null && st < fin;
+    const s = Math.max(0, ((bar ? st : fin) - d0) / span);
+    const e = Math.min(1, (fin - d0) / span + (bar ? DAY/span : 0));
+    return { b, s, e, bar, carry: bar && st < d0, open: !b.finished_at };
+  });
+  items.sort((a,b) => a.s - b.s || b.e - a.e);
+  const minW = y === "all" ? 0.0035 : 0.006, gap = y === "all" ? 0.0012 : 0.002;
+  const lanes = [];
+  items.forEach(it => {
+    const end = Math.max(it.e, it.s + minW);
+    let L = lanes.findIndex(x => x + gap <= it.s);
+    if (L < 0){ L = lanes.length; lanes.push(0); }
+    lanes[L] = end; it.lane = L;
+  });
+  return { items, lanes: lanes.length, d0, span, now };
+}
+
+function renderTimeline(){
+  const y = state.year;
+  const { items, lanes, d0, span, now } = timelineItems(y);
+  const LH = 18, PAD = 18;
+  const field = $("tl-field"), axis = $("tl-axis");
+  field.style.height = (Math.max(lanes,3) * LH + PAD*2) + "px";
+  let bands = "", ax = "";
+  if (y === "all"){
+    for (let k=0;k<9;k++){
+      const l = k/9*100, w = 100/9;
+      if (k % 2 === 0) bands += '<div class="tl-band" style="left:'+l+'%;width:'+w+'%"></div>';
+      ax += '<span style="left:'+l+'%"><span class="f">'+(2018+k)+'</span><span class="s">’'+String(18+k)+'</span></span>';
+    }
+  } else {
+    for (let m=0;m<12;m++){
+      const a = (Date.UTC(y,m,1)-d0)/span*100, b = (Date.UTC(y,m+1,1)-d0)/span*100;
+      if (m % 2 === 0) bands += '<div class="tl-band" style="left:'+a+'%;width:'+(b-a)+'%"></div>';
+      ax += '<span style="left:'+a+'%"><span class="f">'+MS[m]+'</span><span class="s">'+MON[m][0]+'</span></span>';
+    }
+  }
+  axis.innerHTML = ax;
+  let today = "";
+  const tp = (now - d0)/span;
+  if (tp > 0 && tp < 1) today = '<div class="tl-today'+(tp>0.85?' flip':'')+'" style="left:'+(tp*100)+'%"><span>Today</span></div>';
+  const lastLane = Math.max(lanes,3) - 1;
+  field.innerHTML = bands + today + items.map((it,i) => {
+    const b = it.b, g = grp(b);
+    const top = PAD + (lastLane - it.lane) * LH; // stack upward from the baseline
+    const w = it.bar ? (it.e - it.s)*100 : 0;
+    const cls = "mk " + g + (it.bar ? "" : " tick") + (it.carry ? " carry" : "") + (it.open ? " open" : "");
+    const lab = b.title + " by " + authors(b) + (it.open ? ", reading now" : ", finished " + fmtD(b.finished_at));
+    return '<button type="button" class="'+cls+'" data-i="'+i+'" style="left:'+(it.s*100)+'%;'+(it.bar?'width:'+w+'%;':'')+'top:'+top+'px" aria-label="'+esc(lab)+'"></button>';
+  }).join("");
+  field._items = items;
+  const plotted = items.filter(i=>!i.open).length;
+  const undated = y === "all" ? read.length - finished.length : 0;
+  $("tl-note").textContent = pl(plotted,"book") + " plotted" + (undated ? "; " + pl(undated,"read book") + " with no finish date can’t be placed" : "");
+  // default readout: most recent finish in range
+  const last = items.filter(i=>!i.open).sort((a,b)=>t(b.b.finished_at)-t(a.b.finished_at))[0];
+  showBook(last ? last.b : null, false);
+}
+
+function showBook(b, mark=true){
+  const ro = $("readout");
+  const field = $("tl-field");
+  field.querySelectorAll(".mk.on").forEach(m => m.classList.remove("on"));
+  if (!b){ ro.innerHTML = '<p class="ro-title" style="font-size:1.25rem;font-weight:500">No finished books this year.</p>'; return; }
+  if (mark){
+    const items = field._items || [];
+    const i = items.findIndex(x => x.b === b);
+    const el = field.querySelector('[data-i="'+i+'"]'); if (el) el.classList.add("on");
+  }
+  const g = grp(b);
+  let when;
+  if (!b.finished_at) when = "Started " + fmtD(b.started_at) + ", still reading";
+  else if (b.started_at && t(b.started_at) <= t(b.finished_at)){
+    const days = Math.round((t(b.finished_at)-t(b.started_at))/DAY) + 1;
+    when = fmtD(b.started_at) + " to " + fmtD(b.finished_at) + " (" + pl(days,"day") + ")";
+  } else when = "Finished " + fmtD(b.finished_at);
+  ro.innerHTML =
+    '<p class="ro-title">'+esc(b.title)+'<small>'+esc(authors(b))+'</small></p>' +
+    '<dl class="ro-meta">' +
+      '<dt>Read</dt><dd>'+esc(when)+'</dd>' +
+      '<dt>Rating</dt><dd>'+(b.rating!=null ? r8(b.rating)+b.rating+"/8" : "Not rated")+'</dd>' +
+      '<dt>Length</dt><dd>'+(b.pages ? pl(b.pages,"page") : "Pages not recorded")+(b.audible===true?", audiobook":b.audible===false?", print":"")+'</dd>' +
+      '<dt>Author</dt><dd><span class="tag '+g+'"><i></i>'+GRP[g]+'</span></dd>' +
+      (b.publication_year ? '<dt>Published</dt><dd>'+b.publication_year+'</dd>' : '') +
+    '</dl>';
+}
+(function bindTimeline(){
+  const field = $("tl-field");
+  const pick = e => { const m = e.target.closest(".mk"); if (!m) return; const it = field._items[+m.dataset.i]; if (it) showBook(it.b); };
+  field.addEventListener("mouseover", pick);
+  field.addEventListener("focusin", pick);
+  field.addEventListener("click", pick);
+})();
+
+/* ---------- hero ---------- */
+function renderHero(){
+  const y = state.year, list = y === "all" ? read : inYear(y), g = goal(list);
+  $("yr-big").textContent = y === "all" ? "2018–" + String(CUR).slice(2) : y;
+  const pages = list.reduce((s,b)=>s+(b.pages||0),0);
+  $("yr-sub").textContent = y === "all"
+    ? pl(list.length,"book") + " read, " + pl(pages,"page") + "."
+    : pl(list.length,"book") + " finished, " + pl(pages,"page") + (y === CUR ? " so far." : ".");
+  $("goal-hero").innerHTML =
+    '<div class="goalcells">' +
+      '<div class="gc ee"><b>'+g.ee+'</b><span>Everyone else</span></div>' +
+      '<div class="gc wm"><b>'+g.wm+'</b><span>White men</span></div>' +
+      '<div class="gc un"><b>'+g.un+'</b><span>Untagged</span></div>' +
+    '</div><p class="verdict">'+verdict(g,y)+' <span>Goal: more books by everyone else.</span></p>';
+}
+
+/* ---------- nightstand ---------- */
+function renderNightstand(){
+  const now = BOOKS.filter(b=>b.status==="reading");
+  const next = BOOKS.filter(b=>b.status==="to-read").sort((a,b)=>a.title.localeCompare(b.title));
+  $("ns-lede").textContent = pl(now.length,"book") + " in progress, " + pl(next.length,"book") + " waiting.";
+  const today = t(AS_OF);
+  $("now").innerHTML = now.map(b => {
+    const days = b.started_at ? Math.round((today - t(b.started_at))/DAY) : null;
+    return '<article class="nowbook">' +
+      (b.cover_image ? '<img class="cover" src="'+esc(b.cover_image)+'" alt="" loading="lazy">' : '<div class="cover"></div>') +
+      '<div><h3>'+esc(b.title)+'</h3><p>'+esc(authors(b))+'</p>' +
+      '<p class="since">'+(b.started_at ? "Started " + fmtD(b.started_at) + ", " + pl(days,"day") + " ago" : "Start date not recorded") + '</p>' +
+      '<p class="since">'+(b.pages?pl(b.pages,"page"):"")+(b.audible===true?", audiobook":"")+'</p>' +
+      '<p class="since"><span class="tag '+grp(b)+'"><i></i>'+GRP[grp(b)]+'</span></p></div></article>';
+  }).join("");
+  $("next-h").textContent = "Up next, " + pl(next.length,"book");
+  $("next").innerHTML = next.map(b => '<li><b>'+esc(b.title)+'</b><span>'+esc(authors(b))+'</span></li>').join("");
+}
+
+/* ---------- shelf ---------- */
+function renderShelf(){
+  const y = state.year;
+  let list = (y === "all" ? read : inYear(y)).slice();
+  const byDate = (a,b) => (b.finished_at||"").localeCompare(a.finished_at||"");
+  if (state.sort === "date") list.sort(byDate);
+  if (state.sort === "old") list.sort((a,b)=> (a.finished_at||"9").localeCompare(b.finished_at||"9"));
+  if (state.sort === "rating") list.sort((a,b)=> (b.rating??-1)-(a.rating??-1) || byDate(a,b));
+  if (state.sort === "title") list.sort((a,b)=> a.title.localeCompare(b.title));
+  document.querySelectorAll("#sorts button").forEach(b => b.setAttribute("aria-pressed", b.dataset.sort === state.sort));
+  $("sh-lede").textContent = yLabel(y) + ": " + pl(list.length,"finished book") + (y==="all" ? ", including " + (read.length-finished.length) + " with no finish date" : "") + ".";
+  $("shelf").innerHTML = list.length ? list.map(b => {
+    const g = grp(b);
+    return '<li class="row">' +
+      (b.cover_image ? '<img class="cover" src="'+esc(b.cover_image)+'" alt="" loading="lazy">' : '<div class="noc '+g+'" aria-hidden="true"></div>') +
+      '<div><h3>'+esc(b.title)+'</h3><div class="au">'+esc(authors(b))+'</div>' +
+        '<div class="tags"><span class="tag '+g+'"><i></i>'+GRP[g]+'</span>'+(b.audible===true?'<span>Audiobook</span>':'')+'</div></div>' +
+      '<div class="d">'+(b.finished_at ? fmtD(b.finished_at) : '<span class="muted">No finish date</span>')+'</div>' +
+      '<div class="p">'+(b.pages ? pl(b.pages,"page") : '<span class="muted">No pages</span>')+'</div>' +
+      '<div class="r">'+rating(b.rating)+'</div></li>';
+  }).join("") : '<li class="empty">No books finished in '+yLabel(y)+'. Pick another year.</li>';
+}
+
+/* ---------- dashboard ---------- */
+function hlist(el, rows, max){
+  const top = Math.max(1, ...rows.map(r=>r[1]));
+  $(el).innerHTML = rows.map(([k,v]) => '<li><span title="'+esc(k)+'">'+esc(k)+'</span><span class="t"><i style="width:'+(v/top*100)+'%"></i></span><span class="n">'+pl(v,"book")+'</span></li>').join("") || '<li><span class="muted">Nothing recorded</span></li>';
+}
+function count(list, keyf){
+  const m = new Map();
+  list.forEach(b => (keyf(b)||[]).forEach(k => m.set(k,(m.get(k)||0)+1)));
+  return [...m.entries()].sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0]));
+}
+function renderDash(){
+  const y = state.year, list = y === "all" ? read : inYear(y), g = goal(list);
+  $("d-year").textContent = yLabel(y);
+  const tot = Math.max(1, g.ee+g.wm+g.un);
+  $("d-goal").innerHTML =
+    '<p class="goalbig">'+verdict(g,y)+'.</p>' +
+    '<div class="goalbar" role="img" aria-label="'+g.ee+' by everyone else, '+g.wm+' by white men, '+g.un+' untagged">' +
+      ['ee','wm','un'].filter(k=>g[k]).map(k=>'<div class="'+k+'" style="flex:'+g[k]+'">'+(g[k]/tot<0.01?'':Math.round(g[k]/tot*100)+'%')+'</div>').join("") +
+    '</div><div class="goallist">' +
+      '<span class="tag ee"><i></i>Everyone else: '+pl(g.ee,"book")+'</span>' +
+      '<span class="tag wm"><i></i>White men: '+pl(g.wm,"book")+'</span>' +
+      '<span class="tag un"><i></i>Untagged: '+pl(g.un,"book")+'</span></div>';
+
+  const pages = list.reduce((s,b)=>s+(b.pages||0),0);
+  const rated = list.filter(b=>b.rating!=null);
+  const avg = rated.length ? rated.reduce((s,b)=>s+b.rating,0)/rated.length : null;
+  const fmtK = list.filter(b=>b.audible!=null), aud = fmtK.filter(b=>b.audible===true).length;
+  $("d-nums").innerHTML = [
+    [n(list.length), "books", y==="all" ? "All read books" : "Finished in " + y],
+    [n(pages), "pages", pl(list.filter(b=>!b.pages).length,"book") + " without a page count"],
+    [avg==null ? "None" : avg.toFixed(1)+"/8", "average rating", "Across " + pl(rated.length,"rated book")],
+    [fmtK.length ? Math.round(aud/fmtK.length*100)+"%" : "None", "audiobooks", pl(aud,"audiobook") + " of " + pl(fmtK.length,"book") + " with a format"]
+  ].map(([b,s,e]) => '<div class="num"><b>'+b+'</b><span>'+s+'</span><em>'+e+'</em></div>').join("");
+
+  // months / years
+  let buckets, labels;
+  if (y === "all"){
+    const ys = [2018,2019,2020,2021,2022,2023,2024,2025,2026];
+    buckets = ys.map(yy => finished.filter(b=>+b.finished_at.slice(0,4)===yy));
+    labels = ys.map(String);
+    $("m-lede").textContent = "Under All, by year. " + pl(read.length-finished.length,"book") + " with no finish date left out.";
+    $("m-h").textContent = "By year";
+  } else {
+    buckets = MON.map((_,m)=> list.filter(b=>+b.finished_at.slice(5,7)===m+1));
+    labels = MS;
+    $("m-lede").textContent = "Books finished each month, colored by author.";
+    $("m-h").textContent = "By month";
+  }
+  const mx = Math.max(1, ...buckets.map(b=>b.length));
+  $("d-months").innerHTML = '<div class="cols">' + buckets.map((bk,i)=>{
+    const gg = goal(bk);
+    const h = bk.length/mx*100;
+    return '<div class="c" role="img" aria-label="'+labels[i]+': '+pl(bk.length,"book")+'">' +
+      ['ee','wm','un'].map(k=> gg[k] ? '<i class="'+k+'" style="height:'+(gg[k]/mx*100)+'%"></i>' : '').join("") +
+      '<b style="bottom:calc('+h+'% + 4px)">'+(bk.length||"")+'</b></div>';
+  }).join("") + '</div><div class="colx">' + labels.map(l=>'<span>'+l+'</span>').join("") + '</div>';
+
+  // ratings 1..8
+  const rc = Array.from({length:8},(_,i)=>rated.filter(b=>b.rating===i+1).length);
+  const rm = Math.max(1,...rc);
+  $("r-note").textContent = pl(rated.length,"rated book") + ", " + pl(list.length-rated.length,"book") + " not rated.";
+  $("d-ratings").innerHTML = '<div class="cols" style="height:160px">' + rc.map((c,i)=>'<div class="c" role="img" aria-label="'+(i+1)+'/8: '+pl(c,"book")+'"><i class="'+(i>=5?"ee":"k")+'" style="height:'+(c/rm*100)+'%"></i><b style="bottom:calc('+(c/rm*100)+'% + 4px)">'+(c||"")+'</b></div>').join("") + '</div><div class="colx">' + rc.map((_,i)=>'<span>'+(i+1)+'/8</span>').join("") + '</div>';
+
+  // decades
+  const dm = new Map();
+  list.forEach(b => { if (b.publication_year){ const d = Math.floor(b.publication_year/10)*10; dm.set(d,(dm.get(d)||0)+1); } });
+  const decs = [...dm.entries()].sort((a,b)=>b[0]-a[0]).map(([d,c])=>[d<1900?d+"s":d+"s",c]);
+  $("dec-note").textContent = pl(list.filter(b=>!b.publication_year).length,"book") + " without a publication year.";
+  hlist("d-dec", decs);
+
+  hlist("d-gen", count(list, b=>b.genre).slice(0,10));
+  const au = count(list, b=>b.author).filter(r=>r[1]>1).slice(0,10);
+  $("au-note").textContent = au.length ? "Authors with more than one book." : "No author appears twice this year.";
+  hlist("d-au", au);
+
+  // places
+  const reg = new Map();
+  list.forEach(b => (b.places||[]).forEach(p => {
+    const [r, c] = p.split(/,\s*/);
+    if (!reg.has(r)) reg.set(r, { n:0, cities:new Map() });
+    const o = reg.get(r); o.n++;
+    if (c) o.cities.set(c,(o.cities.get(c)||0)+1);
+  }));
+  const regs = [...reg.entries()].sort((a,b)=>b[1].n-a[1].n || a[0].localeCompare(b[0]));
+  $("p-lede").textContent = pl(list.filter(b=>b.places&&b.places.length).length,"book") + " with a setting, across " + pl(regs.length,"region") + ".";
+  $("d-places").innerHTML = regs.map(([r,o]) => '<div><b>'+esc(r)+'</b> '+pl(o.n,"book")+(o.cities.size?'<br><span>'+[...o.cities.entries()].sort((a,b)=>b[1]-a[1]).map(([c,k])=>esc(c)+(k>1?" ("+k+")":"")).join(", ")+'</span>':'')+'</div>').join("") || '<div><span>No settings recorded for '+yLabel(y)+'.</span></div>';
+}
+
+/* ---------- top-level ---------- */
+function render(){
+  document.querySelectorAll("[data-view]").forEach(b => b.setAttribute("aria-pressed", b.dataset.view === state.view));
+  $("v-books").hidden = state.view !== "books";
+  $("v-dash").hidden = state.view !== "dash";
+  renderYears();
+  if (state.view === "books"){ renderHero(); renderTimeline(); renderShelf(); }
+  else renderDash();
+}
+const c = s => BOOKS.filter(b=>b.status===s).length;
+$("counts").textContent = pl(c("read"),"book") + " read, " + c("reading") + " reading, " + c("to-read") + " to read, " + c("abandoned") + " abandoned";
+$("asof").textContent = fmtD(AS_OF);
+renderNightstand();
+render();
+window.__ledger = { timelineItems, goal, inYear, count };
+})();
+</script>
+</body>
+</html>

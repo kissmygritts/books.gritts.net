@@ -1,22 +1,14 @@
 <script setup lang="ts">
+// A cover in a circle, dithered to two inks (see <DitherFilters>). Initials
+// when there is no image or it fails to load.
 import { AvatarFallback, AvatarImage, AvatarRoot } from 'reka-ui'
 
-const props = withDefaults(
-	defineProps<{
-		src?: string | null
-		title: string
-		size?: 'sm' | 'md' | 'lg'
-		/** Set when the title is printed next to the cover (rows, cards). */
-		decorative?: boolean
-	}>(),
-	{ size: 'md', decorative: false },
-)
-
-const SIZE = {
-	sm: { root: 'w-10', text: 'text-meta' },
-	md: { root: 'w-16', text: 'text-heading' },
-	lg: { root: 'w-28', text: 'text-stat' },
-} as const
+const props = defineProps<{
+	src?: string | null
+	title: string
+	/** Set when the title is printed next to the cover. */
+	decorative?: boolean
+}>()
 
 const initials = computed(() =>
 	props.title
@@ -30,25 +22,17 @@ const initials = computed(() =>
 </script>
 
 <template>
-  <AvatarRoot
-    :class="[
-      'relative inline-flex aspect-2/3 shrink-0 overflow-hidden rounded-sm bg-muted ring-1 ring-edge',
-      SIZE[size].root,
-    ]"
-  >
+  <AvatarRoot class="relative inline-flex size-13 shrink-0 overflow-hidden rounded-full border border-current bg-muted">
     <AvatarImage
       v-if="src"
       :src="src"
       :alt="decorative ? '' : `Cover of ${title}`"
       loading="lazy"
       referrerpolicy="no-referrer"
-      class="size-full object-cover"
+      class="size-full object-cover filter-dither"
     />
     <AvatarFallback
-      :class="[
-        'flex size-full items-center justify-center font-display font-semibold text-faint',
-        SIZE[size].text,
-      ]"
+      class="flex size-full items-center justify-center text-meta"
       :aria-label="decorative ? undefined : `No cover for ${title}`"
     >
       {{ initials }}

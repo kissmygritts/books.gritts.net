@@ -1,28 +1,31 @@
 <script setup lang="ts">
 // When it was published, by decade.
-import type { BarRow } from '@/lib/chart'
 import { plural } from '@/lib/format'
-import { decades, type LedgerBook } from '@/lib/ledger'
+import { decades, type LedgerBook, type LedgerYear } from '@/lib/ledger'
 
-const props = defineProps<{ books: LedgerBook[] }>()
+const props = defineProps<{ books: LedgerBook[]; years: number[] }>()
+const year = defineModel<LedgerYear>('year', { required: true })
 
-const rows = computed<BarRow[]>(() =>
+const columns = computed(() =>
 	decades(props.books).map((d) => ({
 		key: d.key,
 		label: `${d.key}s`,
-		segments: [{ tone: 'chart-1', value: d.books.length }],
-		value: d.books.length,
-		tip: {
-			title: `Published in the ${d.key}s`,
-			meta: [plural(d.books.length, 'book')],
-			books: d.books.map((b) => b.title),
-		},
+		name: `Published in the ${d.key}s`,
+		books: d.books,
 	})),
+)
+const none = computed(
+	() => props.books.filter((b) => !b.publication_year).length,
+)
+const caption = computed(
+	() =>
+		`Books by the decade they were published.${none.value ? ` ${plural(none.value, 'book')} without a year, not shown.` : ''}`,
 )
 </script>
 
 <template>
-  <Panel title="When it was published" note="books by decade">
-    <ChartBars :rows="rows" empty="No publication years recorded." />
-  </Panel>
+  <DashPage id="decades" v-model:year="year" title="When it was published" :caption="caption" :years="years">
+    <DotColumns v-if="columns.length" :columns="columns" :per-row="3" />
+    <p v-else class="font-extralight text-verdict">No publication years recorded.</p>
+  </DashPage>
 </template>

@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Books, Mitchell Gritts</title>
+<!--
+PLAN — "Fields"
+Color (all pass white text, AA):
+  blue    #2A62E6  (5.27:1)  now reading / year in numbers
+  forest  #0D6B4D  (6.51:1)  up next / ratings + decades
+  indigo  #2B2A7A  (12+:1)   archive / genres, authors, places
+  vermil. #D7263D  (4.96:1)  the goal
+  white   #FFFFFF  all type and lines
+Type: Outfit (geometric sans) only. Light 300 for giant field labels, 400 body, 600 titles.
+Layout: one column of hard-edged, full-bleed fields. Each field opens with a giant
+  left-aligned label ("Now reading", "Up next", "Archive") and a small time-slot line,
+  like a radio schedule. Content sits in a 1120px measure, left aligned.
+   ┌──────────────── blue ─────────────────┐
+   │ Books   ○ Books ● Dashboard            │
+   │ 213 read …            Now reading  →   │
+   │ Now reading (giant)   Up next      →   │
+   │ [cover] Housekeeping  Archive      →   │
+   ├─────────────── forest ────────────────┤
+   │ Up next (giant)  two-col ruled stack   │
+   ├─────────────── indigo ────────────────┤
+   │ Archive  ○2026 ●2025 ○…   sort         │
+   │ ruled rows: cover title date pages ●●●●●○○○ │
+   └────────────────────────────────────────┘
+Principles: flat; one line weight (1px); dots are the only "chart ink":
+  solid = everyone else, outlined = white men, dashed = untagged; filled dot = active.
+Review: dropped an all-caps eyebrow system and mono spec lines (template tells);
+  arrows only on real anchor/view links; no middle-dot meta strings (grid cells instead).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2A62E6; --forest:#0D6B4D; --indigo:#2B2A7A; --red:#D7263D; --white:#fff;
+  --line:rgba(255,255,255,.55);
+  --measure:1120px;
+  --gut:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Outfit,system-ui,sans-serif;font-weight:400;color:var(--white);background:var(--blue);
+  font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.v-dash{background:var(--red)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--white);outline-offset:3px;border-radius:2px}
+img{display:block}
+.wrap{max-width:var(--measure);margin:0 auto;padding:0 var(--gut)}
+.field{padding:clamp(48px,8vw,104px) 0 clamp(56px,9vw,120px)}
+.f-blue{background:var(--blue)} .f-forest{background:var(--forest)}
+.f-indigo{background:var(--indigo)} .f-red{background:var(--red)}
+[hidden]{display:none!important}
+
+/* top bar */
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}
+.brand{font-weight:500;font-size:18px;text-decoration:none}
+.switch{display:flex;gap:22px}
+.switch button{display:flex;align-items:center;gap:9px;font-size:16px;padding:6px 0}
+
+/* the dot: outlined, solid when active */
+.dot{width:12px;height:12px;border-radius:50%;border:1px solid var(--white);flex:none;display:inline-block;transition:background-color .2s}
+[aria-pressed="true"] .dot,[aria-checked="true"] .dot,.dot.on{background:var(--white)}
+.dot.dash{border-style:dashed}
+.dot.sm{width:9px;height:9px}
+
+/* schedule label */
+.slot{display:flex;align-items:baseline;gap:16px;font-size:15px;margin-bottom:6px}
+.slot .t{font-variant-numeric:tabular-nums}
+.big{font-weight:200;font-size:clamp(52px,11vw,148px);line-height:.92;letter-spacing:-.035em;margin-bottom:clamp(28px,5vw,56px)}
+.sub{font-size:clamp(18px,2vw,22px);font-weight:300;max-width:38ch;margin-bottom:28px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 280px;gap:48px;padding-top:clamp(40px,7vw,88px)}
+.counts{font-weight:300;font-size:clamp(26px,3.6vw,44px);line-height:1.15;letter-spacing:-.01em;max-width:20ch}
+.counts b{font-weight:500}
+.stack{list-style:none;border-top:1px solid var(--line)}
+.stack li{border-bottom:1px solid var(--line)}
+.stack a,.stack button{display:flex;justify-content:space-between;align-items:center;width:100%;padding:13px 0;text-decoration:none;font-size:17px;text-align:left}
+.arrow{font-weight:200;font-size:20px;line-height:1}
+.stack a:hover .arrow{transform:translateX(4px)}
+
+/* now reading */
+.now{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(24px,4vw,56px)}
+.nowbook{display:grid;grid-template-columns:120px 1fr;gap:22px;align-items:start}
+.cover{width:100%;aspect-ratio:2/3;object-fit:cover;background:rgba(255,255,255,.12);border:1px solid var(--line)}
+.cover.ph{display:flex;align-items:center;justify-content:center;font-weight:200;font-size:28px}
+.nowbook h3{font-weight:500;font-size:clamp(24px,2.6vw,32px);line-height:1.1;letter-spacing:-.01em;margin-bottom:6px}
+.nowbook .by{font-size:18px;font-weight:300;margin-bottom:18px}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:15px;border-top:1px solid var(--line);padding-top:12px}
+.facts dt{font-weight:300}
+.ring{width:56px;height:56px;margin-top:16px}
+
+/* up next */
+.next{list-style:none;columns:2;column-gap:clamp(24px,5vw,64px);border-top:1px solid var(--line)}
+.next li{break-inside:avoid;display:grid;grid-template-columns:26px 1fr auto;gap:12px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.next .n{font-size:13px;font-weight:300;font-variant-numeric:tabular-nums}
+.next .ti{font-weight:500}
+.next .au{font-weight:300;font-size:15px;display:block}
+.next .pg{font-size:14px;font-weight:300;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.key{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;font-weight:300;margin:20px 0 0}
+.key span{display:inline-flex;align-items:center;gap:8px}
+
+/* year filter */
+.years{display:flex;flex-wrap:wrap;gap:6px 24px;margin-bottom:28px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.years button{display:flex;align-items:center;gap:9px;font-size:18px;padding:6px 0;font-variant-numeric:tabular-nums}
+.controls{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;align-items:center;margin-bottom:14px}
+.controls .meta{font-weight:300}
+.sort{display:flex;gap:20px;font-size:15px}
+.sort button{display:flex;align-items:center;gap:8px;padding:4px 0}
+
+/* shelf */
+.shelf{list-style:none;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr) 112px 92px 120px 132px;gap:18px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row .cover{width:44px}
+.row .ti{font-weight:500;font-size:17px;line-height:1.2}
+.row .au{font-weight:300}
+.row .c{font-variant-numeric:tabular-nums}
+.rate{display:flex;gap:4px;align-items:center}
+.rate .dot{width:9px;height:9px}
+.rate .lbl{margin-left:6px;font-variant-numeric:tabular-nums}
+.tags{display:flex;flex-direction:column;gap:3px;font-weight:300;font-size:14px}
+.tags span{display:inline-flex;align-items:center;gap:7px}
+.shelfhead{display:grid;grid-template-columns:44px minmax(0,1fr) 112px 92px 120px 132px;gap:18px;font-size:13px;font-weight:300;padding:0 0 8px}
+
+/* dashboard */
+.verdict{font-weight:300;font-size:clamp(30px,4.6vw,56px);line-height:1.08;letter-spacing:-.015em;max-width:22ch;margin-bottom:36px}
+.tally{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:12px clamp(28px,6vw,80px);margin-bottom:28px}
+.tally .num{font-weight:200;font-size:clamp(56px,9vw,112px);line-height:.9;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.tally .who{display:flex;align-items:center;gap:9px;font-size:16px;margin-top:8px}
+.dots{display:flex;flex-wrap:wrap;gap:7px;max-width:760px}
+.dots .dot{width:14px;height:14px}
+.dots.dense .dot{width:9px;height:9px}
+.dots.dense{gap:5px}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px)}
+h2.h{font-weight:400;font-size:22px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+h2.h small{font-size:14px;font-weight:300}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);margin-bottom:clamp(48px,7vw,88px)}
+.stat{padding:18px 18px 4px 0;border-right:1px solid var(--line);margin-right:18px}
+.stat:last-child{border-right:0}
+.stat .v{font-weight:200;font-size:clamp(40px,5.4vw,68px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stat .u{font-size:15px;font-weight:300;margin-top:8px}
+.cols{display:grid;gap:6px;align-items:end;height:220px;border-bottom:1px solid var(--white)}
+.col{display:flex;flex-direction:column-reverse;height:100%;justify-content:flex-start;gap:2px}
+.seg{width:100%;border:1px solid var(--white)}
+.seg.ee{background:var(--white)}
+.seg.un{border-style:dashed}
+.collbl{display:grid;gap:6px;font-size:13px;font-weight:300;margin-top:8px;text-align:center;font-variant-numeric:tabular-nums}
+.colval{font-size:12px;text-align:center;font-variant-numeric:tabular-nums;margin-top:auto}
+.hbars{list-style:none;border-top:1px solid var(--line)}
+.hbars li{display:grid;grid-template-columns:minmax(0,9.5rem) 1fr 72px;gap:14px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.hbars .k{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hbars .bar{height:8px;border:1px solid var(--white)}
+.hbars .bar i{display:block;height:100%;background:var(--white)}
+.hbars .n{text-align:right;font-variant-numeric:tabular-nums;font-weight:300}
+.places{list-style:none;columns:2;column-gap:40px;border-top:1px solid var(--line)}
+.places li{break-inside:avoid;display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.places .cities{display:block;font-weight:300;font-size:13px}
+.places .n{font-variant-numeric:tabular-nums;font-weight:300;white-space:nowrap}
+.empty{font-weight:300;padding:16px 0}
+.mt{margin-top:clamp(48px,7vw,88px)}
+footer{padding:28px 0;font-size:14px;font-weight:300;border-top:1px solid var(--line)}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:32px}
+  .now{grid-template-columns:1fr}
+  .next,.places{columns:1}
+  .dash-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:0}
+  .shelfhead{display:none}
+  .row{grid-template-columns:44px minmax(0,1fr) auto;grid-template-areas:"cv ti ti" "cv dt pg" "cv rt rt" "cv tg tg";gap:4px 14px;align-items:start}
+  .row .cover{grid-area:cv}
+  .row .tcell{grid-area:ti}
+  .row .dt{grid-area:dt} .row .pgs{grid-area:pg;text-align:right}
+  .row .rate{grid-area:rt;margin-top:4px}
+  .row .tags{grid-area:tg;flex-direction:row;flex-wrap:wrap;gap:4px 14px;margin-top:4px}
+}
+@media (max-width:480px){
+  body{font-size:16px}
+  .nowbook{grid-template-columns:88px 1fr;gap:16px}
+  .tally{grid-template-columns:repeat(3,1fr);gap:12px}
+  .switch{gap:14px}
+  .hbars li{grid-template-columns:minmax(0,7rem) 1fr 56px}
+  .cols{height:180px;gap:3px}
+  .collbl{font-size:11px;gap:3px}
+  .colval{font-size:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+  .stack a:hover .arrow{transform:none}
+}
+</style>
+</head>
+<body>
+<script src="books-data.js"></script>
+
+<header class="f-blue" id="topfield">
+  <div class="wrap top">
+    <a class="brand" href="#">Books</a>
+    <nav class="switch" aria-label="View">
+      <button type="button" data-view="books" aria-pressed="true"><span class="dot"></span>Books</button>
+      <button type="button" data-view="dash" aria-pressed="false"><span class="dot"></span>Dashboard</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ============ BOOKS VIEW ============ -->
+<div id="v-books">
+  <section class="field f-blue" aria-labelledby="h-now" style="padding-top:0">
+    <div class="wrap">
+      <div class="hero">
+        <p class="counts" id="counts"></p>
+        <ul class="stack" aria-label="Jump to">
+          <li><a href="#h-now">Now reading <span class="arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#h-next">Up next <span class="arrow" aria-hidden="true">→</span></a></li>
+          <li><a href="#h-arch">Archive <span class="arrow" aria-hidden="true">→</span></a></li>
+          <li><button type="button" data-view="dash">The yearly goal <span class="arrow" aria-hidden="true">→</span></button></li>
+        </ul>
+      </div>
+      <div style="margin-top:clamp(56px,9vw,120px)">
+        <p class="slot"><span class="t" id="asof"></span><span>On the nightstand</span></p>
+        <h1 class="big" id="h-now">Now reading</h1>
+        <div class="now" id="now"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="field f-forest" aria-labelledby="h-next">
+    <div class="wrap">
+      <p class="slot"><span class="t" id="next-meta"></span><span>In the queue, alphabetical</span></p>
+      <h2 class="big" id="h-next">Up next</h2>
+      <ol class="next" id="next"></ol>
+      <div class="key" aria-hidden="true">
+        <span><span class="dot sm on"></span>Everyone else</span>
+        <span><span class="dot sm"></span>White man</span>
+        <span><span class="dot sm dash"></span>Untagged</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="field f-indigo" aria-labelledby="h-arch">
+    <div class="wrap">
+      <p class="slot"><span class="t">2018 to 2026</span><span>Every finished book</span></p>
+      <h2 class="big" id="h-arch">Archive</h2>
+      <div class="years" role="radiogroup" aria-label="Year" data-years></div>
+      <div class="controls">
+        <p class="meta" id="shelf-meta" aria-live="polite"></p>
+        <div class="sort" role="group" aria-label="Sort shelf">
+          <button type="button" data-sort="date" aria-pressed="true"><span class="dot sm"></span>Finish date</button>
+          <button type="button" data-sort="rating" aria-pressed="false"><span class="dot sm"></span>Rating</button>
+          <button type="button" data-sort="title" aria-pressed="false"><span class="dot sm"></span>Title</button>
+        </div>
+      </div>
+      <div class="shelfhead" aria-hidden="true"><span></span><span>Book</span><span>Finished</span><span>Length</span><span>Rating</span><span>Author, format</span></div>
+      <ul class="shelf" id="shelf"></ul>
+    </div>
+  </section>
+</div>
+
+<!-- ============ DASHBOARD VIEW ============ -->
+<div id="v-dash" hidden>
+  <section class="field f-red" aria-labelledby="h-goal" style="padding-top:clamp(40px,6vw,72px)">
+    <div class="wrap">
+      <div class="years" role="radiogroup" aria-label="Year" data-years></div>
+      <p class="slot"><span class="t" id="goal-slot"></span><span>More books by everyone else than by white men</span></p>
+      <h1 class="big" id="h-goal">The goal</h1>
+      <p class="verdict" id="verdict" aria-live="polite"></p>
+      <div class="tally" id="tally"></div>
+      <div class="dots" id="goaldots" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="field f-blue" aria-labelledby="h-year">
+    <div class="wrap">
+      <p class="slot"><span class="t" id="year-slot"></span><span>Pages, ratings, format</span></p>
+      <h2 class="big" id="h-year">In numbers</h2>
+      <div class="stats" id="stats"></div>
+      <h2 class="h"><span id="months-h">Finished by month</span><small id="months-n"></small></h2>
+      <div id="months"></div>
+      <div class="key" aria-hidden="true">
+        <span><span class="dot sm on"></span>Everyone else</span>
+        <span><span class="dot sm"></span>White man</span>
+        <span><span class="dot sm dash"></span>Untagged</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="field f-forest" aria-labelledby="h-taste">
+    <div class="wrap">
+      <p class="slot"><span class="t">1 to 8</span><span>How it landed, when it was written</span></p>
+      <h2 class="big" id="h-taste">Ratings</h2>
+      <div class="dash-grid">
+        <div><h2 class="h">Ratings out of 8 <small id="ratings-n"></small></h2><div id="ratings"></div></div>
+        <div><h2 class="h">Published, by decade <small id="dec-n"></small></h2><ul class="hbars" id="decades"></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="field f-indigo" aria-labelledby="h-what">
+    <div class="wrap">
+      <p class="slot"><span class="t">Genres, authors, places</span><span>What it was</span></p>
+      <h2 class="big" id="h-what">On the dial</h2>
+      <div class="dash-grid">
+        <div><h2 class="h">Top genres <small id="gen-n"></small></h2><ul class="hbars" id="genres"></ul></div>
+        <div><h2 class="h">Most read authors <small id="auth-n"></small></h2><ul class="hbars" id="authors"></ul></div>
+      </div>
+      <div class="mt"><h2 class="h">Where it was set <small id="pl-n"></small></h2><ul class="places" id="places"></ul></div>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer class="f-indigo"><div class="wrap">Built from an Obsidian vault. Data as of <span id="foot-asof"></span>.</div></footer>
+
+<script>
+(function(){
+"use strict";
+var BOOKS = window.BOOKS || [], AS_OF = window.AS_OF || "2026-11-21";
+var CUR = +AS_OF.slice(0,4);
+var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var state = { view:"books", year:String(CUR), sort:"date" };
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function n(x){ return Number(x).toLocaleString("en-US"); }
+function pl(x, one, many){ return n(x) + " " + (x === 1 ? one : (many || one + "s")); }
+function fmtDate(d){ if(!d) return "No date"; var p=d.split("-"); return MONTHS[+p[1]-1] + " " + (+p[2]) + ", " + p[0]; }
+function authors(b){ return (b.author || []).join(", "); }
+
+var read = BOOKS.filter(function(b){ return b.status === "read"; });
+var years = Array.from(new Set(read.filter(function(b){return b.finished_at;}).map(function(b){ return +b.finished_at.slice(0,4); }))).sort(function(a,b){return b-a;});
+
+function inYear(y){
+  if (y === "all") return read.slice();
+  return read.filter(function(b){ return b.finished_at && b.finished_at.slice(0,4) === y; });
+}
+function tagOf(b){ return b.white_male_author === false ? "ee" : b.white_male_author === true ? "wm" : "un"; }
+function tally(list){
+  var t = {ee:0, wm:0, un:0};
+  list.forEach(function(b){ t[tagOf(b)]++; });
+  return t;
+}
+function dot(kind, extra){ return '<span class="dot ' + (kind==="ee"?"on":kind==="un"?"dash":"") + (extra?" "+extra:"") + '" aria-hidden="true"></span>'; }
+var TAGTXT = {ee:"Everyone else", wm:"White man", un:"Untagged"};
+function rateDots(r){
+  if (r == null) return '<span class="rate"><span class="lbl">Unrated</span></span>';
+  var h = "";
+  for (var i=1;i<=8;i++) h += '<span class="dot' + (i<=r?" on":"") + '"></span>';
+  return '<span class="rate" aria-label="Rated ' + r + ' out of 8">' + h + '<span class="lbl" aria-hidden="true">' + r + '/8</span></span>';
+}
+function coverEl(b, cls){
+  if (b.cover_image) return '<img class="cover ' + (cls||"") + '" src="' + esc(b.cover_image) + '" alt="" loading="lazy" referrerpolicy="no-referrer">';
+  return '<span class="cover ph ' + (cls||"") + '" aria-hidden="true">' + esc((b.title||"?").charAt(0)) + '</span>';
+}
+
+/* ---------- books view ---------- */
+function renderStatic(){
+  var c = {read:0, reading:0, "to-read":0, abandoned:0};
+  BOOKS.forEach(function(b){ c[b.status]++; });
+  $("counts").innerHTML = "<b>" + pl(c.read,"book") + "</b> read, <b>" + n(c.reading) + "</b> on the nightstand, <b>" + n(c["to-read"]) + "</b> up next and <b>" + n(c.abandoned) + "</b> set down.";
+  $("asof").textContent = fmtDate(AS_OF);
+  $("foot-asof").textContent = fmtDate(AS_OF);
+
+  var reading = BOOKS.filter(function(b){ return b.status === "reading"; });
+  $("now").innerHTML = reading.map(function(b){
+    var days = b.started_at ? Math.round((new Date(AS_OF) - new Date(b.started_at)) / 864e5) : null;
+    return '<article class="nowbook">' + coverEl(b) + '<div><h3>' + esc(b.title) + '</h3><p class="by">' + esc(authors(b)) + '</p>' +
+      '<dl class="facts">' +
+      '<dt>Started</dt><dd>' + (b.started_at ? fmtDate(b.started_at) + (days!=null ? ", " + pl(days,"day") + " ago" : "") : "Not recorded") + '</dd>' +
+      '<dt>Length</dt><dd>' + (b.pages ? pl(b.pages,"page") : "Not recorded") + '</dd>' +
+      '<dt>Format</dt><dd>' + (b.audible===true ? "Audiobook" : b.audible===false ? "Print" : "Not recorded") + '</dd>' +
+      '<dt>Author</dt><dd style="display:flex;align-items:center;gap:8px">' + dot(tagOf(b),"sm") + TAGTXT[tagOf(b)] + '</dd>' +
+      '</dl></div></article>';
+  }).join("") || '<p class="empty">Nothing on the nightstand.</p>';
+
+  var next = BOOKS.filter(function(b){ return b.status === "to-read"; }).sort(function(a,b){ return a.title.localeCompare(b.title); });
+  var pages = next.reduce(function(s,b){ return s + (b.pages||0); }, 0);
+  $("next-meta").textContent = pl(next.length,"book") + ", " + pl(pages,"page");
+  $("next").innerHTML = next.map(function(b,i){
+    return '<li><span class="n">' + (i+1) + '</span><span><span class="ti">' + esc(b.title) + '</span><span class="au">' + esc(authors(b)) + '</span></span>' +
+      '<span class="pg">' + (b.pages ? pl(b.pages,"page") : "") + dot(tagOf(b),"sm") + '<span class="sr" style="position:absolute;left:-9999px">' + TAGTXT[tagOf(b)] + '</span></span></li>';
+  }).join("");
+}
+
+function renderYears(){
+  var opts = ["all"].concat(years.map(String));
+  var html = opts.map(function(y){
+    var on = state.year === y;
+    return '<button type="button" role="radio" aria-checked="' + on + '" tabindex="' + (on?0:-1) + '" data-year="' + y + '"><span class="dot"></span>' + (y==="all"?"All":y) + '</button>';
+  }).join("");
+  document.querySelectorAll("[data-years]").forEach(function(el){ el.innerHTML = html; });
+}
+
+function sortList(list){
+  var s = state.sort;
+  return list.sort(function(a,b){
+    if (s === "rating"){ var d = (b.rating||0) - (a.rating||0); if (d) return d; }
+    if (s === "title") return a.title.localeCompare(b.title);
+    var fa = a.finished_at || "", fb = b.finished_at || "";
+    if (fa !== fb) return fb.localeCompare(fa);
+    return a.title.localeCompare(b.title);
+  });
+}
+
+function renderShelf(){
+  var list = sortList(inYear(state.year));
+  var pages = list.reduce(function(s,b){ return s + (b.pages||0); }, 0);
+  var undated = list.filter(function(b){ return !b.finished_at; }).length;
+  $("shelf-meta").textContent = pl(list.length,"book") + ", " + pl(pages,"page") + (state.year==="all" ? " in all" + (undated ? " (" + undated + " with no finish date)" : "") : " in " + state.year);
+  $("shelf").innerHTML = list.map(function(b){
+    var t = tagOf(b);
+    return '<li class="row">' + coverEl(b) +
+      '<div class="tcell"><div class="ti">' + esc(b.title) + '</div><div class="au">' + esc(authors(b)) + '</div></div>' +
+      '<div class="c dt">' + fmtDate(b.finished_at) + '</div>' +
+      '<div class="c pgs">' + (b.pages ? pl(b.pages,"page") : "Pages not recorded") + '</div>' +
+      rateDots(b.rating) +
+      '<div class="tags"><span>' + dot(t,"sm") + TAGTXT[t] + '</span>' + (b.audible===true ? '<span><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="#fff"><path d="M1.5 8V6a4.5 4.5 0 0 1 9 0v2"/><rect x="1" y="7.5" width="2.5" height="3.5"/><rect x="8.5" y="7.5" width="2.5" height="3.5"/></svg>Audiobook</span>' : '') + '</div>' +
+      '</li>';
+  }).join("") || '<li class="empty">No finished books in this year. Pick another year above.</li>';
+}
+
+/* ---------- dashboard ---------- */
+function counter(list, keyFn){
+  var m = new Map();
+  list.forEach(function(b){ (keyFn(b)||[]).forEach(function(k){ m.set(k, (m.get(k)||0)+1); }); });
+  return Array.from(m.entries()).sort(function(a,b){ return b[1]-a[1] || String(a[0]).localeCompare(String(b[0])); });
+}
+function hbars(el, rows, unit, max){
+  var top = max || (rows[0] ? rows[0][1] : 1);
+  el.innerHTML = rows.map(function(r){
+    return '<li><span class="k" title="' + esc(r[0]) + '">' + esc(r[0]) + '</span><span class="bar" aria-hidden="true"><i style="width:' + (r[1]/top*100).toFixed(1) + '%"></i></span><span class="n">' + pl(r[1],unit) + '</span></li>';
+  }).join("") || '<li class="empty">Nothing recorded for this year.</li>';
+}
+
+function goalVerdict(t, y){
+  var diff = t.ee - t.wm;
+  if (y === "all") return diff > 0 ? "Across every year, everyone else leads by " + pl(diff,"book") + "." : diff < 0 ? "Across every year, white men lead by " + pl(-diff,"book") + "." : "Across every year, it is level.";
+  if (+y === CUR) return diff > 0 ? "Ahead by " + pl(diff,"book") + " with the year still running." : diff < 0 ? "Behind by " + pl(-diff,"book") + ". There is still time." : "Level. One more book by everyone else puts it ahead.";
+  return diff > 0 ? "Goal met in " + y + ", by " + pl(diff,"book") + "." : diff < 0 ? "Goal missed in " + y + ", short by " + pl(-diff,"book") + "." : "Goal missed in " + y + ": a tie.";
+}
+
+function renderDash(){
+  var y = state.year, list = inYear(y), t = tally(list);
+  $("goal-slot").textContent = y === "all" ? "Every year" : y;
+  $("year-slot").textContent = y === "all" ? "Every year" : y;
+  $("verdict").textContent = goalVerdict(t, y);
+  $("tally").innerHTML = [["ee",t.ee],["wm",t.wm],["un",t.un]].map(function(r){
+    return '<div><div class="num">' + n(r[1]) + '</div><div class="who">' + dot(r[0]) + TAGTXT[r[0]] + (r[0]==="un"?"":"") + '</div><div style="font-size:14px;font-weight:300">' + (r[1]===1?"book":"books") + '</div></div>';
+  }).join("");
+  var gd = $("goaldots");
+  gd.className = "dots" + (list.length > 80 ? " dense" : "");
+  gd.innerHTML = ["ee","wm","un"].map(function(k){ return new Array(t[k]+1).join(dot(k)); }).join("");
+
+  // numbers
+  var pages = list.reduce(function(s,b){ return s+(b.pages||0); },0);
+  var rated = list.filter(function(b){ return b.rating != null; });
+  var avg = rated.length ? rated.reduce(function(s,b){ return s+b.rating; },0)/rated.length : null;
+  var fmt = list.filter(function(b){ return b.audible != null; });
+  var aud = fmt.filter(function(b){ return b.audible; }).length;
+  $("stats").innerHTML = [
+    [n(list.length), list.length===1?"book finished":"books finished"],
+    [n(pages), "pages"],
+    [avg==null?"None":avg.toFixed(1)+"/8", "average rating, " + pl(rated.length,"rated book")],
+    [fmt.length?Math.round(aud/fmt.length*100)+"%":"None", "audiobooks: " + n(aud) + " of " + pl(fmt.length,"book") + " with a format recorded"]
+  ].map(function(s){ return '<div class="stat"><div class="v">' + s[0] + '</div><div class="u">' + s[1] + '</div></div>'; }).join("");
+
+  // by month / by year
+  var buckets, labels;
+  if (y === "all"){
+    labels = years.slice().reverse().map(String); labels.push("No date");
+    buckets = labels.map(function(l){ return list.filter(function(b){ return l==="No date" ? !b.finished_at : b.finished_at && b.finished_at.slice(0,4)===l; }); });
+    $("months-h").textContent = "Finished by year";
+  } else {
+    labels = MONTHS.slice();
+    buckets = labels.map(function(_,i){ return list.filter(function(b){ return +b.finished_at.slice(5,7) === i+1; }); });
+    $("months-h").textContent = "Finished by month";
+  }
+  var max = Math.max.apply(null, buckets.map(function(b){ return b.length; }).concat([1]));
+  $("months-n").textContent = "tallest column " + pl(max,"book");
+  var cols = buckets.map(function(bk,i){
+    var tt = tally(bk), segs = "";
+    ["ee","wm","un"].forEach(function(k){ if (tt[k]) segs += '<span class="seg ' + k + '" style="height:calc(' + (tt[k]/max*100).toFixed(2) + '% - 2px)"></span>'; });
+    return '<div class="col" role="img" aria-label="' + labels[i] + ': ' + pl(bk.length,"book") + ', ' + tt.ee + ' by everyone else, ' + tt.wm + ' by white men, ' + tt.un + ' untagged">' + segs + '</div>';
+  }).join("");
+  var tmpl = "repeat(" + labels.length + ",1fr)";
+  $("months").innerHTML = '<div class="collbl" style="grid-template-columns:' + tmpl + ';margin:0 0 6px" aria-hidden="true">' + buckets.map(function(b){ return '<span class="colval">' + (b.length||"") + '</span>'; }).join("") + '</div>' +
+    '<div class="cols" style="grid-template-columns:' + tmpl + '">' + cols + '</div>' +
+    '<div class="collbl" style="grid-template-columns:' + tmpl + '" aria-hidden="true">' + labels.map(function(l){ return '<span>' + (l==="No date"?"Undated":l) + '</span>'; }).join("") + '</div>';
+
+  // ratings
+  var rc = [1,2,3,4,5,6,7,8].map(function(r){ return rated.filter(function(b){ return b.rating===r; }).length; });
+  var rmax = Math.max.apply(null, rc.concat([1]));
+  $("ratings-n").textContent = pl(rated.length,"rated book");
+  $("ratings").innerHTML = '<div class="collbl" style="grid-template-columns:repeat(8,1fr);margin:0 0 6px" aria-hidden="true">' + rc.map(function(c){ return '<span class="colval">' + (c||"") + '</span>'; }).join("") + '</div>' +
+    '<div class="cols" style="grid-template-columns:repeat(8,1fr);height:200px">' + rc.map(function(c,i){
+      return '<div class="col" role="img" aria-label="' + (i+1) + '/8: ' + pl(c,"book") + '">' + (c?'<span class="seg ee" style="height:' + (c/rmax*100).toFixed(2) + '%"></span>':'') + '</div>';
+    }).join("") + '</div>' +
+    '<div class="collbl" style="grid-template-columns:repeat(8,1fr)" aria-hidden="true">' + rc.map(function(_,i){ return '<span>' + (i+1) + '/8</span>'; }).join("") + '</div>';
+
+  // decades
+  var dec = counter(list, function(b){ return b.publication_year ? [Math.floor(b.publication_year/10)*10] : null; });
+  dec.sort(function(a,b){ return b[0]-a[0]; });
+  var dmax = Math.max.apply(null, dec.map(function(d){ return d[1]; }).concat([1]));
+  $("dec-n").textContent = pl(dec.reduce(function(s,d){return s+d[1];},0),"book") + " dated";
+  hbars($("decades"), dec.map(function(d){ return [d[0] < 1900 ? d[0] + "s" : d[0] + "s", d[1]]; }), "book", dmax);
+
+  // genres, authors
+  var gen = counter(list, function(b){ return (b.genre||[]).map(function(g){ return g.toLowerCase(); }); });
+  $("gen-n").textContent = "top 10 of " + pl(gen.length,"genre");
+  hbars($("genres"), gen.slice(0,10), "book");
+  var au = counter(list, function(b){ return b.author; });
+  $("auth-n").textContent = "top 10 of " + pl(au.length,"author");
+  hbars($("authors"), au.slice(0,10), "book");
+
+  // places
+  var regions = new Map();
+  list.forEach(function(b){
+    var seen = new Set();
+    (b.places||[]).forEach(function(p){
+      var parts = p.split(","), r = parts[0].trim(), city = parts.length>1 ? parts.slice(1).join(",").trim() : null;
+      if (!regions.has(r)) regions.set(r, {books:new Set(), cities:new Map()});
+      var o = regions.get(r); o.books.add(b.slug);
+      if (city){ var key = city + "|" + b.slug; if (!seen.has(key)){ seen.add(key); o.cities.set(city, (o.cities.get(city)||0)+1); } }
+    });
+  });
+  var pr = Array.from(regions.entries()).map(function(e){ return [e[0], e[1].books.size, Array.from(e[1].cities.entries()).sort(function(a,b){return b[1]-a[1];})]; })
+    .sort(function(a,b){ return b[1]-a[1] || a[0].localeCompare(b[0]); });
+  $("pl-n").textContent = pl(pr.length,"region");
+  $("places").innerHTML = pr.map(function(p){
+    return '<li><span>' + esc(p[0]) + (p[2].length ? '<span class="cities">' + p[2].map(function(c){ return esc(c[0]); }).join(", ") + '</span>' : '') + '</span><span class="n">' + pl(p[1],"book") + '</span></li>';
+  }).join("") || '<li class="empty">No places recorded for this year.</li>';
+}
+
+/* ---------- wiring ---------- */
+function setView(v){
+  state.view = v;
+  $("v-books").hidden = v !== "books";
+  $("v-dash").hidden = v !== "dash";
+  document.body.classList.toggle("v-dash", v === "dash");
+  $("topfield").className = v === "dash" ? "f-red" : "f-blue";
+  document.querySelectorAll(".switch [data-view]").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.view === v)); });
+  window.scrollTo(0,0);
+}
+function setYear(y, focus){
+  state.year = y;
+  renderYears(); renderShelf(); renderDash();
+  if (focus){ var b = focus.querySelector('[data-year="' + y + '"]'); if (b) b.focus(); }
+}
+
+document.addEventListener("click", function(e){
+  var v = e.target.closest("[data-view]"); if (v){ setView(v.dataset.view); return; }
+  var y = e.target.closest("[data-year]"); if (y){ setYear(y.dataset.year, y.parentNode); return; }
+  var s = e.target.closest("[data-sort]");
+  if (s){ state.sort = s.dataset.sort; document.querySelectorAll("[data-sort]").forEach(function(b){ b.setAttribute("aria-pressed", String(b===s)); }); renderShelf(); }
+});
+document.addEventListener("keydown", function(e){
+  var y = e.target.closest && e.target.closest("[data-year]"); if (!y) return;
+  var btns = Array.from(y.parentNode.querySelectorAll("[data-year]")), i = btns.indexOf(y);
+  var j = e.key==="ArrowRight"||e.key==="ArrowDown" ? i+1 : e.key==="ArrowLeft"||e.key==="ArrowUp" ? i-1 : e.key==="Home" ? 0 : e.key==="End" ? btns.length-1 : null;
+  if (j == null) return;
+  e.preventDefault(); j = (j + btns.length) % btns.length;
+  setYear(btns[j].dataset.year, y.parentNode);
+});
+
+renderStatic(); setYear(state.year);
+})();
+</script>
+</body>
+</html>

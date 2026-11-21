@@ -44,5 +44,12 @@ export function authorTag(value: boolean | null | undefined): AuthorTag {
 export const AUTHOR_TAG_LABEL: Record<AuthorTag, string> = {
 	other: 'Everyone else',
 	wm: 'White men',
-	untagged: 'Not tagged',
+	untagged: 'Untagged',
+}
+
+/** One book's tag, for a row: "White man" rather than "White men". */
+export const AUTHOR_TAG_SINGLE: Record<AuthorTag, string> = {
+	other: 'Everyone else',
+	wm: 'White man',
+	untagged: 'Untagged',
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-// The year filter: unframed chrome that scopes the ledger panels below it.
+// The year filter: a row of years, each with a small dot that fills when
+// picked. Unframed chrome; ink is currentColor.
 import { ToggleGroupItem, ToggleGroupRoot } from 'reka-ui'
 import type { LedgerYear } from '@/lib/ledger'
 
@@ -19,15 +20,16 @@ function pick(v: unknown) {
     type="single"
     :model-value="String(year)"
     aria-label="Year"
-    class="flex flex-wrap gap-1.5"
+    class="flex flex-wrap gap-x-4 gap-y-1 text-sm"
     @update:model-value="pick"
   >
     <ToggleGroupItem
       v-for="y in ['all', ...years.map(String)]"
       :key="y"
       :value="y"
-      class="cursor-pointer rounded-full border border-border px-2.75 py-1.25 font-medium font-mono text-meta text-muted-foreground tabular-nums leading-none transition-colors hover:border-muted-foreground hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+      class="group flex items-center gap-1.5 py-0.5 tabular-nums aria-pressed:font-medium"
     >
+      <span class="size-1.75 rounded-full border border-current group-aria-pressed:bg-current" aria-hidden="true" />
       {{ y === 'all' ? 'All' : y }}
     </ToggleGroupItem>
   </ToggleGroupRoot>

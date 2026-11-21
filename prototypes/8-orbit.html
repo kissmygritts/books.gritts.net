@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Books — Orbit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ffffff;
+  --ink:#2a64ea;      /* the single ink */
+  --ink-soft:#a9c1f8; /* empty circles, secondary rules */
+  --wash:#eef3fe;     /* hover / focus ground */
+  --band:#2a64ea;
+  --rule:1px solid var(--ink);
+  --rule-soft:1px solid var(--ink-soft);
+  --gut:clamp(16px,4vw,48px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--paper)}
+body{background:var(--paper);color:var(--ink);font-family:Jost,system-ui,sans-serif;font-weight:400;font-size:16px;line-height:1.45;font-variant-numeric:tabular-nums;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.band :focus-visible{outline-color:#fff}
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--gut)}
+img{display:block}
+
+/* ---------- header ---------- */
+header.top{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,72px);align-items:center;padding-top:clamp(28px,5vw,56px);padding-bottom:clamp(28px,4vw,40px)}
+.mark{width:clamp(150px,22vw,230px);aspect-ratio:1;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;text-align:center}
+.mark b{display:block;font-weight:300;font-size:clamp(30px,4.4vw,46px);letter-spacing:-.01em;line-height:1}
+.mark span{display:block;font-size:13px;font-weight:400;margin-top:6px}
+.top-r{display:grid;grid-template-columns:1fr auto;gap:24px 48px;align-items:end}
+.counts{list-style:none;border-top:var(--rule);max-width:360px}
+.counts li{display:flex;justify-content:space-between;border-bottom:var(--rule);padding:7px 0;font-size:15px}
+.counts li b{font-weight:500}
+.views{display:flex;flex-direction:column;gap:10px}
+.views button{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:300;padding:2px 0}
+.dot{width:14px;height:14px;border:1px solid var(--ink);border-radius:50%;flex:none;display:inline-block}
+[aria-pressed="true"] .dot{background:var(--ink)}
+.views button[aria-pressed="true"]{font-weight:500}
+
+/* ---------- year filter ---------- */
+.years{display:flex;flex-wrap:wrap;gap:10px;padding:20px 0;border-top:var(--rule);border-bottom:var(--rule)}
+.years button{width:52px;height:52px;border:1px solid var(--ink);border-radius:50%;font-size:13px;display:grid;place-items:center}
+.years button:hover{background:var(--wash)}
+.years button[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+/* ---------- sections ---------- */
+section{padding:clamp(40px,6vw,72px) 0 0}
+h2{font-weight:300;font-size:clamp(26px,3.2vw,34px);line-height:1.1;letter-spacing:-.01em}
+.sub{font-size:14px;margin-top:6px;max-width:60ch}
+.head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;padding-bottom:16px;border-bottom:var(--rule);margin-bottom:24px}
+
+/* ---------- nightstand ---------- */
+.now{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,5vw,72px)}
+.orbit{display:grid;justify-items:center;text-align:center;gap:18px}
+.orbit .ring{position:relative;width:min(100%,300px);aspect-ratio:1}
+.orbit svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.orbit .cover{position:absolute;inset:16%;border-radius:50%;overflow:hidden;border:1px solid var(--ink);background:var(--paper)}
+.orbit .cover img{width:100%;height:100%;object-fit:cover}
+.orbit h3{font-weight:400;font-size:22px;line-height:1.2}
+.orbit p{font-size:14px}
+.arc{transition:stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)}
+.next{margin-top:clamp(40px,5vw,56px)}
+.next h3{font-weight:400;font-size:18px;padding-bottom:10px;border-bottom:var(--rule)}
+.next ol{list-style:none;columns:2 320px;column-gap:48px}
+.next li{break-inside:avoid;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;padding:9px 0;border-bottom:var(--rule-soft)}
+.next li .who{font-size:13px}
+.tg{display:inline-block;width:9px;height:9px;border-radius:50%;border:1px solid var(--ink);vertical-align:baseline}
+.tg.e{background:var(--ink)}
+.tg.u{border-style:dashed}
+
+/* ---------- shelf ---------- */
+.sort{display:flex;gap:18px;flex-wrap:wrap;font-size:14px}
+.sort button{display:flex;align-items:center;gap:7px}
+.sort .dot{width:11px;height:11px}
+.shelf{list-style:none}
+.row{display:grid;grid-template-columns:56px minmax(0,1fr) 110px 90px 120px 120px;gap:8px 20px;align-items:center;padding:12px 0;border-bottom:var(--rule-soft)}
+.row .c{width:56px;height:56px;border-radius:50%;border:1px solid var(--ink);overflow:hidden}
+.row .c img{width:100%;height:100%;object-fit:cover}
+.row .t{font-size:17px;line-height:1.25}
+.row .a{font-size:13px}
+.row .m{font-size:14px}
+.rate{display:flex;gap:3px;align-items:center}
+.rate i{width:9px;height:9px;border-radius:50%;border:1px solid var(--ink)}
+.rate i.on{background:var(--ink)}
+.rate em{font-style:normal;font-size:12px;margin-left:5px}
+.rate.none{font-size:13px;color:var(--ink)}
+.tagl{font-size:13px;display:flex;align-items:center;gap:6px}
+.aud{font-size:12px;border:1px solid var(--ink);border-radius:999px;padding:0 7px;margin-left:6px;vertical-align:2px}
+.empty{padding:24px 0;font-size:15px}
+
+/* ---------- dashboard ---------- */
+.band{background:var(--band);color:#fff;margin-top:clamp(40px,6vw,72px)}
+.band .wrap{padding-top:clamp(36px,5vw,64px);padding-bottom:clamp(36px,5vw,64px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:32px;align-items:center}
+.band h2{font-size:clamp(34px,5vw,58px)}
+.band .verdict{font-size:clamp(18px,2vw,22px);margin-top:14px;font-weight:300;max-width:34ch}
+.band .legend{list-style:none;margin-top:28px;border-top:1px solid #fff;max-width:380px}
+.band .legend li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #fff;font-size:15px}
+.band .legend .k{display:flex;align-items:center;gap:10px}
+.band .tg{border-color:#fff;width:11px;height:11px}
+.band .tg.e{background:#fff}
+.goalfig{width:100%;max-height:340px}
+.goalfig circle{transform-box:fill-box;transform-origin:center}
+.grow{animation:grow .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes grow{from{transform:scale(.2);opacity:0}}
+
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:var(--rule)}
+.nums div{padding:18px 18px 22px 0;border-bottom:var(--rule)}
+.nums div+div{padding-left:18px;border-left:var(--rule)}
+.nums b{display:block;font-weight:300;font-size:clamp(34px,5vw,56px);line-height:1}
+.nums span{font-size:14px;display:block;margin-top:8px}
+
+.cols{display:flex;align-items:flex-end;gap:clamp(6px,1.6vw,18px);overflow-x:auto;padding-bottom:4px}
+.col{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1 0 auto}
+.stack{display:flex;flex-wrap:wrap-reverse;justify-content:center;gap:3px}
+.stack i{width:var(--d,10px);height:var(--d,10px);border-radius:50%;background:var(--ink)}
+.stack i.o{background:none;border:1px solid var(--ink)}
+.col .n{font-size:13px;font-weight:500}
+.col .l{font-size:12px;border-top:var(--rule);padding-top:6px;width:100%;text-align:center}
+.legend2{font-size:13px;margin-top:14px;display:flex;gap:18px;flex-wrap:wrap}
+.legend2 span{display:flex;align-items:center;gap:6px}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(32px,5vw,72px)}
+.strips{list-style:none}
+.strips li{display:grid;grid-template-columns:minmax(90px,30%) 1fr auto;gap:14px;align-items:center;padding:8px 0;border-bottom:var(--rule-soft);font-size:15px}
+.strips .s{display:flex;flex-wrap:wrap;gap:3px}
+.strips .s i{width:8px;height:8px;border-radius:50%;background:var(--ink)}
+.strips .v{font-size:13px;white-space:nowrap}
+.places{list-style:none;columns:3 200px;column-gap:40px}
+.places li{break-inside:avoid;display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:var(--rule-soft);font-size:15px}
+.places li small{font-size:12px;display:block}
+footer{padding:72px 0 48px;font-size:13px}
+[hidden]{display:none!important}
+
+@media (max-width:900px){
+  .row{grid-template-columns:56px minmax(0,1fr) auto;}
+  .row .m,.row .rate,.row .tagl{grid-column:2 / -1}
+  .row .meta{grid-column:2 / -1;display:flex;flex-wrap:wrap;gap:6px 18px}
+  .band .wrap{grid-template-columns:1fr}
+  .nums{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nums div:nth-child(3){border-left:0;padding-left:0}
+  .grid2{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  header.top{grid-template-columns:1fr}
+  .mark{width:150px}
+  .top-r{grid-template-columns:1fr}
+  .views{flex-direction:row;gap:24px}
+  .now{grid-template-columns:1fr}
+  .years button{width:46px;height:46px;font-size:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="mark" role="img" aria-label="books.gritts.net"><div><b>books</b><span>gritts.net</span></div></div>
+    <div class="top-r">
+      <ul class="counts" id="counts"></ul>
+      <nav class="views" aria-label="View">
+        <button type="button" data-view="books" aria-pressed="true"><span class="dot"></span>Books</button>
+        <button type="button" data-view="dash" aria-pressed="false"><span class="dot"></span>Dashboard</button>
+      </nav>
+    </div>
+  </header>
+</div>
+
+<main>
+  <!-- Books view -->
+  <div id="v-books" class="wrap">
+    <section style="padding-top:8px">
+      <div class="head"><div><h2>On the nightstand</h2><p class="sub">The ring fills over a year; it shows how long each book has been open.</p></div></div>
+      <div class="now" id="now"></div>
+      <div class="next"><h3 id="nextH">Up next</h3><ol id="next"></ol></div>
+    </section>
+    <section>
+      <div class="head"><div><h2 id="shelfH">Finished</h2><p class="sub" id="shelfSub"></p></div>
+        <div class="sort" role="group" aria-label="Sort shelf">
+          <button type="button" data-sort="date" aria-pressed="true"><span class="dot"></span>Finish date</button>
+          <button type="button" data-sort="rating" aria-pressed="false"><span class="dot"></span>Rating</button>
+          <button type="button" data-sort="title" aria-pressed="false"><span class="dot"></span>Title</button>
+        </div>
+      </div>
+      <div class="years" role="group" aria-label="Year" data-years></div>
+      <ul class="shelf" id="shelf"></ul>
+    </section>
+  </div>
+
+  <!-- Dashboard view -->
+  <div id="v-dash" hidden>
+    <div class="wrap"><section style="padding-top:8px"><div class="years" role="group" aria-label="Year" data-years></div></section></div>
+    <div class="band" id="goal"></div>
+    <div class="wrap">
+      <section><div class="head"><h2>The year in numbers</h2></div><div class="nums" id="nums"></div></section>
+      <section><div class="head"><div><h2 id="monthH">Finished by month</h2><p class="sub">One circle per book. Hollow circles are audiobooks.</p></div></div><div class="cols" id="months"></div></section>
+      <section><div class="head"><div><h2>Ratings</h2><p class="sub">Out of 8. Unrated books are left out.</p></div></div><div class="cols" id="ratings"></div></section>
+      <div class="grid2">
+        <section><div class="head"><h2>Publication decades</h2></div><ul class="strips" id="decades"></ul></section>
+        <section><div class="head"><h2>Top genres</h2></div><ul class="strips" id="genres"></ul></section>
+      </div>
+      <section><div class="head"><h2>Most-read authors</h2></div><ul class="strips" id="authors"></ul></section>
+      <section><div class="head"><div><h2>Places</h2><p class="sub">Where the books are set, by region.</p></div></div><ul class="places" id="places"></ul></section>
+    </div>
+  </div>
+</main>
+<footer class="wrap" id="foot"></footer>
+
+<script src="books-data.js"></script>
+<script>
+(function(){
+  var B = window.BOOKS || [], AS_OF = window.AS_OF || "2026-11-21";
+  var CUR = +AS_OF.slice(0,4);
+  var MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  var state = { year: String(CUR), sort: "date", view: "books" };
+
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function plural(n, one, many){ return n.toLocaleString("en-US") + " " + (n === 1 ? one : (many || one + "s")); }
+  function authors(b){ return (b.author || []).join(", "); }
+  function fmtDate(d){ if(!d) return "No date"; var p = d.split("-"); return +p[2] + " " + MONTHS[+p[1]-1] + " " + p[0]; }
+  function days(a, b){ return Math.round((new Date(b) - new Date(a)) / 864e5); }
+  function tagKey(b){ return b.white_male_author === false ? "e" : b.white_male_author === true ? "w" : "u"; }
+  var TAG = { e: "Everyone else", w: "White man", u: "Untagged" };
+
+  var read = B.filter(function(b){ return b.status === "read"; });
+  var years = Array.from(new Set(read.filter(function(b){ return b.finished_at; }).map(function(b){ return +b.finished_at.slice(0,4); }))).sort(function(a,b){ return b-a; });
+
+  function inYear(y){
+    if (y === "all") return read.slice();
+    return read.filter(function(b){ return b.finished_at && b.finished_at.slice(0,4) === y; });
+  }
+
+  /* ---- header counts ---- */
+  function count(s){ return B.filter(function(b){ return b.status === s; }).length; }
+  document.getElementById("counts").innerHTML = [
+    [count("read"), "read"], [count("reading"), "reading now"], [count("to-read"), "to read"], [count("abandoned"), "abandoned"]
+  ].map(function(r){ return "<li><span>" + plural(r[0], "book") + "</span><b>" + r[1] + "</b></li>"; }).join("");
+
+  /* ---- year filter (shared) ---- */
+  function renderYears(){
+    var opts = ["all"].concat(years.map(String));
+    document.querySelectorAll("[data-years]").forEach(function(g){
+      g.innerHTML = opts.map(function(y){
+        return '<button type="button" data-year="' + y + '" aria-pressed="' + (state.year === y) + '">' + (y === "all" ? "All" : y) + "</button>";
+      }).join("");
+    });
+  }
+  document.addEventListener("click", function(e){
+    var y = e.target.closest("[data-year]");
+    if (y){ state.year = y.dataset.year; renderYears(); renderShelf(); renderDash(); return; }
+    var s = e.target.closest("[data-sort]");
+    if (s){ state.sort = s.dataset.sort; document.querySelectorAll("[data-sort]").forEach(function(x){ x.setAttribute("aria-pressed", x === s); }); renderShelf(); return; }
+    var v = e.target.closest("[data-view]");
+    if (v){
+      state.view = v.dataset.view;
+      document.querySelectorAll("[data-view]").forEach(function(x){ x.setAttribute("aria-pressed", x === v); });
+      document.getElementById("v-books").hidden = state.view !== "books";
+      document.getElementById("v-dash").hidden = state.view !== "dash";
+      if (state.view === "dash") renderDash();
+    }
+  });
+
+  /* ---- nightstand ---- */
+  function renderNow(){
+    var now = B.filter(function(b){ return b.status === "reading"; });
+    var C = 2 * Math.PI * 48;
+    document.getElementById("now").innerHTML = now.map(function(b){
+      var d = b.started_at ? days(b.started_at, AS_OF) : null;
+      var frac = d == null ? 0 : Math.min(d / 365, 1);
+      return '<article class="orbit"><div class="ring">' +
+        '<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="none" stroke="var(--ink-soft)" stroke-width=".4"/>' +
+        '<circle class="arc" cx="50" cy="50" r="48" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="' + C.toFixed(2) + '" stroke-dashoffset="' + C.toFixed(2) + '" data-off="' + (C * (1 - frac)).toFixed(2) + '"/></svg>' +
+        '<div class="cover">' + (b.cover_image ? '<img src="' + esc(b.cover_image) + '" alt="" loading="lazy">' : "") + "</div></div>" +
+        "<div><h3>" + esc(b.title) + "</h3><p>" + esc(authors(b)) + "</p>" +
+        "<p>" + (d == null ? "Start date not recorded" : "Day " + (d + 1) + ", started " + fmtDate(b.started_at)) + "</p>" +
+        "<p>" + plural(b.pages || 0, "page") + (b.audible ? '<span class="aud">audio</span>' : "") + "</p></div></article>";
+    }).join("");
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      document.querySelectorAll(".arc").forEach(function(a){ a.setAttribute("stroke-dashoffset", a.dataset.off); });
+    }); });
+
+    var next = B.filter(function(b){ return b.status === "to-read"; }).sort(function(a,b){ return a.title.localeCompare(b.title); });
+    document.getElementById("nextH").textContent = "Up next, " + plural(next.length, "book");
+    document.getElementById("next").innerHTML = next.map(function(b){
+      var k = tagKey(b);
+      return '<li><span class="tg ' + k + '" title="' + TAG[k] + '"></span><div>' + esc(b.title) + '<div class="who">' + esc(authors(b)) + "</div></div></li>";
+    }).join("");
+  }
+
+  /* ---- shelf ---- */
+  function rateHTML(r){
+    if (!r) return '<div class="rate none">Unrated</div>';
+    var s = '<div class="rate" aria-label="Rated ' + r + ' of 8">';
+    for (var i = 1; i <= 8; i++) s += '<i class="' + (i <= r ? "on" : "") + '"></i>';
+    return s + "<em>" + r + "/8</em></div>";
+  }
+  function sorted(list){
+    var l = list.slice();
+    if (state.sort === "rating") l.sort(function(a,b){ return (b.rating||0) - (a.rating||0) || (b.finished_at||"").localeCompare(a.finished_at||""); });
+    else if (state.sort === "title") l.sort(function(a,b){ return a.title.localeCompare(b.title); });
+    else l.sort(function(a,b){ return (b.finished_at||"").localeCompare(a.finished_at||"") || a.title.localeCompare(b.title); });
+    return l;
+  }
+  function renderShelf(){
+    var list = sorted(inYear(state.year));
+    var pages = list.reduce(function(s,b){ return s + (b.pages||0); }, 0);
+    document.getElementById("shelfH").textContent = state.year === "all" ? "Finished, every year" : "Finished in " + state.year;
+    document.getElementById("shelfSub").textContent = plural(list.length, "book") + ", " + plural(pages, "page") + (state.year === "all" ? ". Books without a finish date sort last." : ".");
+    if (!list.length){ document.getElementById("shelf").innerHTML = '<li class="empty">No finished books recorded for this year. Pick another year above.</li>'; return; }
+    document.getElementById("shelf").innerHTML = list.map(function(b){
+      var k = tagKey(b);
+      return '<li class="row"><div class="c">' + (b.cover_image ? '<img src="' + esc(b.cover_image) + '" alt="" loading="lazy">' : "") + "</div>" +
+        '<div><div class="t">' + esc(b.title) + (b.audible ? '<span class="aud">audio</span>' : "") + '</div><div class="a">' + esc(authors(b)) + "</div></div>" +
+        '<div class="m">' + fmtDate(b.finished_at) + "</div>" +
+        '<div class="m">' + (b.pages ? plural(b.pages, "page") : "Pages unknown") + "</div>" +
+        rateHTML(b.rating) +
+        '<div class="tagl"><span class="tg ' + k + '"></span>' + TAG[k] + "</div></li>";
+    }).join("");
+  }
+
+  /* ---- dashboard ---- */
+  function tally(list){
+    var t = { e:0, w:0, u:0 };
+    list.forEach(function(b){ t[tagKey(b)]++; });
+    return t;
+  }
+  function verdict(t, y){
+    var diff = t.e - t.w;
+    if (y === "all"){
+      var met = years.filter(function(yy){ var x = tally(inYear(String(yy))); return x.e > x.w && yy !== CUR; }).length;
+      var lead = diff > 0 ? "everyone else leads by " + plural(diff, "book") : diff < 0 ? "white men lead by " + plural(-diff, "book") : "the two are level";
+      return "Across every year, " + lead + ". Goal met in " + met + " of " + (years.filter(function(yy){ return yy !== CUR; }).length) + " finished years.";
+    }
+    if (+y === CUR){
+      if (diff > 0) return "Ahead by " + plural(diff, "book") + " with the year still open.";
+      if (diff < 0) return "Behind by " + plural(-diff, "book") + " with the year still open.";
+      return "Level, with the year still open.";
+    }
+    if (diff > 0) return "Goal met, by " + plural(diff, "book") + ".";
+    if (diff < 0) return "Goal missed, by " + plural(-diff, "book") + ".";
+    return "Goal missed: a tie, " + t.e + " each.";
+  }
+  function renderGoal(list){
+    var t = tally(list), y = state.year;
+    var max = Math.max(t.e, t.w, t.u, 1), R = 120;
+    function r(n){ return n ? Math.max(3, R * Math.sqrt(n / max)) : 0; }
+    var re = r(t.e), rw = r(t.w), ru = r(t.u);
+    // two main circles side by side, tangent-ish; untagged small to the lower right
+    var cxE = 130, cxW = cxE + re + rw + 24, cy = 140;
+    var svg = '<svg class="goalfig" viewBox="0 0 ' + Math.max(cxW + rw + 60, 320) + ' 290" role="img" aria-label="' + t.e + ' books by everyone else, ' + t.w + ' by white men, ' + t.u + ' untagged">' +
+      (re ? '<circle class="grow" cx="' + cxE + '" cy="' + cy + '" r="' + re.toFixed(1) + '" fill="#fff"/>' : "") +
+      (rw ? '<circle class="grow" style="animation-delay:.12s" cx="' + cxW.toFixed(1) + '" cy="' + cy + '" r="' + rw.toFixed(1) + '" fill="none" stroke="#fff" stroke-width="1.2"/>' : "") +
+      (ru ? '<circle class="grow" style="animation-delay:.24s" cx="' + (cxW + rw + 20).toFixed(1) + '" cy="' + (cy + Math.max(rw,40) + 20).toFixed(1) + '" r="' + ru.toFixed(1) + '" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="3 3"/>' : "") +
+      (re > 30 ? '<text x="' + cxE + '" y="' + (cy + 12) + '" text-anchor="middle" fill="var(--band)" font-family="Jost" font-weight="300" font-size="' + Math.min(48, re * .6).toFixed(0) + '">' + t.e + "</text>" : "") +
+      (rw > 30 ? '<text x="' + cxW.toFixed(1) + '" y="' + (cy + 12) + '" text-anchor="middle" fill="#fff" font-family="Jost" font-weight="300" font-size="' + Math.min(48, rw * .6).toFixed(0) + '">' + t.w + "</text>" : "") +
+      "</svg>";
+    document.getElementById("goal").innerHTML = '<div class="wrap"><div>' +
+      "<h2>" + (y === "all" ? "The goal, all years" : "The goal, " + y) + "</h2>" +
+      '<p class="verdict">More books by everyone else than by white men. ' + verdict(t, y) + "</p>" +
+      '<ul class="legend">' +
+      '<li><span class="k"><span class="tg e"></span>Everyone else</span><b>' + plural(t.e, "book") + "</b></li>" +
+      '<li><span class="k"><span class="tg w"></span>White men</span><b>' + plural(t.w, "book") + "</b></li>" +
+      '<li><span class="k"><span class="tg u"></span>Untagged</span><b>' + plural(t.u, "book") + "</b></li></ul></div>" +
+      svg + "</div>";
+  }
+  function renderNums(list){
+    var pages = list.reduce(function(s,b){ return s + (b.pages||0); }, 0);
+    var rated = list.filter(function(b){ return b.rating; });
+    var avg = rated.length ? rated.reduce(function(s,b){ return s + b.rating; }, 0) / rated.length : null;
+    var known = list.filter(function(b){ return b.audible !== null && b.audible !== undefined; });
+    var aud = known.filter(function(b){ return b.audible; }).length;
+    document.getElementById("nums").innerHTML =
+      "<div><b>" + list.length + "</b><span>books finished</span></div>" +
+      "<div><b>" + pages.toLocaleString("en-US") + "</b><span>pages</span></div>" +
+      "<div><b>" + (avg == null ? "—" : avg.toFixed(1) + "/8") + "</b><span>average rating, " + plural(rated.length, "rated book") + "</span></div>" +
+      "<div><b>" + (known.length ? Math.round(aud / known.length * 100) + "%" : "—") + "</b><span>audiobooks, " + aud + " of " + plural(known.length, "book") + " with format recorded</span></div>";
+  }
+  function cols(el, buckets, dsize){
+    var max = Math.max.apply(null, buckets.map(function(c){ return c.items.length; }).concat([1]));
+    var per = Math.max(1, Math.ceil(max / 16));
+    var d = dsize || 10, w = per * d + (per - 1) * 3;
+    el.innerHTML = buckets.map(function(c){
+      return '<div class="col"><span class="n">' + c.items.length + '</span><div class="stack" style="--d:' + d + "px;width:" + w + 'px">' +
+        c.items.map(function(b){ return '<i class="' + (b.audible ? "o" : "") + '" title="' + esc(b.title) + '"></i>'; }).join("") +
+        '</div><span class="l">' + c.label + "</span></div>";
+    }).join("");
+  }
+  function renderMonths(list){
+    var el = document.getElementById("months"), buckets;
+    if (state.year === "all"){
+      document.getElementById("monthH").textContent = "Finished by year";
+      buckets = years.slice().reverse().map(function(y){ return { label: String(y), items: list.filter(function(b){ return b.finished_at && +b.finished_at.slice(0,4) === y; }) }; });
+      var nd = list.filter(function(b){ return !b.finished_at; });
+      if (nd.length) buckets.push({ label: "No date", items: nd });
+    } else {
+      document.getElementById("monthH").textContent = "Finished by month";
+      buckets = MONTHS.map(function(m, i){ return { label: m, items: list.filter(function(b){ return +b.finished_at.slice(5,7) === i + 1; }) }; });
+    }
+    cols(el, buckets, state.year === "all" ? 9 : 12);
+  }
+  function renderRatings(list){
+    var b = []; for (var i = 1; i <= 8; i++) (function(r){ b.push({ label: r + "/8", items: list.filter(function(x){ return x.rating === r; }) }); })(i);
+    cols(document.getElementById("ratings"), b, state.year === "all" ? 9 : 12);
+  }
+  function strips(el, rows, unit){
+    if (!rows.length){ el.innerHTML = '<li class="empty">Nothing recorded for this year.</li>'; return; }
+    el.innerHTML = rows.map(function(r){
+      return "<li><span>" + esc(r[0]) + '</span><span class="s" aria-hidden="true">' + new Array(r[1] + 1).join("<i></i>") + '</span><span class="v">' + plural(r[1], unit) + "</span></li>";
+    }).join("");
+  }
+  function counter(list, fn){
+    var m = {}; list.forEach(function(b){ (fn(b) || []).forEach(function(k){ if (k) m[k] = (m[k]||0) + 1; }); });
+    return Object.keys(m).map(function(k){ return [k, m[k]]; }).sort(function(a,b){ return b[1] - a[1] || a[0].localeCompare(b[0]); });
+  }
+  function renderDash(){
+    var list = inYear(state.year);
+    renderGoal(list); renderNums(list); renderMonths(list.filter(function(b){ return state.year === "all" || b.finished_at; })); renderRatings(list);
+    strips(document.getElementById("decades"), counter(list, function(b){ return b.publication_year ? [Math.floor(b.publication_year / 10) * 10 + "s"] : null; }).sort(function(a,b){ return parseInt(b[0]) - parseInt(a[0]); }), "book");
+    strips(document.getElementById("genres"), counter(list, function(b){ return (b.genre||[]).map(function(g){ return g.toLowerCase(); }); }).slice(0, 10), "book");
+    strips(document.getElementById("authors"), counter(list, function(b){ return b.author; }).filter(function(r){ return r[1] > 1 || state.year !== "all"; }).slice(0, 10), "book");
+    var pl = counter(list, function(b){ return Array.from(new Set((b.places||[]).map(function(p){ return p.split(",")[0].trim(); }))); });
+    document.getElementById("places").innerHTML = pl.length ? pl.map(function(r){ return "<li><span>" + esc(r[0]) + "</span><span>" + plural(r[1], "book") + "</span></li>"; }).join("") : '<li class="empty">No places recorded for this year.</li>';
+  }
+
+  document.getElementById("foot").textContent = "Data as of " + fmtDate(AS_OF) + ". " + plural(B.length, "book") + " in the ledger.";
+  renderYears(); renderNow(); renderShelf(); renderDash();
+  if (typeof module !== "undefined") module.exports = { tally: tally, inYear: inYear, verdict: verdict, counter: counter };
+})();
+</script>
+</body>
+</html>

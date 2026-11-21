@@ -3,19 +3,12 @@ import { cva } from 'class-variance-authority'
 
 export { default as Badge } from './Badge.vue'
 
+// One chip weight: a hairline pill in the current ink (the audiobook marker).
 export const badgeVariants = cva(
-	'inline-flex w-fit shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 font-medium text-meta transition-colors',
+	'inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-full border border-current px-2 text-xs',
 	{
-		variants: {
-			variant: {
-				default: 'border-transparent bg-primary text-primary-foreground',
-				secondary: 'border-transparent bg-secondary text-secondary-foreground',
-				outline: 'border-border text-muted-foreground',
-				success: 'border-transparent bg-success/12 text-success',
-				destructive: 'border-transparent bg-destructive/12 text-destructive',
-			},
-		},
-		defaultVariants: { variant: 'default' },
+		variants: { variant: { outline: '' } },
+		defaultVariants: { variant: 'outline' },
 	},
 )
 export type BadgeVariants = VariantProps<typeof badgeVariants>
