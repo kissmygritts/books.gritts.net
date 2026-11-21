@@ -124,6 +124,7 @@ const shelf = computed(() =>
 
   <div class="grid gap-5 md:grid-cols-2">
     <LedgerRatings :books="books" />
+    <LedgerDecades :books="books" />
   </div>
 
   <LedgerShelf :books="shelf" />
