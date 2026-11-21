@@ -27,18 +27,25 @@ first.
 
 ## State (as of 2026-11-21)
 
-Phases 1 to 3 are done. `/` has, in order:
+Phases 1 to 3 are done. The site is two pages, switched by `<SiteNav>` in
+the header. Both share the year filter through one localStorage key
+(`useLedgerYear`).
+
+`/` (books), in order:
 1. Header.
 2. The nightstand, with the up-next projection against the current year.
-3. The year filter, which scopes everything below it.
-4. The goal, then the year in numbers.
-5. Books finished by month: by year under "All", colored by Author or Format.
-6. Ratings, beside when it was published.
-7. What it was, then most read authors.
-8. Where it was set: US and world maps plus the places list.
-9. Every year, hidden under "All".
-10. The shelf: sortable, scoped by year, and holding every read book under
-    "All".
+3. The reading list: the year filter, then the shelf (sortable, scoped by
+   year, holding every read book under "All").
+
+`/dashboard`, in order:
+1. Header.
+2. The year filter, which scopes everything below it.
+3. The goal, then the year in numbers.
+4. Books finished by month: by year under "All", colored by Author or Format.
+5. Ratings, beside when it was published.
+6. What it was, then most read authors.
+7. Where it was set: US and world maps plus the places list.
+8. Every year, hidden under "All".
 
 All panel numbers matched the private ledger for 2018 and 2021–2026 plus
 "All" on 2026-11-21. One difference is deliberate: under "All" the shelf
@@ -82,7 +89,7 @@ books with no finish date.
 2. Serve that directory and open it.
 3. For each year button, read the panel text: `#stats`, `#verdict`,
    `#m-legend`, the `.col` aria-labels, the `.hrow` text, and the `*-n` notes.
-4. Compare against `/` for the same year.
+4. Compare against `/dashboard` (and the shelf on `/`) for the same year.
 
 ## Open questions for the owner (ask before changing)
 

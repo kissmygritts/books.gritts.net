@@ -300,7 +300,8 @@ const books: Book[] = [
       </div>
     </StyleguideThemePair>
 
-    <StyleguideThemePair title="Year filter · segmented control · legend">
+    <StyleguideThemePair title="Site nav · year filter · segmented control · legend">
+      <SiteNav />
       <YearFilter v-model="sgYear" :years="[2026, 2025, 2024, 2018]" />
       <SegmentedControl
         v-model="sgMode"
