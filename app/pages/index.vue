@@ -38,7 +38,7 @@ const shelf = computed(() =>
     <div class="grid gap-5">
       <section aria-labelledby="now-h">
         <Eyebrow id="now-h" as="h3" class="flex items-center gap-1.5">
-          <BookOpen class="size-3.5 text-audiobook" aria-hidden="true" />
+          <BookOpen class="size-3.5" aria-hidden="true" />
           Reading · {{ reading.length }}
         </Eyebrow>
         <BookRow v-for="b in reading" :key="b.slug" :book="b" />
