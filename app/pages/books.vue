@@ -8,7 +8,7 @@ import { inYear, sumPages, tally } from '@/lib/ledger'
 useHead({ title: 'Books' })
 
 const { all, finished, years, currentYear } = await useLedger()
-const year = useLedgerYear(years)
+const year = useLedgerYear(years, currentYear)
 const status = ref<BookStatus>('read')
 
 const ofStatus = (s: BookStatus) => all.value.filter((b) => b.status === s)

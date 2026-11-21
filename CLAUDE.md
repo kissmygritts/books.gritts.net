@@ -30,7 +30,8 @@ first.
 Phases 1 to 3 are done, and the redesign approved as
 `prototypes/11-dots.html` is in: a flat blue field, white ink, every book a
 dot. Three pages, linked from `<GooeyMenu>` (lower right). `/dashboard` and `/books`
-share the year filter through one localStorage key (`useLedgerYear`).
+each open their year filter on the current year (`useLedgerYear`); the
+choice isn't saved.
 
 - `/`: every finished book as one dot, oldest first, about 3:1. Hover or
   arrow keys name the book. Nothing else on the page.
@@ -83,9 +84,8 @@ no finish date. The home grid and dashboard leave those out.
 - **Maps load on the client:** `<PlaceMap>` fetches `public/geo/` after mount,
   so SSR renders an empty map. A dev server started before `public/`
   existed won't serve it; restart it.
-- **Per-viewer state:** the year is kept in
-  localStorage via `usePersisted` and read after mount, so SSR always renders
-  the default (the latest year).
+- **Per-viewer state:** the map view (`books-map`) is kept in localStorage
+  via `usePersisted` and read after mount, so SSR renders the default.
 
 ## Checking numbers against the ledger
 

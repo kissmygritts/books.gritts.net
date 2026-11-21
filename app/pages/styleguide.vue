@@ -2,11 +2,10 @@
 // Every token and primitive, both themes, both surfaces. The rules are in
 // .claude/skills/books-ui/SKILL.md.
 import type { BookStatus } from '@/lib/book'
-import type { LedgerYear } from '@/lib/ledger'
 
 useHead({ title: 'Styleguide' })
 
-const { all, finished, years } = await useLedger()
+const { all, finished, years, currentYear } = await useLedger()
 
 const page = [
 	{
@@ -60,7 +59,7 @@ const type = [
 	{ cls: 'text-xs', name: 'text-xs', note: '12px' },
 ]
 
-const sgYear = ref<LedgerYear>('all')
+const sgYear = useLedgerYear(years, currentYear)
 const sgStatus = ref<BookStatus>('read')
 const sample = computed(() => finished.value.slice(0, 18))
 const mapBooks = computed(() =>

@@ -12,7 +12,7 @@ useHead({
 const { finished, years, generatedAt, currentYear, currentMonth } =
 	await useLedger()
 
-const year = useLedgerYear(years)
+const year = useLedgerYear(years, currentYear)
 const isCurrent = computed(() => year.value === currentYear)
 const books = computed(() =>
 	finished.value.filter((b) => inYear(b, year.value)),

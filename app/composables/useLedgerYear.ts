@@ -1,12 +1,9 @@
-// The year filter's value, shared by `/` (the shelf) and `/dashboard` (the
-// panels) through one localStorage key, so both pages open on the same year.
+// The year filter's value. Every page opens on the current year (the build
+// year), or the latest year with a finished book if there is none yet.
 import type { LedgerYear } from '@/lib/ledger'
 
-export function useLedgerYear(years: Ref<number[]>) {
-	return usePersisted<LedgerYear>(
-		'books-year',
-		years.value[0] ?? 'all',
-		(raw) =>
-			raw === 'all' ? 'all' : years.value.includes(+raw) ? +raw : undefined,
+export function useLedgerYear(years: Ref<number[]>, currentYear: number) {
+	return ref<LedgerYear>(
+		years.value.includes(currentYear) ? currentYear : (years.value[0] ?? 'all'),
 	)
 }
