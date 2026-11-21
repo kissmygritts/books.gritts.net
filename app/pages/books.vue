@@ -5,7 +5,7 @@ import type { BookStatus } from '@/lib/book'
 import { plural } from '@/lib/format'
 import { inYear, sumPages, tally } from '@/lib/ledger'
 
-useHead({ title: 'Books · Gritts Books' })
+useHead({ title: 'Books' })
 
 const { all, finished, years, currentYear } = await useLedger()
 const year = useLedgerYear(years)

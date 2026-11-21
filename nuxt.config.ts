@@ -24,7 +24,7 @@ export default defineNuxtConfig({
 	app: {
 		head: {
 			htmlAttrs: { lang: 'en' },
-			title: 'Gritts Books',
+			title: 'Books',
 			meta: [{ name: 'color-scheme', content: 'light dark' }],
 			link: [
 				{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },

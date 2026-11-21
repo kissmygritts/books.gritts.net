@@ -29,7 +29,7 @@ first.
 
 Phases 1 to 3 are done, and the redesign approved as
 `prototypes/11-dots.html` is in: a flat blue field, white ink, every book a
-dot. Three pages, linked from `<SiteHeader>`. `/dashboard` and `/books`
+dot. Three pages, linked from `<GooeyMenu>` (lower right). `/dashboard` and `/books`
 share the year filter through one localStorage key (`useLedgerYear`).
 
 - `/`: every finished book as one dot, oldest first, about 3:1. Hover or

@@ -94,7 +94,7 @@ titles and author names exactly as the vault spells them.
 
 | Need | Use |
 |---|---|
-| Header with page links | `<SiteHeader>` (in the layout) |
+| Page links | `<GooeyMenu>` (in the layout) |
 | A book as a mark | `<BookDot :value="white_male_author" size>` (`grid`, `md`, `sm`) |
 | The home grid | `<DotGrid :books>` |
 | A dashboard page | `<DashPage id title caption :years v-model:year>`; one chart in the slot |

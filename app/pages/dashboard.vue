@@ -5,7 +5,7 @@
 import { finishBuckets, inYear, monthDay } from '@/lib/ledger'
 
 useHead({
-	title: 'Dashboard · Gritts Books',
+	title: 'Dashboard',
 	bodyAttrs: { class: 'bg-field text-field-foreground' },
 })
 

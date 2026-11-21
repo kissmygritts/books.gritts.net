@@ -4,7 +4,7 @@
 import type { BookStatus } from '@/lib/book'
 import type { LedgerYear } from '@/lib/ledger'
 
-useHead({ title: 'Styleguide · Gritts Books' })
+useHead({ title: 'Styleguide' })
 
 const { all, finished, years } = await useLedger()
 

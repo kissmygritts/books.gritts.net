@@ -1,6 +1,6 @@
 <template>
-  <SiteHeader />
   <main>
     <slot />
   </main>
+  <GooeyMenu />
 </template>
