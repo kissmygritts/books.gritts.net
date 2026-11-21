@@ -122,5 +122,9 @@ const shelf = computed(() =>
 
   <LedgerMonths :buckets="months" :by-year="isAll" />
 
+  <div class="grid gap-5 md:grid-cols-2">
+    <LedgerRatings :books="books" />
+  </div>
+
   <LedgerShelf :books="shelf" />
 </template>
