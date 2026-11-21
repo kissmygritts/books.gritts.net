@@ -1,7 +1,7 @@
 // The data contract: frontmatter written by the vault's sync-site.ts.
 // Property names and values are the vault's. Only title, slug and status are
-// guaranteed; to-read books leave most fields empty. The content collection
-// schema (phase 2) is the source of truth once it lands.
+// guaranteed; to-read books leave most fields empty. Mirrors the `books`
+// collection schema in content.config.ts; keep the two in step.
 
 export type BookStatus = 'to-read' | 'reading' | 'read' | 'abandoned'
 

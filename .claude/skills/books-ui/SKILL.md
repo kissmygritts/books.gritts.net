@@ -197,6 +197,8 @@ Every chart sits in a `<Panel>` with its scale in `note` (`your 1–8 scale`,
 - `app/assets/css/main.css`: tokens, type scale, ledger → token mapping.
 - `app/components/`: the primitives; `components/ui/badge` is the pattern.
 - `app/lib/book.ts`: the `Book` shape (the sync-site.ts data contract),
-  `RATING_MAX`, author-tag helpers. `app/lib/format.ts`: number formatting.
+  `RATING_MAX`, author-tag helpers. `app/lib/derive.ts`: ledger.py's derived
+  fields (`splitPlaces`, lowercase `genres`, `wikipediaUrl`) and sort helpers.
+  `app/lib/format.ts`: number formatting.
 - Vault `.claude/skills/book/ledger/template.html`: the approved look and the
   feature target for every panel.

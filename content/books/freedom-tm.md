@@ -1,0 +1,22 @@
+---
+title: "Freedom (tm)"
+slug: "freedom-tm"
+author: ["Daniel Suarez"]
+cover_image: "https://upload.wikimedia.org/wikipedia/en/e/eb/FreedomTMCoverMedium.jpg"
+genre: ["fiction","science fiction","ai"]
+pages: 416
+publication_year: 2010
+isbn: 9780525951575
+status: "read"
+started_at: "2025-04-01"
+finished_at: "2025-04-06"
+rating: 4
+wikipedia: "https://en.wikipedia.org/wiki/Freedom%E2%84%A2"
+hardcover_id: null
+storygraph_id: null
+audible: true
+series: ["Daemon (series)"]
+series_number: 2
+white_male_author: true
+places: ["United States"]
+---

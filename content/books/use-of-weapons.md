@@ -1,0 +1,21 @@
+---
+title: "Use of Weapons"
+slug: "use-of-weapons"
+author: ["Iain M. Banks"]
+cover_image: "https://covers.openlibrary.org/b/id/2379038-L.jpg"
+genre: ["fiction","science fiction"]
+pages: 352
+publication_year: 1990
+isbn: 9780748110087
+status: "read"
+started_at: "2024-05-01"
+finished_at: "2024-05-01"
+rating: 4
+wikipedia: "https://en.wikipedia.org/wiki/Use_of_Weapons"
+hardcover_id: null
+storygraph_id: null
+audible: false
+series: ["The Culture"]
+series_number: 3
+white_male_author: true
+---

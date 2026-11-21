@@ -1,0 +1,20 @@
+---
+title: "Darth Plagueis"
+slug: "darth-plagueis"
+author: ["James Luceno"]
+cover_image: "https://covers.openlibrary.org/b/isbn/9780593358801-L.jpg"
+genre: ["fiction","science fiction","star wars"]
+pages: 496
+publication_year: 2012
+isbn: 9780593358801
+status: "read"
+started_at: "2024-06-01"
+finished_at: "2024-06-01"
+rating: 5
+wikipedia: "none"
+hardcover_id: null
+storygraph_id: null
+audible: false
+series: null
+white_male_author: true
+---

@@ -1,7 +1,12 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
 // One flat <slug>.md per book, written by the vault's sync-site.ts.
-// Frontmatter only; the full schema lands in phase 2.
+// Frontmatter only, property names and values as the vault writes them.
+// Only title, slug and status are guaranteed; to-read books leave most
+// fields empty, so everything else is nullable and optional.
+const day = z.string().nullish() // ISO yyyy-mm-dd
+const list = z.array(z.string()).nullish()
+
 export default defineContentConfig({
 	collections: {
 		books: defineCollection({
@@ -11,6 +16,27 @@ export default defineContentConfig({
 				title: z.string(),
 				slug: z.string(),
 				status: z.enum(['to-read', 'reading', 'read', 'abandoned']),
+				author: list,
+				cover_image: z.string().nullish(),
+				genre: list,
+				pages: z.number().int().nullish(),
+				publication_year: z.number().int().nullish(),
+				isbn: z.union([z.number(), z.string()]).nullish(),
+				started_at: day,
+				finished_at: day,
+				/** 1–8, the owner's own scale. Never rescale. */
+				rating: z.number().int().nullish(),
+				/** URL, or "none" when there is no article. */
+				wikipedia: z.string().nullish(),
+				hardcover_id: z.string().nullish(),
+				storygraph_id: z.string().nullish(),
+				audible: z.boolean().nullish(),
+				series: list,
+				series_number: z.number().nullish(),
+				/** Yearly goal tag. false counts toward the goal; null = untagged. */
+				white_male_author: z.boolean().nullish(),
+				/** Region first (US state, else country), optional city. */
+				places: list,
 			}),
 		}),
 	},

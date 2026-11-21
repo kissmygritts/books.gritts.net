@@ -1,0 +1,21 @@
+---
+title: "Tinkers"
+slug: "tinkers"
+author: ["Paul Harding"]
+cover_image: "https://upload.wikimedia.org/wikipedia/en/9/93/Tinkers_%28Paul_Harding_novel_-_cover_art%29.jpg"
+genre: ["fiction","literary fiction"]
+pages: 191
+publication_year: 2009
+isbn: 9781934137192
+status: "read"
+started_at: "2025-05-10"
+finished_at: "2025-11-01"
+rating: 6
+wikipedia: "https://en.wikipedia.org/wiki/Tinkers_(novel)"
+hardcover_id: null
+storygraph_id: null
+audible: false
+series: null
+white_male_author: true
+places: ["Maine","Massachusetts"]
+---

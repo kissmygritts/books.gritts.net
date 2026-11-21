@@ -1,0 +1,21 @@
+---
+title: "A Scanner Darkly"
+slug: "a-scanner-darkly"
+author: ["Philip K Dick"]
+cover_image: "https://upload.wikimedia.org/wikipedia/en/thumb/2/27/AScannerDarkly%281stEd%29.jpg/250px-AScannerDarkly%281stEd%29.jpg"
+genre: ["fiction","science fiction"]
+pages: 220
+publication_year: 1977
+isbn: 9780547572178
+status: "read"
+started_at: "2025-06-05"
+finished_at: "2025-06-05"
+rating: 5
+wikipedia: "https://en.wikipedia.org/wiki/A_Scanner_Darkly"
+hardcover_id: null
+storygraph_id: null
+audible: true
+series: null
+white_male_author: true
+places: ["California"]
+---
