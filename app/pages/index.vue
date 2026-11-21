@@ -131,5 +131,7 @@ const shelf = computed(() =>
 
   <LedgerAuthors :books="books" />
 
+  <LedgerYears v-if="!isAll" v-model="year" :finished="finished" :years="years" />
+
   <LedgerShelf :books="shelf" />
 </template>
