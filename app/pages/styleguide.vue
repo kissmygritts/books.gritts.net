@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { Book } from '@/lib/book'
+import type { BarRow, Column } from '@/lib/chart'
+import type { LedgerYear } from '@/lib/ledger'
 
 definePageMeta({ layout: false })
 useHead({ title: 'Styleguide · Books' })
@@ -59,6 +61,72 @@ const groups = [
 	{ label: 'State', items: states },
 	{ label: 'Domain', items: domain },
 	{ label: 'Chart', items: charts },
+]
+
+// Mock ledger controls and charts.
+const sgYear = ref<LedgerYear>(2026)
+const sgMode = ref<'tag' | 'format'>('tag')
+const sgCols: Column[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map(
+	(m, i) => ({
+		key: m,
+		label: m,
+		current: i === 4,
+		parts: {
+			other: [2, 1, 3, 4, 2, 0][i] ?? 0,
+			wm: [1, 2, 0, 2, 1, 0][i] ?? 0,
+			untagged: i === 3 ? 1 : 0,
+		},
+		aria: `${m} 2026`,
+		tip: {
+			title: `${m} 2026`,
+			meta: ['3 books', '912 pp'],
+			books: ['Permutation City'],
+		},
+	}),
+)
+const sgBars: BarRow[] = [
+	{
+		key: 'sf',
+		label: 'science fiction',
+		segments: [
+			{ tone: 'other', value: 6 },
+			{ tone: 'wm', value: 3 },
+		],
+		value: 9,
+		avg: '5.4',
+	},
+	{
+		key: 'west',
+		label: 'western americana',
+		segments: [
+			{ tone: 'wm', value: 4 },
+			{ tone: 'untagged', value: 1 },
+		],
+		value: 5,
+		avg: '5.6',
+	},
+	{
+		key: 'ai',
+		label: 'ai',
+		segments: [{ tone: 'other', value: 2 }],
+		value: 2,
+		avg: null,
+	},
+]
+const sgPlaces: BarRow[] = [
+	{
+		key: 'ca',
+		label: 'California',
+		sub: 'Monterey',
+		segments: [{ tone: 'place', value: 7 }],
+		value: 7,
+	},
+	{
+		key: 'mt',
+		label: 'Montana',
+		segments: [{ tone: 'place', value: 3 }],
+		value: 3,
+	},
 ]
 
 // Mock shelf. Illustrative records shaped like sync-site.ts output.
@@ -230,6 +298,53 @@ const books: Book[] = [
         <span class="inline-flex items-center gap-1.5"><Swatch tone="audiobook" />Audiobook</span>
         <span class="inline-flex items-center gap-1.5"><Swatch tone="print" />Print</span>
       </div>
+    </StyleguideThemePair>
+
+    <StyleguideThemePair title="Year filter · segmented control · legend">
+      <YearFilter v-model="sgYear" :years="[2026, 2025, 2024, 2018]" />
+      <SegmentedControl
+        v-model="sgMode"
+        label="Color by"
+        :options="[
+          { value: 'tag', label: 'Author' },
+          { value: 'format', label: 'Format' },
+        ]"
+      />
+      <Legend
+        :items="[
+          { tone: 'other', label: 'Everyone else', value: 25 },
+          { tone: 'wm', label: 'White men', value: 29 },
+          { tone: 'untagged', label: 'Not tagged', value: 0 },
+        ]"
+      />
+    </StyleguideThemePair>
+
+    <StyleguideThemePair title="Charts · columns, bars, meter (w-share)">
+      <Panel title="Books finished by month" note="books">
+        <ChartColumns
+          :columns="sgCols"
+          :series="[
+            { key: 'other', tone: 'other' },
+            { key: 'wm', tone: 'wm' },
+            { key: 'untagged', tone: 'untagged' },
+          ]"
+          :height="140"
+          label="Books finished by month"
+        />
+      </Panel>
+      <Panel title="What it was" note="books · avg /8">
+        <ChartBars :rows="sgBars" wide />
+      </Panel>
+      <Panel title="Where it was set" note="books">
+        <ChartBars :rows="sgPlaces" />
+      </Panel>
+      <div class="flex h-3.5 gap-0.5 overflow-hidden rounded-full bg-muted" aria-hidden="true">
+        <span class="h-full w-share bg-other" :style="{ '--share': '46%' }" />
+        <span class="h-full w-share bg-wm" :style="{ '--share': '54%' }" />
+      </div>
+      <p class="font-mono text-faint text-xs">
+        w-share: width from a --share CSS var set in style; the only way to size a bar.
+      </p>
     </StyleguideThemePair>
 
     <StyleguideThemePair title="Spec line">

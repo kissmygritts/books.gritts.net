@@ -34,9 +34,7 @@ const H = computed(() => props.height)
 
 const total = (c: Column) =>
 	props.series.reduce((s, k) => s + (c.parts[k.key] ?? 0), 0)
-const max = computed(() =>
-	niceMax(Math.max(1, ...props.columns.map(total))),
-)
+const max = computed(() => niceMax(Math.max(1, ...props.columns.map(total))))
 const tickList = computed(() => ticks(max.value))
 const y = (v: number) => H.value - (v / max.value) * H.value
 

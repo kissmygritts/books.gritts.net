@@ -18,7 +18,7 @@ function pick(v: unknown) {
     type="single"
     :model-value="model"
     :aria-label="label"
-    class="inline-flex flex-wrap rounded-full bg-muted p-0.5"
+    class="inline-flex w-fit flex-wrap rounded-full bg-muted p-0.5"
     @update:model-value="pick"
   >
     <ToggleGroupItem

@@ -146,7 +146,9 @@ export function yearStats(books: readonly LedgerBook[]): YearStats {
 		books: books.length,
 		pages: sumPages(books),
 		avgRating: fixed1(avgRating(books)),
-		medianDays: spans.length ? (spans[Math.floor(spans.length / 2)] ?? null) : null,
+		medianDays: spans.length
+			? (spans[Math.floor(spans.length / 2)] ?? null)
+			: null,
 	}
 }
 

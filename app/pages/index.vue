@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Bookmark, BookOpen } from '@lucide/vue'
 import { plural } from '@/lib/format'
-import { inYear, type LedgerYear, monthDay } from '@/lib/ledger'
+import { inYear, type LedgerYear, monthDay, tally, verdict } from '@/lib/ledger'
 
 const { all, finished, years, generatedAt, currentYear } = await useLedger()
 
@@ -28,14 +28,25 @@ const year = usePersisted<LedgerYear>(
 )
 const isAll = computed(() => year.value === 'all')
 const isCurrent = computed(() => year.value === currentYear)
-const books = computed(() => finished.value.filter((b) => inYear(b, year.value)))
+const books = computed(() =>
+	finished.value.filter((b) => inYear(b, year.value)),
+)
 const asOf = computed(() => {
 	const n = plural(books.value.length, 'book')
-	if (isAll.value) return `${n} finished, ${years.value.at(-1)}–${years.value[0]}`
+	if (isAll.value)
+		return `${n} finished, ${years.value.at(-1)}–${years.value[0]}`
 	return isCurrent.value
 		? `${n} finished as of ${monthDay(generatedAt)}`
 		: `${n} finished`
 })
+const yearTally = computed(() => tally(books.value))
+const goalVerdict = computed(() =>
+	verdict(yearTally.value, {
+		year: year.value,
+		isCurrent: isCurrent.value,
+		finished: finished.value,
+	}),
+)
 // The shelf under "All" keeps every read book, dated or not.
 const shelf = computed(() =>
 	isAll.value ? all.value.filter((b) => b.status === 'read') : books.value,
@@ -87,6 +98,8 @@ const shelf = computed(() =>
     </div>
     <YearFilter v-model="year" :years="years" />
   </section>
+
+  <LedgerGoal :tally="yearTally" :verdict="goalVerdict" :total="books.length" />
 
   <LedgerShelf :books="shelf" />
 </template>
