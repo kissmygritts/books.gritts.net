@@ -127,5 +127,8 @@ const shelf = computed(() =>
     <LedgerDecades :books="books" />
   </div>
 
+  <LedgerGenres :books="books" />
+
+
   <LedgerShelf :books="shelf" />
 </template>
