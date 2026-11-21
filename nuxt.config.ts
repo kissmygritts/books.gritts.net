@@ -14,6 +14,12 @@ export default defineNuxtConfig({
 
 	css: ['~/assets/css/main.css'],
 
+	// The build date stands in for the ledger's GENERATED: "as of" and the
+	// current year/month are fixed at generate time, so SSR and hydration agree.
+	runtimeConfig: {
+		public: { generatedAt: new Date().toISOString().slice(0, 10) },
+	},
+
 	app: {
 		head: {
 			htmlAttrs: { lang: 'en' },

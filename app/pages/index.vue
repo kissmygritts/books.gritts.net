@@ -1,26 +1,44 @@
 <script setup lang="ts">
 import { Bookmark, BookOpen } from '@lucide/vue'
-import type { Book } from '@/lib/book'
-import { byFinishDesc } from '@/lib/derive'
 import { plural } from '@/lib/format'
+import { inYear, type LedgerYear, monthDay } from '@/lib/ledger'
 
-const { data } = await useAsyncData('books', () =>
-	queryCollection('books').all(),
-)
+const { all, finished, years, generatedAt, currentYear } = await useLedger()
 
-const books = computed<Book[]>(() => data.value ?? [])
 const reading = computed(() =>
-	books.value
+	all.value
 		.filter((b) => b.status === 'reading')
 		.sort((a, b) => (b.started_at ?? '').localeCompare(a.started_at ?? '')),
 )
 const upNext = computed(() =>
-	books.value
+	all.value
 		.filter((b) => b.status === 'to-read')
 		.sort((a, b) => a.title.localeCompare(b.title)),
 )
+const readCount = computed(
+	() => all.value.filter((b) => b.status === 'read').length,
+)
+
+// ---- the year filter: scopes every panel below it -------------------------
+const year = usePersisted<LedgerYear>(
+	'books-year',
+	years.value[0] ?? 'all',
+	(raw) =>
+		raw === 'all' ? 'all' : years.value.includes(+raw) ? +raw : undefined,
+)
+const isAll = computed(() => year.value === 'all')
+const isCurrent = computed(() => year.value === currentYear)
+const books = computed(() => finished.value.filter((b) => inYear(b, year.value)))
+const asOf = computed(() => {
+	const n = plural(books.value.length, 'book')
+	if (isAll.value) return `${n} finished, ${years.value.at(-1)}–${years.value[0]}`
+	return isCurrent.value
+		? `${n} finished as of ${monthDay(generatedAt)}`
+		: `${n} finished`
+})
+// The shelf under "All" keeps every read book, dated or not.
 const shelf = computed(() =>
-	books.value.filter((b) => b.status === 'read').sort(byFinishDesc),
+	isAll.value ? all.value.filter((b) => b.status === 'read') : books.value,
 )
 </script>
 
@@ -28,7 +46,7 @@ const shelf = computed(() =>
   <PageHeader eyebrow="books.gritts.net" title="Books">
     <template #subtitle>
       <span class="tabular-nums">
-        {{ plural(shelf.length, 'book') }} read · {{ reading.length }} reading ·
+        {{ plural(readCount, 'book') }} read · {{ reading.length }} reading ·
         {{ upNext.length }} to read
       </span>
     </template>
@@ -56,13 +74,19 @@ const shelf = computed(() =>
     </div>
   </Panel>
 
-  <Panel
-    title="The shelf"
-    :note="`${plural(shelf.length, 'book')} · newest finish first`"
+  <section
+    aria-labelledby="ledger-h"
+    class="mt-4 flex flex-wrap items-end justify-between gap-x-6 gap-y-3"
   >
-    <BookRow v-for="b in shelf" :key="b.slug" :book="b" />
-    <EmptyState v-if="!shelf.length" title="No books finished">
-      Read books land here, newest finish first.
-    </EmptyState>
-  </Panel>
+    <div class="grid gap-1">
+      <Eyebrow>The ledger</Eyebrow>
+      <h2 id="ledger-h" class="font-display font-semibold text-heading tabular-nums">
+        {{ isAll ? 'All years' : year }}
+      </h2>
+      <p class="text-meta text-muted-foreground tabular-nums">{{ asOf }}</p>
+    </div>
+    <YearFilter v-model="year" :years="years" />
+  </section>
+
+  <LedgerShelf :books="shelf" />
 </template>

@@ -203,6 +203,13 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* A bar's share of its track, from a `--share` CSS var set in `style`
+   (e.g. `class="w-share" :style="{ '--share': '40%' }"`). Hbars, the goal
+   meter and the fiction split use it instead of arbitrary widths. */
+@utility w-share {
+  width: var(--share);
+}
+
 @layer base {
   * {
     @apply border-border;
