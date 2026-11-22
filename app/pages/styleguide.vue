@@ -212,7 +212,7 @@ const columns = computed(() =>
     <StyleguideThemePair title="Dot charts" field>
       <DotColumns :columns="columns" :per-row="2" />
       <DotRows :rows="rows" />
-      <p class="font-extralight text-verdict">Ahead by 13 books</p>
+      <p class="font-extralight text-verdict">No page counts recorded.</p>
     </StyleguideThemePair>
 
     <StyleguideThemePair title="Book card" field>

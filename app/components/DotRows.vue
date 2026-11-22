@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // A bar list where every book is a dot: one labelled row per group.
-import { authorTag, type Book } from '@/lib/book'
+import type { Book } from '@/lib/book'
 import { byFinishAsc } from '@/lib/derive'
 import { plural } from '@/lib/format'
 
@@ -12,10 +12,8 @@ export interface DotRow {
 	books: Book[]
 }
 
-// `fixed` keeps the dots on `white_male_author` whatever the lens (the goal).
-const props = defineProps<{ rows: DotRow[]; fixed?: boolean }>()
+defineProps<{ rows: DotRow[] }>()
 const { lens } = useLens()
-const tagOf = (b: Book) => (props.fixed ? authorTag(b.white_male_author) : lens.value.tag(b))
 const hovered = useHoverBook()
 const card = useBookCard()
 </script>
@@ -35,7 +33,7 @@ const card = useBookCard()
         <BookDot
           v-for="b in [...r.books].sort(byFinishAsc)"
           :key="b.slug"
-          :tag="tagOf(b)"
+          :tag="lens.tag(b)"
           class="hover:outline-2 hover:outline-current hover:outline-offset-2"
           @mouseenter="hovered = b"
           v-on="card.on(b)"

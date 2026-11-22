@@ -86,7 +86,7 @@ are extralight (200); a book title is 400; emphasis is 500. Never bold.
 |---|---|---|
 | `text-title` | 40–88px, 200 | Page and dashboard titles. |
 | `text-figure` | 52–120px, 200 | The year in numbers. |
-| `text-verdict` | 30–56px, 200 | The goal's verdict; empty chart messages. |
+| `text-verdict` | 30–56px, 200 | Empty chart messages. |
 | `text-heading` | 17px, 400 | A book's title in a row. |
 | *(none)* | 16px | Prose. Write no size class. |
 | `text-sm` | 14px | Captions, year filter, dates and pages in rows. |
@@ -146,9 +146,10 @@ its counts live in the aria-label. No tooltips.
   (`author_country` includes United States). Solid is always the side away
   from the default (everyone else, woman or nonbinary, person of color, translated, not
   American); a missing field is the pip, labelled "Not recorded". The
-  legend and the grid's aria-label follow the lens. The goal page passes
-  `<DotRows fixed>` and has no legend, since the goal is defined by
-  `white_male_author`; the book card and table stay on it too. A new lens is
+  legend and the grid's aria-label follow the lens. The goal page follows the lens
+  too: its rows are the lens's three groups, and its caption ends with
+  solid minus ring (`+14 books`, `−3 books`); it has no verdict line. The
+  book card and table stay on `white_male_author`. A new lens is
   one entry in `LENSES`, nothing else.
 - **The home grid.** Every finished book, oldest first, about 3:1, reflowing
   on a phone. One entrance animation (`motion-safe:` only), nothing else

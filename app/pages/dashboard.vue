@@ -38,13 +38,7 @@ const numbersCaption = computed(() =>
   <h1 class="sr-only">Dashboard</h1>
   <ScrollDots />
   <LedgerNumbers v-model:year="year" :books="books" :years="years" :caption="numbersCaption" />
-  <LedgerGoal
-    v-model:year="year"
-    :books="books"
-    :finished="finished"
-    :years="years"
-    :is-current="isCurrent"
-  />
+  <LedgerGoal v-model:year="year" :books="books" :years="years" />
   <LedgerMonths v-model:year="year" :buckets="months" :years="years" />
   <LedgerRatings v-model:year="year" :books="books" :years="years" />
   <LedgerLength v-model:year="year" :books="books" :years="years" />

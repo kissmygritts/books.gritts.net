@@ -39,7 +39,9 @@ choice isn't saved.
   (White men, Gender, Authors of color, Translated, American; `app/lib/lens.ts`,
   shared through `useLens()`, kept as `books-lens`). Nothing else on the
   page. The same legend sits under the year filter on each dashboard dot
-  chart (`<DashPage legend>`); the goal stays on `white_male_author`.
+  chart (`<DashPage legend>`), the goal included: its rows follow the
+  lens and its caption ends with solid minus ring. The goal's verdict
+  line is gone for now (`verdict()` in `ledger.ts` is unused).
 - `/dashboard`: one chart per full-height page, all on the field, in this
   order: by the numbers (books, pages, average rating, median days), annual
   goal, by month (by year under "All"), by rating, by length (pages), by

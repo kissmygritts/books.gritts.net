@@ -1,71 +1,46 @@
 <script setup lang="ts">
-// The yearly goal: more books by everyone else than by white men. The
-// verdict, then the three groups as rows of dots.
-import { AUTHOR_TAG_LABEL } from '@/lib/book'
+// The yearly goal: more books by everyone else than by white men. Three
+// rows of dots, grouped and labelled by the current lens; the caption
+// gives solid minus ring.
+import type { AuthorTag } from '@/lib/book'
 import { plural } from '@/lib/format'
-import {
-	type LedgerBook,
-	type LedgerYear,
-	TAG_KEYS,
-	tally,
-	verdict,
-} from '@/lib/ledger'
+import type { LedgerBook, LedgerYear } from '@/lib/ledger'
 
-const props = defineProps<{
-	books: LedgerBook[]
-	finished: LedgerBook[]
-	years: number[]
-	isCurrent: boolean
-}>()
+const props = defineProps<{ books: LedgerBook[]; years: number[] }>()
 const year = defineModel<LedgerYear>('year', { required: true })
+const { lens } = useLens()
 
-const t = computed(() => tally(props.books))
-const text = computed(() => {
-	const v = verdict(t.value, {
-		year: year.value,
-		isCurrent: props.isCurrent,
-		finished: props.finished,
-	})
-	switch (v.kind) {
-		case 'years':
-			return `Goal met in ${v.met} of ${plural(v.of, 'year')}`
-		case 'untagged':
-			return 'No tagged books yet'
-		case 'met':
-			return props.isCurrent
-				? `Ahead by ${plural(v.by, 'book')}`
-				: `Goal met in ${year.value}, by ${plural(v.by, 'book')}`
-		case 'behind':
-			return `Behind: ${plural(v.by, 'more book')} by everyone else to pull ahead`
-		case 'missed':
-			return `Goal missed in ${year.value}: ${plural(v.by, 'more book')} by everyone else would have met it`
-	}
-	return ''
+const ORDER: AuthorTag[] = ['other', 'wm', 'untagged']
+const groups = computed(() => {
+	const g: Record<AuthorTag, LedgerBook[]> = { other: [], wm: [], untagged: [] }
+	for (const b of props.books) g[lens.value.tag(b)].push(b)
+	return g
 })
 const rows = computed(() =>
-	TAG_KEYS.map((k) => ({
+	ORDER.map((k) => ({
 		key: k,
-		label: AUTHOR_TAG_LABEL[k],
-		sub: plural(t.value[k], 'book'),
-		books: props.books.filter((b) =>
-			k === 'other'
-				? b.white_male_author === false
-				: k === 'wm'
-					? b.white_male_author === true
-					: b.white_male_author == null,
-		),
+		label: lens.value.label[k],
+		sub: plural(groups.value[k].length, 'book'),
+		books: groups.value[k],
 	})),
 )
-const caption = computed(
-	() =>
-		'Every year I set a goal. Not a book count: I try to read more books by everyone else than by white men. Untagged books count toward neither.' +
-		(year.value === 'all' ? ' Under All, each year is judged on its own.' : ''),
-)
+// Solid minus ring, signed: "+14 books", "−3 books", "±0 books".
+const diff = computed(() => {
+	const n = groups.value.other.length - groups.value.wm.length
+	return `${n > 0 ? '+' : n < 0 ? '−' : '±'}${plural(Math.abs(n), 'book')}`
+})
+const caption = computed(() => {
+	const l = lens.value.label
+	const lead =
+		lens.value.id === 'wm'
+			? 'Every year I set a goal. Not a book count: I try to read more books by everyone else than by white men.'
+			: `${l.other} against ${l.wm.toLowerCase()}.`
+	return `${lead} ${diff.value}. ${l.untagged} counts toward neither.`
+})
 </script>
 
 <template>
-  <DashPage id="goal" v-model:year="year" title="Annual goal" :caption="caption" :years="years">
-    <p class="mb-8 max-w-4xl font-extralight text-verdict tabular-nums sm:mb-14">{{ text }}</p>
-    <DotRows :rows="rows" fixed />
+  <DashPage id="goal" v-model:year="year" legend title="Annual goal" :caption="caption" :years="years">
+    <DotRows :rows="rows" />
   </DashPage>
 </template>
