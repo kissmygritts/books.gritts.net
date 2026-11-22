@@ -73,7 +73,9 @@ const place = (r: Region): Place => ({ name: r.name, books: r.books })
 // path would be covered by the neighbors painted after it.
 const pointed = ref<string | null>(null)
 const activeRegion = computed(() => {
-	const name = pointed.value ?? card.item.value?.name
+	const name = card.pinned.value
+		? card.item.value?.name
+		: (pointed.value ?? card.item.value?.name)
 	return name ? model.value?.regions.find((r) => r.name === name) : undefined
 })
 function on(r: Region) {

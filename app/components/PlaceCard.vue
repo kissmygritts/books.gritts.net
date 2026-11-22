@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // A map region in brief: its name, the count, and every book set there,
-// oldest finish first. The body of <PlaceCardPopover>; the same surface as
+// newest finish first. The body of <PlaceCardPopover>; the same surface as
 // <BookCard> (field-card, white ink, no border), rounded rather than a pill
 // since it grows with the list, which scrolls past about ten books.
 import type { Book } from '@/lib/book'
-import { byFinishAsc } from '@/lib/derive'
+import { byFinishDesc } from '@/lib/derive'
 import { authorList, plural } from '@/lib/format'
 
 export interface Place {
@@ -13,7 +13,7 @@ export interface Place {
 }
 
 const props = defineProps<{ place: Place }>()
-const books = computed(() => [...props.place.books].sort(byFinishAsc))
+const books = computed(() => [...props.place.books].sort(byFinishDesc))
 </script>
 
 <template>
