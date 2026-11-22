@@ -49,7 +49,9 @@ choice isn't saved.
   location (the map). The page snaps section to section (mandatory,
   `snap-always`, set on <html> by the page), with one dot per section on
   the right edge (`<ScrollDots>`, hidden below `sm`), the current one full
-  ink and larger, the rest faded; clicking one scrolls to it.
+  ink and larger, the rest faded; clicking one scrolls to it. Each
+  section's caption is static: hovering a dot opens its book card but
+  doesn't change the caption.
 - `/books`: the table of books by status (Finished, Reading, Up next,
   Abandoned). Finished follows the year filter and sorts; Up next carries
   the goal projection.
