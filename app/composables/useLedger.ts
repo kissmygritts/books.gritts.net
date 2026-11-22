@@ -16,10 +16,10 @@ export async function useLedger() {
 }
 
 // Nuxt Content decodes BOOLEAN columns with Boolean(value), so a null or
-// missing `white_male_author` / `audible` comes back as false ("everyone
+// missing `white_male_author` / `audible` / `author_poc` comes back as false ("everyone
 // else", "print"). The column itself stores NULL, so ask for those rows and
 // put the nulls back. The files, and so the data contract, are untouched.
-const NULLABLE_BOOLEANS = ['white_male_author', 'audible'] as const
+const NULLABLE_BOOLEANS = ['white_male_author', 'audible', 'author_poc'] as const
 
 async function fetchBooks(): Promise<Book[]> {
 	const [books, ...nulls] = await Promise.all([

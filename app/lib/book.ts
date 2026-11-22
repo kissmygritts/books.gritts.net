@@ -28,6 +28,8 @@ export interface Book {
 	series_number?: number | null
 	/** Yearly goal tag. false counts toward the goal; null = untagged. */
 	white_male_author?: boolean | null
+	/** true if any author is a person of color. */
+	author_poc?: boolean | null
 	places?: string[] | null
 }
 

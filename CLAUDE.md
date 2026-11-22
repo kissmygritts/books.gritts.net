@@ -85,7 +85,8 @@ no finish date. The home grid and dashboard leave those out.
 ## Gotchas
 
 - **Nulls become `false`:** Nuxt Content decodes BOOLEAN columns with
-  `Boolean(v)`, so null or missing `white_male_author` / `audible` come back
+  `Boolean(v)`, so null or missing `white_male_author` / `audible` /
+  `author_poc` come back
   as `false`. `useLedger` fixes this. Don't query the collection anywhere
   else without the same fix.
 - **Field pages set the body class:** `/` and `/dashboard` paint the field
