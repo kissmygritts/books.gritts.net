@@ -17,5 +17,9 @@ storygraph_id: null
 audible: false
 series: null
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["United States"]
+original_language: "English"
 places: ["California","Massachusetts","Los Angeles, CA","Cambridge, MA"]
 ---

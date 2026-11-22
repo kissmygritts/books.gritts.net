@@ -3,6 +3,10 @@ title: "The Night Watchman"
 slug: "the-night-watchman"
 author: ["Louise Erdrich"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["United States"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/9286141-L.jpg"
 genre: ["fiction","literary fiction"]
 pages: 451

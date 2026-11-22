@@ -3,6 +3,10 @@ title: "The Infinite Extent"
 slug: "the-infinite-extent"
 author: ["Dennis E. Taylor"]
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["Canada"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/15253208-L.jpg"
 genre: ["fiction","science fiction"]
 pages: 304

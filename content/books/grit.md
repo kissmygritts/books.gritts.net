@@ -17,4 +17,8 @@ storygraph_id: null
 audible: true
 series: null
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["United States"]
+original_language: "English"
 ---

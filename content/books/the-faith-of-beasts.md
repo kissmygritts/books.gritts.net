@@ -19,4 +19,8 @@ series: ["The Captive's War"]
 series_number: 2
 places: null
 white_male_author: true
+author_gender: ["man","man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---

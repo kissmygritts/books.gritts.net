@@ -3,6 +3,10 @@ title: "Homegoing"
 slug: "homegoing"
 author: ["Yaa Gyasi"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["Ghana","United States"]
+original_language: "English"
 cover_image: "https://upload.wikimedia.org/wikipedia/en/a/a4/Homegoing_%282016_cover%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled"
 genre: ["fiction","historical fiction"]
 pages: 320

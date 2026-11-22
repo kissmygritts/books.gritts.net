@@ -17,4 +17,8 @@ storygraph_id: null
 audible: true
 series: ["The High Republic"]
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United Kingdom"]
+original_language: "English"
 ---

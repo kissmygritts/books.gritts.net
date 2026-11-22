@@ -3,6 +3,10 @@ title: "Educated"
 slug: "educated"
 author: ["Tara Westover"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/8314077-L.jpg"
 genre: ["non-fiction","memoir","family"]
 pages: 352

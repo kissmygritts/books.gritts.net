@@ -19,4 +19,8 @@ series: ["Tales of Dunk and Egg"]
 series_number: null
 places: null
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---

@@ -2,7 +2,7 @@
 title: "The Internet of Garbage"
 slug: "the-internet-of-garbage"
 author: ["Sarah Jeong"]
-cover_image: null
+cover_image: "https://upload.wikimedia.org/wikipedia/en/c/c4/Cover_of_The_Internet_of_Garbage.jpg"
 genre: ["non-fiction","technical","current events"]
 pages: 110
 publication_year: 2015

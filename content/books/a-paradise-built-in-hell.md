@@ -19,4 +19,8 @@ series: null
 series_number: null
 places: ["California","Louisiana","New York","Mexico","Canada","San Francisco, CA","New Orleans, LA","New York City, NY","Mexico City","Halifax, Canada"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---

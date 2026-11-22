@@ -3,6 +3,10 @@ title: "How Much of These Hills Is Gold"
 slug: "how-much-of-these-hills-is-gold"
 author: ["C Pam Zhang"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["United States"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/9324153-L.jpg"
 genre: ["fiction","literary fiction","historical fiction"]
 pages: 288

@@ -19,4 +19,8 @@ series: null
 series_number: null
 places: ["New York","New York City, NY"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["United States"]
+original_language: "English"
 ---

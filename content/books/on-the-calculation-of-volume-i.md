@@ -3,6 +3,10 @@ title: "On the Calculation of Volume I"
 slug: "on-the-calculation-of-volume-i"
 author: ["Solvej Balle"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["Denmark"]
+original_language: "Danish"
 cover_image: "https://upload.wikimedia.org/wikipedia/en/f/fc/On_the_Calc_of_Volume.jpg"
 genre: ["fiction","literary fiction"]
 pages: 160

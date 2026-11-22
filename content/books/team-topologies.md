@@ -3,6 +3,10 @@ title: "Team Topologies"
 slug: "team-topologies"
 author: ["Matthew Skelton","Manuel Pais"]
 white_male_author: true
+author_gender: ["man","man"]
+author_poc: false
+author_country: ["United Kingdom","Portugal"]
+original_language: "English"
 cover_image: "https://itrevolution.com/wp-content/uploads/2025/07/TTOP-2E_Front_RGB_1000px.jpg"
 genre: ["non-fiction","technical"]
 pages: 304

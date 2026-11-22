@@ -18,5 +18,9 @@ audible: true
 series: ["Earthseed"]
 series_number: 1
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["United States"]
+original_language: "English"
 places: ["California"]
 ---

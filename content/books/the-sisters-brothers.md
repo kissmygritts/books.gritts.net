@@ -3,6 +3,10 @@ title: "The Sisters Brothers"
 slug: "the-sisters-brothers"
 author: ["Patrick deWitt"]
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["Canada"]
+original_language: "English"
 cover_image: "https://upload.wikimedia.org/wikipedia/en/c/c2/Thesistersbrotherscover.jpg"
 genre: ["fiction","western","historical fiction"]
 pages: 325

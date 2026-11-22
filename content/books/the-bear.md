@@ -17,4 +17,8 @@ storygraph_id: "https://app.thestorygraph.com/books/925459a4-39e8-42c8-af66-aeca
 audible: false
 series: null
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---

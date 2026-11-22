@@ -3,6 +3,10 @@ title: "A Fine Balance"
 slug: "a-fine-balance"
 author: ["Rohinton Mistry"]
 white_male_author: false
+author_gender: ["man"]
+author_poc: true
+author_country: ["Canada","India"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/8348310-L.jpg"
 genre: ["fiction","literary fiction","historical fiction"]
 pages: 624

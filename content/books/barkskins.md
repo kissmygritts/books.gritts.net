@@ -3,6 +3,10 @@ title: "Barkskins"
 slug: "barkskins"
 author: ["Annie Proulx"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/9254089-L.jpg"
 genre: ["fiction","historical fiction","environmental fiction","north america"]
 pages: 736

@@ -18,4 +18,8 @@ audible: false
 series: null
 places: ["Montana"]
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---

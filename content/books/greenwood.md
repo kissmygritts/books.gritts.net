@@ -3,6 +3,10 @@ title: "Greenwood"
 slug: "greenwood"
 author: ["Michael Christie"]
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["Canada"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/10221744-L.jpg"
 genre: ["fiction","literary fiction","environmental fiction","historical fiction"]
 pages: 512

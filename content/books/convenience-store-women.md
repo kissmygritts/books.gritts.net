@@ -18,4 +18,8 @@ audible: false
 series: null
 places: ["Japan"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["Japan"]
+original_language: "Japanese"
 ---

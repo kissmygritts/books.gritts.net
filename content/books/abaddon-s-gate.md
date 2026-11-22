@@ -18,4 +18,8 @@ audible: true
 series: ["The Expanse"]
 series_number: 3
 white_male_author: true
+author_gender: ["man","man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---

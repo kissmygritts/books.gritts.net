@@ -17,5 +17,9 @@ storygraph_id: "https://app.thestorygraph.com/books/266a7be1-ee3d-48d5-91c4-3a8f
 audible: true
 series: null
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 places: ["Missouri","Arkansas"]
 ---

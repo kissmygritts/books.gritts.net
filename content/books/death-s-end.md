@@ -18,4 +18,8 @@ audible: true
 series: ["Three Body Problem"]
 series_number: 3
 white_male_author: false
+author_gender: ["man"]
+author_poc: true
+author_country: ["China"]
+original_language: "Chinese"
 ---

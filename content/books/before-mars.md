@@ -18,4 +18,8 @@ audible: true
 series: ["Planetfall (series)"]
 series_number: 3
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["United Kingdom"]
+original_language: "English"
 ---

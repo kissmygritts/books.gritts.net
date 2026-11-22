@@ -19,4 +19,8 @@ series: ["Border Trilogy"]
 series_number: 1
 places: ["Mexico","Texas"]
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---

@@ -17,5 +17,9 @@ storygraph_id: null
 audible: false
 series: null
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 places: ["Texas","Netherlands","India"]
 ---

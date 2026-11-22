@@ -3,6 +3,10 @@ title: "Days at the Morisaki Bookshop"
 slug: "days-at-the-morisaki-bookshop"
 author: ["Satoshi Yagisawa"]
 white_male_author: false
+author_gender: ["man"]
+author_poc: true
+author_country: ["Japan"]
+original_language: "Japanese"
 cover_image: "https://covers.openlibrary.org/b/id/13482084-L.jpg"
 genre: ["fiction"]
 pages: 160

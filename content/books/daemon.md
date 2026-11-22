@@ -18,5 +18,9 @@ audible: true
 series: ["Daemon (series)"]
 series_number: 1
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 places: ["California"]
 ---

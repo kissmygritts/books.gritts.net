@@ -19,4 +19,8 @@ series: null
 series_number: null
 places: ["Poland"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["Poland"]
+original_language: "Polish"
 ---

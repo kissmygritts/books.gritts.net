@@ -3,6 +3,10 @@ title: "Little Rivers"
 slug: "little-rivers"
 author: ["Margot Page"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/1880001-L.jpg"
 genre: ["memoir","non-fiction","fly fishing"]
 pages: 131

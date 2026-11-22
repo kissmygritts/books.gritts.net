@@ -3,6 +3,10 @@ title: "The Plague of Doves"
 slug: "the-plague-of-doves"
 author: ["Louise Erdrich"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: true
+author_country: ["United States"]
+original_language: "English"
 cover_image: "https://covers.openlibrary.org/b/id/6409386-L.jpg"
 genre: ["fiction","literary fiction"]
 pages: 352

@@ -19,4 +19,8 @@ series: null
 series_number: null
 places: ["Chile","Iraq","Poland","Russia","Louisiana","Sri Lanka","New Orleans, LA"]
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["Canada"]
+original_language: "English"
 ---

@@ -18,4 +18,8 @@ audible: true
 series: ["Mars Trilogy"]
 series_number: 2
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---

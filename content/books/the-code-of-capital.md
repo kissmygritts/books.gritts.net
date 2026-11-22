@@ -19,4 +19,8 @@ series: null
 series_number: null
 places: null
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["Germany"]
+original_language: "English"
 ---

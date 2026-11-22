@@ -18,4 +18,8 @@ audible: true
 series: ["Children of Time (series)"]
 series_number: 2
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United Kingdom"]
+original_language: "English"
 ---

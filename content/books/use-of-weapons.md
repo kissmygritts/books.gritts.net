@@ -18,4 +18,8 @@ audible: false
 series: ["The Culture"]
 series_number: 3
 white_male_author: true
+author_gender: ["man"]
+author_poc: false
+author_country: ["United Kingdom"]
+original_language: "English"
 ---

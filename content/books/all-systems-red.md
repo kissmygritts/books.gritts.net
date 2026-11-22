@@ -18,4 +18,8 @@ audible: false
 series: ["The Murderbot Diaries"]
 series_number: 1
 white_male_author: false
+author_gender: ["woman"]
+author_poc: false
+author_country: ["United States"]
+original_language: "English"
 ---
