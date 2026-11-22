@@ -3,14 +3,14 @@ title: "Up In Arms"
 slug: "up-in-arms"
 author: ["John Temple"]
 cover_image: "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781946885951/up-in-arms-9781946885951_hr.jpg"
-genre: ["non-fiction","current events","far right"]
+genre: ["non-fiction","current events","far right","politics"]
 pages: 330
 publication_year: 2019
 isbn: 9781946885951
 status: "read"
-started_at: null
-finished_at: null
-rating: null
+started_at: "2023-08-08"
+finished_at: "2023-08-27"
+rating: 6
 wikipedia: null
 hardcover_id: null
 storygraph_id: null

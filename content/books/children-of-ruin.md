@@ -3,17 +3,17 @@ title: "Children of Ruin"
 slug: "children-of-ruin"
 author: ["Adrian Tchaikovsky"]
 cover_image: "https://covers.openlibrary.org/b/id/8750923-L.jpg"
-genre: ["fiction","science fiction"]
+genre: ["fiction","science fiction","space opera","first-contact"]
 pages: 597
 publication_year: 2019
 isbn: 9781509865833
 status: "read"
-started_at: "2024-01-01"
-finished_at: "2024-01-01"
-rating: null
+started_at: "2023-05-27"
+finished_at: "2023-06-04"
+rating: 5
 wikipedia: "https://en.wikipedia.org/wiki/Children_of_Ruin"
-hardcover_id: null
-storygraph_id: null
+hardcover_id: "https://hardcover.app/books/children-of-ruin"
+storygraph_id: "https://app.thestorygraph.com/books/85880713-93a9-4691-9240-b06e41633640"
 audible: true
 series: ["Children of Time (series)"]
 series_number: 2

@@ -8,9 +8,9 @@ pages: 326
 publication_year: 2009
 isbn: 9780195374612
 status: "read"
-started_at: null
-finished_at: "2018-05-28"
-rating: null
+started_at: "2020-05-09"
+finished_at: "2020-05-28"
+rating: 4
 wikipedia: "none"
 hardcover_id: null
 storygraph_id: null

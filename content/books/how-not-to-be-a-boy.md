@@ -1,6 +1,6 @@
 ---
-title: "How to be a Boy"
-slug: "how-to-be-a-boy"
+title: "How Not to Be a Boy"
+slug: "how-not-to-be-a-boy"
 author: ["Rob Webb"]
 cover_image: "https://covers.openlibrary.org/b/id/15161797-L.jpg"
 genre: ["non-fiction","memoir"]

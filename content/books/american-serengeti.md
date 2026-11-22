@@ -8,8 +8,8 @@ pages: 222
 publication_year: 2016
 isbn: 9780700622283
 status: "read"
-started_at: null
-finished_at: null
+started_at: "2023-09-05"
+finished_at: "2023-09-18"
 rating: 8
 wikipedia: "none"
 hardcover_id: "https://hardcover.app/books/american-serengeti"

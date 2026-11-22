@@ -8,8 +8,8 @@ pages: 277
 publication_year: 2008
 isbn: 9780385521680
 status: "read"
-started_at: null
-finished_at: null
+started_at: "2023-07-01"
+finished_at: "2023-07-17"
 rating: 7
 wikipedia: "none"
 hardcover_id: "https://hardcover.app/books/american-buffalo"
