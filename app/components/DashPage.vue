@@ -10,7 +10,7 @@ const hovered = provideHoverBook()
 </script>
 
 <template>
-  <section :aria-labelledby="`${id}-h`" class="flex min-h-svh flex-col">
+  <section :id="id" :aria-labelledby="`${id}-h`" class="flex min-h-svh snap-start snap-always flex-col">
     <div
       class="mx-auto flex w-full min-w-0 max-w-ledger flex-1 flex-col px-4 py-24 sm:px-8 lg:px-14 lg:py-44"
     >

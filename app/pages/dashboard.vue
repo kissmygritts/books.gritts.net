@@ -6,6 +6,7 @@ import { finishBuckets, inYear, monthDay } from '@/lib/ledger'
 
 useHead({
 	title: 'Dashboard',
+	htmlAttrs: { class: 'snap-y snap-mandatory' },
 	bodyAttrs: { class: 'bg-field text-field-foreground' },
 })
 
@@ -35,6 +36,7 @@ const numbersCaption = computed(() =>
 
 <template>
   <h1 class="sr-only">Dashboard</h1>
+  <ScrollDots />
   <LedgerNumbers v-model:year="year" :books="books" :years="years" :caption="numbersCaption" />
   <LedgerGoal
     v-model:year="year"
