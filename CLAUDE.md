@@ -38,7 +38,7 @@ choice isn't saved.
   (`<BookCard>`). The legend (`<DotLegend>`) cycles what the dots read
   (White men, Gender, Authors of color, Translated, American; `app/lib/lens.ts`,
   shared through `useLens()`, kept as `books-lens`). Nothing else on the
-  page. The same legend sits under the year filter on each dashboard dot
+  page. The same legend sits with the year filter (switch beside it, key below) on each dashboard dot
   chart (`<DashPage legend>`), the goal included: its rows follow the
   lens and its caption ends with solid minus ring. The goal's verdict
   line is gone for now (`verdict()` in `ledger.ts` is unused).

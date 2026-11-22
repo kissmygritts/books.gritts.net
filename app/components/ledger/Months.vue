@@ -6,8 +6,9 @@ const props = defineProps<{ buckets: Bucket[]; years: number[] }>()
 const year = defineModel<LedgerYear>('year', { required: true })
 
 const byYear = computed(() => year.value === 'all')
+// Years run newest first; months run January to December.
 const columns = computed(() =>
-	props.buckets.map((b) => ({
+	(byYear.value ? [...props.buckets].reverse() : props.buckets).map((b) => ({
 		key: b.key,
 		label: byYear.value ? b.name : b.label,
 		name: b.name,
@@ -29,6 +30,6 @@ const caption = computed(() =>
     :caption="caption"
     :years="years"
   >
-    <DotColumns :columns="columns" :per-row="byYear ? 4 : 2" />
+    <DotColumns :columns="columns" :per-row="byYear ? 4 : 2" :max-rows="10" />
   </DashPage>
 </template>

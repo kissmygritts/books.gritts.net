@@ -7,7 +7,8 @@ const props = defineProps<{ books: LedgerBook[]; years: number[] }>()
 const year = defineModel<LedgerYear>('year', { required: true })
 
 const columns = computed(() =>
-	decades(props.books).map((d) => ({
+	// Newest decade first.
+	[...decades(props.books)].reverse().map((d) => ({
 		key: d.key,
 		label: `${d.key}s`,
 		name: `Published in the ${d.key}s`,

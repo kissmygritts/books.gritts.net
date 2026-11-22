@@ -104,7 +104,7 @@ titles and author names exactly as the vault spells them.
 | Page links | `<GooeyMenu>` (in the layout) |
 | A book as a mark | `<BookDot :value="white_male_author" size>` (`grid`, `md`, `sm`), or `:tag` from a lens |
 | The home grid | `<DotGrid :books>` |
-| The dot key + lens switch | `<DotLegend>` (home legend; `<DashPage legend>` puts it under the year filter) |
+| The dot key + lens switch | `<DotLegend>` (home legend; `<DashPage legend>` puts the switch beside the year filter, the key below) |
 | The lens itself | `useLens()` (shared, kept as `books-lens`); `<LensButton v-model>` inside `<DotLegend>` |
 | A dashboard page | `<DashPage id title caption :years v-model:year legend?>`; one chart in the slot |
 | Dashboard section dots | `<ScrollDots>` (once, on `/dashboard`; finds every `<DashPage>` itself) |
@@ -137,7 +137,7 @@ its counts live in the aria-label. No tooltips.
 - **The dot code.** Solid / ring / pip is the only color statement: the
   goal is read by eye as more solid than ring. Don't spend a fill or a ring
   on anything that isn't a book's author tag or a lens.
-- **Dot lenses.** `<DotLegend>`'s `<LensButton>` (hairline pill, refresh
+- **Dot lenses.** `<DotLegend>`'s `<LensButton>` (underlined like the year filter, refresh
   icon, the lens's name) cycles what the dots read, on home and every
   dashboard page that sets `legend` (the dot charts; not Numbers or the
   map). One lens for the whole site, from `useLens()`, defined in
