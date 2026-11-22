@@ -45,7 +45,7 @@ choice isn't saved.
 - `/dashboard`: one chart per full-height page, all on the field, in this
   order: by the numbers (books, pages, average rating, median days), annual
   goal, by month (by year under "All"), by rating, by length (pages), by
-  duration (days), by decade, by age (when read), by genre, by author, by
+  duration (days), by decade, by book age (when read), by genre, by author, by
   location (the map). The page snaps section to section (mandatory,
   `snap-always`, set on <html> by the page), with one dot per section on
   the right edge (`<ScrollDots>`, hidden below `sm`), the current one full
