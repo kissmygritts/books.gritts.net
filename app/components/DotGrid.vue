@@ -78,9 +78,9 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="grid min-h-svh content-center px-4 pt-28 pb-14 sm:px-8">
+  <div class="grid min-h-svh content-start px-4 pt-16 pb-14 sm:content-center sm:px-8 sm:pt-28">
     <div class="w-dot-grid mx-auto" :style="{ '--cols': cols }">
-      <header class="mb-16">
+      <header class="mb-10 sm:mb-16">
         <h1 class="font-extralight text-title tracking-display tabular-nums">
           {{ books.length }} Books
         </h1>

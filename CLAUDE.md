@@ -33,8 +33,9 @@ dot. Three pages, linked from `<GooeyMenu>` (lower right). `/dashboard` and `/bo
 each open their year filter on the current year (`useLedgerYear`); the
 choice isn't saved.
 
-- `/`: every finished book as one dot, oldest first, about 3:1, and one
-  static line under it. Hover, click or arrow keys open the book card
+- `/`: every finished book as one dot, newest first, about 3:1, and one
+  static line under it. Centered from `sm` up; on a phone it starts at the
+  top. Hover, click or arrow keys open the book card
   (`<BookCard>`); a click pins it (hover no longer moves or closes it)
   until Escape or a click outside. The legend (`<DotLegend>`) cycles what the dots read
   (White men, Gender, Authors of color, Translated, American; `app/lib/lens.ts`,

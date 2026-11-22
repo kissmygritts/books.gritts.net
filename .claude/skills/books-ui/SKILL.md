@@ -153,7 +153,7 @@ live in the aria-label. No other tooltips.
   solid minus ring (`+14 books`, `−3 books`); it has no verdict line. The
   book card and table stay on `white_male_author`. A new lens is
   one entry in `LENSES`, nothing else.
-- **The home grid.** Every finished book, oldest first, about 3:1, reflowing
+- **The home grid.** Every finished book, newest first, about 3:1, reflowing
   on a phone. One entrance animation (`motion-safe:` only), nothing else
   moves.
 - **Dithered covers.** Two inks, the page's foreground and background
