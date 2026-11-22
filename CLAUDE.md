@@ -28,7 +28,7 @@ first.
 ## State (as of 2026-11-21)
 
 Phases 1 to 3 are done, and the redesign approved as
-`prototypes/11-dots.html` is in: a flat blue field, white ink, every book a
+`prototypes/11-dots.html` is in: a flat field (forest by default; the prototype was blue), white ink, every book a
 dot. Three pages, linked from `<GooeyMenu>` (lower right). `/dashboard` and `/books`
 each open their year filter on the current year (`useLedgerYear`); the
 choice isn't saved.
@@ -98,7 +98,7 @@ no finish date. The home grid and dashboard leave those out.
   as `false`. `useLedger` fixes this. Don't query the collection anywhere
   else without the same fix.
 - **Field pages set the body class:** `/` and `/dashboard` paint the field
-  with `useHead({ bodyAttrs: ... })`, so overscroll stays blue.
+  with `useHead({ bodyAttrs: ... })`, so overscroll stays on the field.
 - **Cover dither inks:** `DitherFilters.vue` floods `--page-ink-*` /
   `--page-ground-*` (named per theme, since the filter can't read a theme
   block). Change a page ink there, in `main.css`, not in the filter.
@@ -109,7 +109,8 @@ no finish date. The home grid and dashboard leave those out.
   existed won't serve it; restart it.
 - **Field palette:** `--field` reads `--field-light` / `--field-dark`, which
   `[data-palette]` on <html> swaps (ids in `app/lib/palette.ts`, cycled by
-  the menu's palette blob, kept in localStorage as `books-palette`). An
+  the menu's palette blob, kept in localStorage as `books-palette`; the
+  default, `DEFAULT_PALETTE`, is forest and has no attribute). An
   inline head script (`PALETTE_BOOT`, nuxt.config) sets it before paint.
   The page surface follows: every page token is `oklch(from --field-* …)`
   at a fixed lightness, chroma scaled from the field's, so blue matches the

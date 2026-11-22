@@ -6,7 +6,7 @@
    renders every token live.
 
    Two surfaces (approved prototype: prototypes/11-dots.html):
-     field  the flat blue of `/` and `/dashboard`; ink is white, and every
+     field  the flat color of `/` and `/dashboard`; ink is white, and every
             line, dot and focus ring there is `currentColor`.
      page   a pale tint of the field for `/books`; the ink is the same hue,
             desaturated and dark, so it blends with the ground.
@@ -29,7 +29,12 @@
    read a theme block.
 ---------------------------------------------------------------------------- */
 
-:root {
+:root,
+[data-palette="forest"] {
+  --field-light: oklch(42% 0.09 150);
+  --field-dark: oklch(35% 0.075 150);
+}
+[data-palette="blue"] {
   --field-light: oklch(54.1% 0.209 263.5);
   --field-dark: oklch(47.6% 0.188 264.2);
 }
@@ -56,10 +61,6 @@
 [data-palette="plum"] {
   --field-light: oklch(40% 0.12 330);
   --field-dark: oklch(33% 0.1 330);
-}
-[data-palette="forest"] {
-  --field-light: oklch(42% 0.09 150);
-  --field-dark: oklch(35% 0.075 150);
 }
 [data-palette="slate"] {
   --field-light: oklch(48% 0.04 250);

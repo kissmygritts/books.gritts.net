@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Styleguide only: renders the slot twice, forced light and forced dark.
-// `field` paints both on the blue field instead of the page surface.
+// `field` paints both on the field instead of the page surface.
 defineProps<{ title: string; field?: boolean }>()
 </script>
 

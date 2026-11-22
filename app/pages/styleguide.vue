@@ -31,7 +31,7 @@ const page = [
 	{ cls: 'bg-rule', name: 'rule', role: 'Hairline between rows' },
 ]
 const field = [
-	{ cls: 'bg-field', name: 'field', role: 'The blue of / and /dashboard' },
+	{ cls: 'bg-field', name: 'field', role: 'The ground of / and /dashboard' },
 	{
 		cls: 'bg-field-card',
 		name: 'field-card',
@@ -68,6 +68,9 @@ const type = [
 
 const sgYear = useLedgerYear(years, currentYear)
 const sgStatus = ref<BookStatus>('read')
+// The palette swatches: the one the menu picked (no attribute, so it
+// inherits from <html>), then every palette fixed by its own attribute.
+const swatches = [{ id: 'current', label: 'Current' }, ...PALETTES]
 const sample = computed(() => finished.value.slice(0, 18))
 const mapBooks = computed(() =>
 	finished.value.filter((b) => b.regions.length).slice(0, 24),
@@ -140,15 +143,16 @@ const columns = computed(() =>
       <p class="max-w-prose">
         The field's hue, one per viewer, cycled from the menu. Light, then
         dark: the field, then the page it tints (ground and ink, from
-        --page-ground-* / --page-ink-*), which covers dither to.
+        --page-ground-* / --page-ink-*), which covers dither to. Current
+        follows the menu; the rest are fixed.
       </p>
       <ul class="flex flex-wrap gap-6 border-border border-t pt-4">
-        <li v-for="p in PALETTES" :key="p.id" class="grid justify-items-center gap-2">
+        <li v-for="p in swatches" :key="p.id" class="grid justify-items-center gap-2">
           <span class="flex">
             <span
               v-for="theme in ['light', 'dark']"
               :key="theme"
-              :data-palette="p.id"
+              :data-palette="p.id === 'current' ? undefined : p.id"
               :data-theme="theme"
               class="size-8 bg-field first:rounded-l-full last:rounded-r-full"
             />
@@ -157,7 +161,7 @@ const columns = computed(() =>
             <span
               v-for="theme in ['light', 'dark']"
               :key="theme"
-              :data-palette="p.id"
+              :data-palette="p.id === 'current' ? undefined : p.id"
               :data-theme="theme"
               class="flex size-8 items-center justify-center border border-rule first:rounded-l-full last:rounded-r-full"
             >

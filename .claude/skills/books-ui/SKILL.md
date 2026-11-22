@@ -7,7 +7,7 @@ description: Build or modify books.gritts.net UI — pages, components, charts, 
 
 books.gritts.net is a **reading ledger**: one person's books read and to read,
 rendered from the frontmatter the vault's `sync-site.ts` writes. The look was
-approved as `prototypes/11-dots.html` (2026-11-21): a flat blue field, white
+approved as `prototypes/11-dots.html` (2026-11-21): a flat field (forest by default), white
 ink, every book a dot. This is the rulebook; `/styleguide` is the living
 visual reference. **Prefer the styleguide over re-deriving styles.**
 
