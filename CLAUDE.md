@@ -25,7 +25,7 @@ first.
 - Re-sync the data, run from the vault root:
   `bun .claude/skills/book/scripts/sync-site.ts ~/dev/sandbox/web/books.gritts.net/content/books`
 
-## State (as of 2026-11-21)
+## State (as of 2026-11-22)
 
 Phases 1 to 3 are done, and the redesign approved as
 `prototypes/11-dots.html` is in: a flat field (forest by default; the prototype was blue), white ink, every book a
@@ -35,7 +35,8 @@ choice isn't saved.
 
 - `/`: every finished book as one dot, oldest first, about 3:1, and one
   static line under it. Hover, click or arrow keys open the book card
-  (`<BookCard>`). The legend (`<DotLegend>`) cycles what the dots read
+  (`<BookCard>`); a click pins it (hover no longer moves or closes it)
+  until Escape or a click outside. The legend (`<DotLegend>`) cycles what the dots read
   (White men, Gender, Authors of color, Translated, American; `app/lib/lens.ts`,
   shared through `useLens()`, kept as `books-lens`). Nothing else on the
   page. The same legend sits with the year filter (switch beside it, key below) on each dashboard dot
@@ -59,9 +60,10 @@ choice isn't saved.
 The redesign dropped the "Every year" panel and the Author / Format switch
 on the month chart, and later the audiobook share and "Where it was set".
 The map is "By location": states or countries shaded white by book count,
-empty regions faint, split by field-colored gaps (`<PlaceMap>`); hover, click
-or focus on a shaded region opens `<PlaceCard>`, its books for the year,
-US / World persisted under `books-map`.
+empty regions faint, split by field-colored gaps (`<PlaceMap>`). Hover, click
+or focus on a shaded region outlines it and opens `<PlaceCard>`: its books
+for the year, newest finish first, scrolling past about ten (click pins it,
+as with the book card). US / World persisted under `books-map`.
 
 All panel numbers matched the private ledger for 2018 and 2021–2026 plus
 "All" on 2026-11-21, before the redesign; `ledger.ts` is unchanged since.
@@ -87,6 +89,9 @@ no finish date. The home grid and dashboard leave those out.
   registration.
 - `app/components/Dot*.vue`, `BookDot.vue`: the dot grid and dot charts.
   `PlaceMap.vue` draws the map with d3-geo + topojson-client.
+- `app/composables/useBookCard.ts`: the popup behavior (hover delay, click
+  to pin, swap while open) as `usePopupCard<T>()`; `useBookCard()` is it for
+  a `Book`. `<BookCardPopover>` and `<PlaceCardPopover>` render it.
 - `public/geo/`: us-atlas@3.0.1 / world-atlas@2.0.2 outlines, copies of the
   vault's `ledger/geo/`. Biome ignores them.
 - `prototypes/`: the design rounds; 11-dots.html is the approved one. Biome ignores it.
@@ -117,6 +122,9 @@ no finish date. The home grid and dashboard leave those out.
   at a fixed lightness, chroma scaled from the field's, so blue matches the
   prototype and contrast holds in every palette. Low-chroma palettes (teal,
   forest, slate, ink) give a near-grey page.
+- **Map outline on top:** the hovered or pinned region's outline is a
+  separate path drawn after every region. A stroke on the region's own path
+  is covered by neighbors painted later.
 - **Per-viewer state:** the map view (`books-map`) is kept in localStorage
   via `usePersisted` and read after mount, so SSR renders the default.
 
