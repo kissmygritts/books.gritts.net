@@ -43,7 +43,13 @@ export default defineNuxtConfig({
 		},
 	},
 
-	nitro: { prerender: { crawlLinks: true, routes: ['/', '/dashboard', '/books', '/styleguide'] } },
+	nitro: {
+		preset: 'static',
+		prerender: {
+			crawlLinks: true,
+			routes: ['/', '/dashboard', '/books', '/styleguide'],
+		},
+	},
 
 	vite: { plugins: [tailwindcss()] },
 
