@@ -35,9 +35,11 @@ choice isn't saved.
 
 - `/`: every finished book as one dot, oldest first, about 3:1, and one
   static line under it. Hover, click or arrow keys open the book card
-  (`<BookCard>`). The legend's `<LensButton>` cycles what the dots read
+  (`<BookCard>`). The legend (`<DotLegend>`) cycles what the dots read
   (White men, Authors of color, Translated, American; `app/lib/lens.ts`,
-  kept as `books-lens`). Nothing else on the page.
+  shared through `useLens()`, kept as `books-lens`). Nothing else on the
+  page. The same legend sits under the year filter on each dashboard dot
+  chart (`<DashPage legend>`); the goal stays on `white_male_author`.
 - `/dashboard`: one chart per full-height page, all on the field, in this
   order: by the numbers (books, pages, average rating, median days), annual
   goal, by month (by year under "All"), by rating, by length (pages), by

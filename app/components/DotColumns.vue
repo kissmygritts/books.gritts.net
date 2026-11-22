@@ -15,6 +15,7 @@ export interface DotColumn {
 }
 
 defineProps<{ columns: DotColumn[]; perRow: number }>()
+const { lens } = useLens()
 const hovered = useHoverBook()
 const card = useBookCard()
 </script>
@@ -33,7 +34,7 @@ const card = useBookCard()
         <BookDot
           v-for="b in [...c.books].sort(byFinishAsc)"
           :key="b.slug"
-          :value="b.white_male_author"
+          :tag="lens.tag(b)"
           class="hover:outline-2 hover:outline-current hover:outline-offset-2"
           @mouseenter="hovered = b"
           v-on="card.on(b)"

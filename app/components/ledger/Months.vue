@@ -22,7 +22,7 @@ const caption = computed(() =>
 </script>
 
 <template>
-  <DashPage
+  <DashPage legend
     id="months"
     v-model:year="year"
     :title="byYear ? 'By year' : 'By month'"

@@ -34,7 +34,7 @@ const caption = computed(
 </script>
 
 <template>
-  <DashPage id="authors" v-model:year="year" title="By author" :caption="caption" :years="years">
+  <DashPage legend id="authors" v-model:year="year" title="By author" :caption="caption" :years="years">
     <DotRows v-if="rows.length" :rows="rows" />
     <p v-else class="font-extralight text-verdict">No author read twice in {{ year }}.</p>
   </DashPage>

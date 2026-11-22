@@ -38,7 +38,7 @@ const rows = computed(() => {
 </script>
 
 <template>
-  <DashPage
+  <DashPage legend
     id="genres"
     v-model:year="year"
     title="By genre"

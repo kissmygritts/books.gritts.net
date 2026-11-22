@@ -66,6 +66,6 @@ const caption = computed(
 <template>
   <DashPage id="goal" v-model:year="year" title="Annual goal" :caption="caption" :years="years">
     <p class="mb-8 max-w-4xl font-extralight text-verdict tabular-nums sm:mb-14">{{ text }}</p>
-    <DotRows :rows="rows" />
+    <DotRows :rows="rows" fixed />
   </DashPage>
 </template>

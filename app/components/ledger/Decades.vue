@@ -24,7 +24,7 @@ const caption = computed(
 </script>
 
 <template>
-  <DashPage id="decades" v-model:year="year" title="By decade" :caption="caption" :years="years">
+  <DashPage legend id="decades" v-model:year="year" title="By decade" :caption="caption" :years="years">
     <DotColumns v-if="columns.length" :columns="columns" :per-row="3" />
     <p v-else class="font-extralight text-verdict">No publication years recorded.</p>
   </DashPage>

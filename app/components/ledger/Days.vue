@@ -31,7 +31,7 @@ const caption = computed(() => {
 </script>
 
 <template>
-  <DashPage id="days" v-model:year="year" title="By duration" :caption="caption" :years="years">
+  <DashPage legend id="days" v-model:year="year" title="By duration" :caption="caption" :years="years">
     <DotColumns v-if="columns.length" :columns="columns" :per-row="3" />
     <p v-else class="font-extralight text-verdict">No start dates recorded.</p>
   </DashPage>

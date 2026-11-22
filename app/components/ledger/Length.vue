@@ -25,7 +25,7 @@ const caption = computed(() => {
 </script>
 
 <template>
-  <DashPage id="length" v-model:year="year" title="By length" :caption="caption" :years="years">
+  <DashPage legend id="length" v-model:year="year" title="By length" :caption="caption" :years="years">
     <DotColumns v-if="columns.length" :columns="columns" :per-row="4" />
     <p v-else class="font-extralight text-verdict">No page counts recorded.</p>
   </DashPage>

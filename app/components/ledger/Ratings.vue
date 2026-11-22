@@ -23,7 +23,7 @@ const caption = computed(
 </script>
 
 <template>
-  <DashPage id="ratings" v-model:year="year" title="By rating" :caption="caption" :years="years">
+  <DashPage legend id="ratings" v-model:year="year" title="By rating" :caption="caption" :years="years">
     <DotColumns :columns="columns" :per-row="2" />
   </DashPage>
 </template>

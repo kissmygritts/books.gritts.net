@@ -4,13 +4,11 @@
 // clicking it, or stepping with the arrow keys opens its book card; a
 // screen reader hears the book through a hidden live caption.
 import type { Book } from '@/lib/book'
-import { type LensId, LENSES, lensById } from '@/lib/lens'
 
 const props = defineProps<{ books: Book[] }>()
 
 // How the dots are filled; the legend's button cycles it.
-const lensId = usePersisted<LensId>('books-lens', 'wm', (r) => lensById(r)?.id)
-const lens = computed(() => lensById(lensId.value) ?? (LENSES[0] as (typeof LENSES)[number]))
+const { lens } = useLens()
 const tags = computed(() => props.books.map(lens.value.tag))
 const ariaLabel = computed(() => {
 	const l = lens.value.label
@@ -117,14 +115,7 @@ function onKey(e: KeyboardEvent) {
       <BookCardPopover :card="card" />
       <div class="mt-16 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 text-sm">
         <p id="dot-caption">A dot for every book I've read.</p>
-        <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
-          <LensButton v-model="lensId" />
-          <ul class="flex flex-wrap gap-x-5 gap-y-2" aria-hidden="true">
-            <li class="flex items-center gap-2"><BookDot tag="other" size="sm" />{{ lens.label.other }}</li>
-            <li class="flex items-center gap-2"><BookDot tag="wm" size="sm" />{{ lens.label.wm }}</li>
-            <li class="flex items-center gap-2"><BookDot tag="untagged" size="sm" />{{ lens.label.untagged }}</li>
-          </ul>
-        </div>
+        <DotLegend />
       </div>
       <p class="sr-only" aria-live="polite">
         <BookCaption v-if="book" :book="book" />
