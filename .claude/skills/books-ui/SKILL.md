@@ -15,11 +15,12 @@ visual reference. **Prefer the styleguide over re-deriving styles.**
 
 1. **Every book is a dot.** One mark carries the whole site: solid for
    everyone else, a ring for a white man, a small pip for untagged
-   (`<BookDot>`). Charts are arrangements of dots, one per book, never bars,
-   lines or areas. Pointing at a dot names the book.
+   (`<BookDot>`). On the home grid only, a lens can swap the field behind
+   solid / ring / pip (see Dot lenses). Charts are arrangements of dots, one
+   per book, never bars, lines or areas. Pointing at a dot names the book.
 2. **Quiet, with air.** One chart per dashboard page, a full screen of field
-   around it. Home is the dots and one static line under them ("A dot for every book
-   I've read."): no other copy, no counts. No
+   around it. Home is the dots, one static line under them ("A dot for every book
+   I've read.") and the legend with its lens switch: no other copy, no counts. No
    cards, shadows, gradients, textures or illustration; no skeuomorphism.
 3. **Measured.** Ratings are the owner's **1–8 scale**, always shown as `/8`
    or eight circles, never stars or rescaled. The one exception is the
@@ -101,8 +102,9 @@ titles and author names exactly as the vault spells them.
 | Need | Use |
 |---|---|
 | Page links | `<GooeyMenu>` (in the layout) |
-| A book as a mark | `<BookDot :value="white_male_author" size>` (`grid`, `md`, `sm`) |
-| The home grid | `<DotGrid :books>` |
+| A book as a mark | `<BookDot :value="white_male_author" size>` (`grid`, `md`, `sm`), or `:tag` from a lens |
+| The home grid | `<DotGrid :books>` (owns the lens, kept as `books-lens`) |
+| The lens switch | `<LensButton v-model>` (home legend only) |
 | A dashboard page | `<DashPage id title caption :years v-model:year>`; one chart in the slot |
 | Dashboard section dots | `<ScrollDots>` (once, on `/dashboard`; finds every `<DashPage>` itself) |
 | Dot columns | `<DotColumns :columns :per-row>` |
@@ -133,7 +135,17 @@ its counts live in the aria-label. No tooltips.
 
 - **The dot code.** Solid / ring / pip is the only color statement: the
   goal is read by eye as more solid than ring. Don't spend a fill or a ring
-  on anything that isn't a book's author tag.
+  on anything that isn't a book's author tag or a lens.
+- **Dot lenses.** The home legend's `<LensButton>` (hairline pill, refresh
+  icon, the lens's name) cycles what the grid's dots read, defined in
+  `app/lib/lens.ts`: White men (the default), Authors of color
+  (`author_poc`), Translated (`original_language` not English), American
+  (`author_country` includes United States). Solid is always the side away
+  from the default (everyone else, person of color, translated, not
+  American); a missing field is the pip, labelled "Not recorded". The
+  legend and the grid's aria-label follow the lens. Everywhere else (book
+  card, table, goal, dashboard) stays on `white_male_author`. A new lens is
+  one entry in `LENSES`, nothing else.
 - **The home grid.** Every finished book, oldest first, about 3:1, reflowing
   on a phone. One entrance animation (`motion-safe:` only), nothing else
   moves.

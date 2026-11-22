@@ -28,8 +28,15 @@ export interface Book {
 	series_number?: number | null
 	/** Yearly goal tag. false counts toward the goal; null = untagged. */
 	white_male_author?: boolean | null
+	/** One entry per author: man / woman / nonbinary. */
+	author_gender?: string[] | null
 	/** true if any author is a person of color. */
 	author_poc?: boolean | null
+	/** Author nationality, one or more countries (plain text, e.g. "United States"). */
+	author_country?: string[] | null
+	/** Language the book was first written in. Translated = not "English". */
+	original_language?: string | null
+	/** Region first (US state, else country), optional city. */
 	places?: string[] | null
 }
 

@@ -2,11 +2,15 @@
 // Every token and primitive, both themes, both surfaces. The rules are in
 // .claude/skills/books-ui/SKILL.md.
 import type { BookStatus } from '@/lib/book'
+import { type LensId, LENSES, lensById } from '@/lib/lens'
 import { PALETTES } from '@/lib/palette'
 
 useHead({ title: 'Styleguide' })
 
 const { all, finished, years, currentYear } = await useLedger()
+
+const sgLens = ref<LensId>('wm')
+const sgLensDef = computed(() => lensById(sgLens.value) ?? (LENSES[0] as (typeof LENSES)[number]))
 
 const page = [
 	{
@@ -111,7 +115,8 @@ const columns = computed(() =>
       <p class="max-w-prose">
         Two surfaces: the field of the home page and dashboard, and the pale
         page of Books, tinted from the field. One family, Outfit. One mark, the dot: solid
-        for everyone else, a ring for a white man, a pip for untagged.
+        for everyone else, a ring for a white man, a pip for untagged. On the home grid a
+        lens can swap the field the dots read.
       </p>
     </div>
 
@@ -189,6 +194,20 @@ const columns = computed(() =>
         </div>
         grid (home), md (charts), sm (tags)
       </div>
+    </StyleguideThemePair>
+
+    <StyleguideThemePair title="Dot lenses (home only)" field>
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <LensButton v-model="sgLens" />
+        <span class="flex items-center gap-2"><BookDot tag="other" size="sm" />{{ sgLensDef.label.other }}</span>
+        <span class="flex items-center gap-2"><BookDot tag="wm" size="sm" />{{ sgLensDef.label.wm }}</span>
+        <span class="flex items-center gap-2"><BookDot tag="untagged" size="sm" />{{ sgLensDef.label.untagged }}</span>
+      </div>
+      <ul class="grid gap-1.5 text-meta">
+        <li v-for="l in LENSES" :key="l.id">
+          {{ l.name }}: solid {{ l.label.other.toLowerCase() }}, ring {{ l.label.wm.toLowerCase() }}, pip {{ l.label.untagged.toLowerCase() }}
+        </li>
+      </ul>
     </StyleguideThemePair>
 
     <StyleguideThemePair title="Year filter and caption" field>

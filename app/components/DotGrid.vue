@@ -4,8 +4,18 @@
 // clicking it, or stepping with the arrow keys opens its book card; a
 // screen reader hears the book through a hidden live caption.
 import type { Book } from '@/lib/book'
+import { type LensId, LENSES, lensById } from '@/lib/lens'
 
 const props = defineProps<{ books: Book[] }>()
+
+// How the dots are filled; the legend's button cycles it.
+const lensId = usePersisted<LensId>('books-lens', 'wm', (r) => lensById(r)?.id)
+const lens = computed(() => lensById(lensId.value) ?? (LENSES[0] as (typeof LENSES)[number]))
+const tags = computed(() => props.books.map(lens.value.tag))
+const ariaLabel = computed(() => {
+	const l = lens.value.label
+	return `Every finished book, one dot each, in the order finished. Solid: ${l.other}. Ring: ${l.wm}. Small dot: ${l.untagged}. Use the arrow keys to step through them.`
+})
 
 // About 3:1 when there is room; narrower screens reflow to fewer columns.
 const cols = computed(() => Math.ceil(Math.sqrt(props.books.length * 3)))
@@ -81,7 +91,7 @@ function onKey(e: KeyboardEvent) {
         ref="grid"
         tabindex="0"
         role="group"
-        aria-label="Every finished book, one dot each, in the order finished. Solid: everyone else. Ring: a white man. Small dot: untagged. Use the arrow keys to step through them."
+        :aria-label="ariaLabel"
         aria-describedby="dot-caption"
         class="dot-grid rounded-sm outline-offset-12"
         @focus="onFocus"
@@ -93,7 +103,7 @@ function onKey(e: KeyboardEvent) {
           v-for="(b, i) in books"
           :key="b.slug"
           size="grid"
-          :value="b.white_male_author"
+          :tag="tags[i]"
           :class="[
             'dot-delay motion-safe:animate-dot-in hover:outline-2 hover:outline-current hover:outline-offset-3',
             i === active && 'outline-2 outline-current outline-offset-3',
@@ -107,11 +117,14 @@ function onKey(e: KeyboardEvent) {
       <BookCardPopover :card="card" />
       <div class="mt-16 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 text-sm">
         <p id="dot-caption">A dot for every book I've read.</p>
-        <ul class="flex flex-wrap gap-x-5 gap-y-2" aria-hidden="true">
-          <li class="flex items-center gap-2"><BookDot tag="other" size="sm" />Everyone else</li>
-          <li class="flex items-center gap-2"><BookDot tag="wm" size="sm" />White man</li>
-          <li class="flex items-center gap-2"><BookDot tag="untagged" size="sm" />Untagged</li>
-        </ul>
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <LensButton v-model="lensId" />
+          <ul class="flex flex-wrap gap-x-5 gap-y-2" aria-hidden="true">
+            <li class="flex items-center gap-2"><BookDot tag="other" size="sm" />{{ lens.label.other }}</li>
+            <li class="flex items-center gap-2"><BookDot tag="wm" size="sm" />{{ lens.label.wm }}</li>
+            <li class="flex items-center gap-2"><BookDot tag="untagged" size="sm" />{{ lens.label.untagged }}</li>
+          </ul>
+        </div>
       </div>
       <p class="sr-only" aria-live="polite">
         <BookCaption v-if="book" :book="book" />
