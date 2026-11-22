@@ -62,3 +62,23 @@ export const AUTHOR_TAG_SINGLE: Record<AuthorTag, string> = {
 	wm: 'White man',
 	untagged: 'Untagged',
 }
+
+export type Form = 'fiction' | 'non-fiction'
+
+export const FORM_LABEL: Record<Form, string> = {
+	fiction: 'Fiction',
+	'non-fiction': 'Non-fiction',
+}
+
+/** Fiction or non-fiction, from the genre tags; null when they don't say. */
+export function bookForm(genre: string[] | null | undefined): Form | null {
+	if (!genre?.length) return null
+	if (
+		genre.some(
+			(g) => g === 'non-fiction' || g === 'technical' || g === 'memoir',
+		)
+	)
+		return 'non-fiction'
+	if (genre.some((g) => g.endsWith('fiction'))) return 'fiction'
+	return null
+}

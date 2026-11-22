@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // The books on /books, one row each: cover, title and author, a date,
-// pages, rating, author tag. Finished books sort by finish, rating or
+// pages, rating, genre (fiction or non-fiction). Finished books sort by finish, rating or
 // pages; the other lists keep the order they are given.
 import { ArrowDown, ArrowUp } from '@lucide/vue'
-import type { Book, BookStatus } from '@/lib/book'
+import { type Book, type BookStatus, bookForm, FORM_LABEL } from '@/lib/book'
 import { byFinishDesc } from '@/lib/derive'
 import { authorList, longDate, plural } from '@/lib/format'
 
@@ -106,7 +106,7 @@ function dateOf(b: Book): string {
           </button>
           <span v-else>{{ c.l }}</span>
         </template>
-        <span>Author</span>
+        <span>Genre</span>
       </li>
       <li
         v-for="b in rows"
@@ -124,10 +124,9 @@ function dateOf(b: Book): string {
         <span class="text-sm tabular-nums @max-4xl:col-span-2">
           {{ b.pages ? plural(b.pages, 'page') : 'Pages unknown' }}
         </span>
-        <RatingBadge :rating="b.rating" class="@max-4xl:col-span-2" />
-        <span class="flex flex-wrap items-center gap-2 @max-4xl:col-span-2">
-          <AuthorTag :value="b.white_male_author" />
-          <Badge v-if="b.audible">Audiobook</Badge>
+        <RatingBadge :rating="b.rating" bare class="@max-4xl:col-span-2" />
+        <span class="text-sm @max-4xl:col-span-2">
+          {{ bookForm(b.genre) ? FORM_LABEL[bookForm(b.genre)!] : '–' }}
         </span>
       </li>
     </ul>

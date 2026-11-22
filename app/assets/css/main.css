@@ -216,13 +216,13 @@
   }
 }
 
-/* A book row on /books: cover, title, then date, pages, rating and author
-   tag as columns once its container (`@container` on <BookTable>) is 56rem
+/* A book row on /books: cover, title, then date, pages, rating and genre
+   as columns once its container (`@container` on <BookTable>) is 56rem
    wide (`@4xl`); below that the meta wraps under the title. */
 @utility grid-cols-book {
   grid-template-columns: 3.25rem minmax(0, 1fr) auto;
   @container (width >= 56rem) {
-    grid-template-columns: 3.25rem minmax(0, 1fr) 7.25rem 6rem 8.25rem 9.5rem;
+    grid-template-columns: 3.25rem minmax(0, 1fr) 7.25rem 6rem 6.5rem 6.5rem;
   }
 }
 
