@@ -15,6 +15,15 @@ const grid = ref<HTMLElement>()
 const book = computed(() => props.books[active.value] ?? null)
 const card = useBookCard()
 
+// Years spanned by recorded finishes, e.g. "2011 – 2026".
+const span = computed(() => {
+	const ys = props.books.map((b) => b.finished_at?.slice(0, 4)).filter(Boolean) as string[]
+	if (!ys.length) return ''
+	const lo = ys.reduce((a, b) => (a < b ? a : b))
+	const hi = ys.reduce((a, b) => (a > b ? a : b))
+	return lo === hi ? lo : `${lo} – ${hi}`
+})
+
 // Columns actually rendered: dots sharing the first row's top edge.
 function renderedCols(): number {
 	const kids = grid.value?.children
@@ -62,7 +71,12 @@ function onKey(e: KeyboardEvent) {
 <template>
   <div class="grid min-h-svh content-center px-4 pt-28 pb-14 sm:px-8">
     <div class="w-dot-grid mx-auto" :style="{ '--cols': cols }">
-      <h1 class="sr-only">Every book read, one dot each</h1>
+      <header class="mb-10">
+        <h1 class="font-extralight text-title tracking-display tabular-nums">
+          {{ books.length }} Books
+        </h1>
+        <p v-if="span" class="mt-1 text-lg tabular-nums">{{ span }}</p>
+      </header>
       <div
         ref="grid"
         tabindex="0"
@@ -91,7 +105,14 @@ function onKey(e: KeyboardEvent) {
         />
       </div>
       <BookCardPopover :card="card" />
-      <p id="dot-caption" class="mt-12 text-sm">A dot for every book I've read.</p>
+      <div class="mt-12 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 text-sm">
+        <p id="dot-caption">A dot for every book I've read.</p>
+        <ul class="flex flex-wrap gap-x-5 gap-y-2" aria-hidden="true">
+          <li class="flex items-center gap-2"><BookDot tag="other" size="sm" />Everyone else</li>
+          <li class="flex items-center gap-2"><BookDot tag="wm" size="sm" />White man</li>
+          <li class="flex items-center gap-2"><BookDot tag="untagged" size="sm" />Untagged</li>
+        </ul>
+      </div>
       <p class="sr-only" aria-live="polite">
         <BookCaption v-if="book" :book="book" />
       </p>
