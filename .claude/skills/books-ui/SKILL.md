@@ -19,7 +19,7 @@ visual reference. **Prefer the styleguide over re-deriving styles.**
    lines or areas. Pointing at a dot names the book.
 2. **Quiet, with air.** One chart per dashboard page, a full screen of field
    around it. Home is the dots and one static line under them ("A dot for every book
-   I've read"): no other copy, no counts. No
+   I've read."): no other copy, no counts. No
    cards, shadows, gradients, textures or illustration; no skeuomorphism.
 3. **Measured.** Ratings are the owner's **1–8 scale**, always shown as `/8`
    or eight circles, never stars or rescaled. The one exception is the

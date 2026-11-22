@@ -91,7 +91,7 @@ function onKey(e: KeyboardEvent) {
         />
       </div>
       <BookCardPopover :card="card" />
-      <p id="dot-caption" class="mt-12 text-sm">A dot for every book I've read</p>
+      <p id="dot-caption" class="mt-12 text-sm">A dot for every book I've read.</p>
       <p class="sr-only" aria-live="polite">
         <BookCaption v-if="book" :book="book" />
       </p>
