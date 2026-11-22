@@ -32,6 +32,11 @@ const page = [
 const field = [
 	{ cls: 'bg-field', name: 'field', role: 'The blue of / and /dashboard' },
 	{
+		cls: 'bg-field-card',
+		name: 'field-card',
+		role: 'The book card: the field’s other shade',
+	},
+	{
 		cls: 'bg-field-foreground',
 		name: 'field-foreground',
 		role: 'Ink on the field',
@@ -185,6 +190,15 @@ const columns = computed(() =>
       <DotColumns :columns="columns" :per-row="2" />
       <DotRows :rows="rows" />
       <p class="font-extralight text-verdict">Ahead by 13 books</p>
+    </StyleguideThemePair>
+
+    <StyleguideThemePair title="Book card" field>
+      <BookCard v-if="tableBooks[0]" :book="tableBooks[0]" />
+      <p class="max-w-prose text-meta">
+        Opens over a dot: after a beat on hover, at once on a click, tap or
+        arrow key. The field color, inked in white (cover too, via
+        filter-dither-field), so it follows the palette. No border or shadow.
+      </p>
     </StyleguideThemePair>
 
     <StyleguideThemePair title="Map" field>

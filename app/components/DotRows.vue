@@ -14,6 +14,7 @@ export interface DotRow {
 
 defineProps<{ rows: DotRow[] }>()
 const hovered = useHoverBook()
+const card = useBookCard()
 </script>
 
 <template>
@@ -34,8 +35,10 @@ const hovered = useHoverBook()
           :value="b.white_male_author"
           class="hover:outline-2 hover:outline-current hover:outline-offset-2"
           @mouseenter="hovered = b"
+          v-on="card.on(b)"
         />
       </span>
     </li>
+    <BookCardPopover :card="card" />
   </ul>
 </template>

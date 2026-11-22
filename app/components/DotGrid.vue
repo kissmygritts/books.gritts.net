@@ -1,7 +1,8 @@
 <script setup lang="ts">
 // The home page: every finished book as one dot, left to right and top to
-// bottom by finish date. Pointing at a dot, or stepping with the arrow keys,
-// shows the book underneath. Nothing else.
+// bottom by finish date, and one static line under it. Pointing at a dot,
+// clicking it, or stepping with the arrow keys opens its book card; a
+// screen reader hears the book through a hidden live caption.
 import type { Book } from '@/lib/book'
 
 const props = defineProps<{ books: Book[] }>()
@@ -12,6 +13,7 @@ const active = ref(-1)
 const focused = ref(false)
 const grid = ref<HTMLElement>()
 const book = computed(() => props.books[active.value] ?? null)
+const card = useBookCard()
 
 // Columns actually rendered: dots sharing the first row's top edge.
 function renderedCols(): number {
@@ -51,6 +53,9 @@ function onKey(e: KeyboardEvent) {
 	if (next === undefined) return
 	e.preventDefault()
 	active.value = Math.min(last, Math.max(0, next))
+	const el = grid.value?.children[active.value]
+	const b = props.books[active.value]
+	if (el && b) card.show(b, el as HTMLElement, 0)
 }
 </script>
 
@@ -82,9 +87,12 @@ function onKey(e: KeyboardEvent) {
           :style="{ '--i': i }"
           @mouseenter="active = i"
           @click="active = i"
+          v-on="card.on(b)"
         />
       </div>
-      <p id="dot-caption" class="mt-12 min-h-12 text-sm" aria-live="polite">
+      <BookCardPopover :card="card" />
+      <p id="dot-caption" class="mt-12 text-sm">A dot for every book I've read</p>
+      <p class="sr-only" aria-live="polite">
         <BookCaption v-if="book" :book="book" />
       </p>
     </div>

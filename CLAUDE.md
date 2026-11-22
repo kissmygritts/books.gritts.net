@@ -33,8 +33,9 @@ dot. Three pages, linked from `<GooeyMenu>` (lower right). `/dashboard` and `/bo
 each open their year filter on the current year (`useLedgerYear`); the
 choice isn't saved.
 
-- `/`: every finished book as one dot, oldest first, about 3:1. Hover or
-  arrow keys name the book. Nothing else on the page.
+- `/`: every finished book as one dot, oldest first, about 3:1, and one
+  static line under it. Hover, click or arrow keys open the book card
+  (`<BookCard>`). Nothing else on the page.
 - `/dashboard`: one chart per full-height page, all on the field: the goal,
   in numbers, by month (by year under "All"), ratings, how long it was
   (pages), how long it took (days), when it was published, how old it was

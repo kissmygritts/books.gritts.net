@@ -18,7 +18,8 @@ visual reference. **Prefer the styleguide over re-deriving styles.**
    (`<BookDot>`). Charts are arrangements of dots, one per book, never bars,
    lines or areas. Pointing at a dot names the book.
 2. **Quiet, with air.** One chart per dashboard page, a full screen of field
-   around it. Home is the dots and nothing else: no copy, no counts. No
+   around it. Home is the dots and one static line under them ("A dot for every book
+   I've read"): no other copy, no counts. No
    cards, shadows, gradients, textures or illustration; no skeuomorphism.
 3. **Measured.** Ratings are the owner's **1–8 scale**, always shown as `/8`
    or eight circles, never stars or rescaled. Every figure in prose carries
@@ -158,7 +159,7 @@ what's left out (`34 books unrated, not shown.`).
   `<PlaceMap>`: regions shaded with the ink at an opacity by count, empty
   regions at 10%, every region stroked 1.5px in `field` as a gap, a legend
   of opacity dots. No other color ramp.
-- Text on the home page.
+- Text on the home page beyond its one static line.
 - A second chart on a dashboard page, or a different color per page.
 - Cards, shadows, gradients, textures, skeuomorphic touches.
 - Uppercase eyebrows, monospace labels, meta joined with middle dots.

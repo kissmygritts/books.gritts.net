@@ -16,6 +16,7 @@ export interface DotColumn {
 
 defineProps<{ columns: DotColumn[]; perRow: number }>()
 const hovered = useHoverBook()
+const card = useBookCard()
 </script>
 
 <template>
@@ -35,11 +36,13 @@ const hovered = useHoverBook()
           :value="b.white_male_author"
           class="hover:outline-2 hover:outline-current hover:outline-offset-2"
           @mouseenter="hovered = b"
+          v-on="card.on(b)"
         />
       </div>
       <span class="self-stretch border-current border-t pt-1.5 text-center text-meta" aria-hidden="true">
         {{ c.label }}
       </span>
     </div>
+    <BookCardPopover :card="card" />
   </div>
 </template>

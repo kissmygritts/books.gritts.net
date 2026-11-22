@@ -2,7 +2,11 @@
 // The owner's 1–8 rating: eight small circles filled to the rating, then n/8.
 import { RATING_MAX } from '@/lib/book'
 
-const props = defineProps<{ rating: number | null | undefined }>()
+const props = defineProps<{
+	rating: number | null | undefined
+	/** Circles only, no `6/8`: the book card. */
+	bare?: boolean
+}>()
 
 const rated = computed(
 	() =>
@@ -25,7 +29,7 @@ const rated = computed(
       :class="['size-2.25 rounded-full border border-current', i <= (rating as number) && 'bg-current']"
       aria-hidden="true"
     />
-    <span class="ml-1.5 text-xs tabular-nums" aria-hidden="true">{{ rating }}/{{ RATING_MAX }}</span>
+    <span v-if="!bare" class="ml-1.5 text-xs tabular-nums" aria-hidden="true">{{ rating }}/{{ RATING_MAX }}</span>
   </span>
   <span v-else class="text-meta">Unrated</span>
 </template>
