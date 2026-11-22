@@ -71,7 +71,7 @@ function onKey(e: KeyboardEvent) {
 <template>
   <div class="grid min-h-svh content-center px-4 pt-28 pb-14 sm:px-8">
     <div class="w-dot-grid mx-auto" :style="{ '--cols': cols }">
-      <header class="mb-10">
+      <header class="mb-16">
         <h1 class="font-extralight text-title tracking-display tabular-nums">
           {{ books.length }} Books
         </h1>
@@ -105,7 +105,7 @@ function onKey(e: KeyboardEvent) {
         />
       </div>
       <BookCardPopover :card="card" />
-      <div class="mt-12 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 text-sm">
+      <div class="mt-16 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 text-sm">
         <p id="dot-caption">A dot for every book I've read.</p>
         <ul class="flex flex-wrap gap-x-5 gap-y-2" aria-hidden="true">
           <li class="flex items-center gap-2"><BookDot tag="other" size="sm" />Everyone else</li>
