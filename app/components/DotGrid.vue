@@ -27,8 +27,9 @@ const card = useBookCard()
 const span = computed(() => {
 	const ys = props.books.map((b) => b.finished_at?.slice(0, 4)).filter(Boolean) as string[]
 	if (!ys.length) return ''
-	const lo = ys.reduce((a, b) => (a < b ? a : b))
-	const hi = ys.reduce((a, b) => (a > b ? a : b))
+	ys.sort()
+	const lo = ys[0]
+	const hi = ys[ys.length - 1]
 	return lo === hi ? lo : `${lo} – ${hi}`
 })
 

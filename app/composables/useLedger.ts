@@ -19,11 +19,40 @@ export async function useLedger() {
 // missing `white_male_author` / `audible` / `author_poc` comes back as false ("everyone
 // else", "print"). The column itself stores NULL, so ask for those rows and
 // put the nulls back. The files, and so the data contract, are untouched.
-const NULLABLE_BOOLEANS = ['white_male_author', 'audible', 'author_poc'] as const
+const NULLABLE_BOOLEANS = [
+	'white_male_author',
+	'audible',
+	'author_poc',
+] as const
+
+// Only the fields the site reads, to keep the page payload small.
+const FIELDS = [
+	'title',
+	'slug',
+	'status',
+	'author',
+	'cover_image',
+	'genre',
+	'pages',
+	'publication_year',
+	'started_at',
+	'finished_at',
+	'rating',
+	'wikipedia',
+	'audible',
+	'white_male_author',
+	'author_gender',
+	'author_poc',
+	'author_country',
+	'original_language',
+	'places',
+] as const
 
 async function fetchBooks(): Promise<Book[]> {
 	const [books, ...nulls] = await Promise.all([
-		queryCollection('books').all(),
+		queryCollection('books')
+			.select(...FIELDS)
+			.all(),
 		...NULLABLE_BOOLEANS.map((f) =>
 			queryCollection('books').where(f, 'IS NULL').select('slug').all(),
 		),
