@@ -81,8 +81,9 @@ no finish date. The home grid and dashboard leave those out.
   else without the same fix.
 - **Field pages set the body class:** `/` and `/dashboard` paint the field
   with `useHead({ bodyAttrs: ... })`, so overscroll stays blue.
-- **Cover dither colors live twice:** the two inks in `DitherFilters.vue`
-  are sRGB copies of `--foreground` / `--background`. Change both together.
+- **Cover dither inks:** `DitherFilters.vue` floods `--page-ink-*` /
+  `--page-ground-*` (named per theme, since the filter can't read a theme
+  block). Change a page ink there, in `main.css`, not in the filter.
 - **Runtime config before the await:** `useRuntimeConfig()` must run before
   the `await` in an async composable.
 - **Maps load on the client:** `<PlaceMap>` fetches `public/geo/` after mount,
@@ -92,7 +93,10 @@ no finish date. The home grid and dashboard leave those out.
   `[data-palette]` on <html> swaps (ids in `app/lib/palette.ts`, cycled by
   the menu's palette blob, kept in localStorage as `books-palette`). An
   inline head script (`PALETTE_BOOT`, nuxt.config) sets it before paint.
-  Only the field changes; the page surface and dither inks stay blue.
+  The page surface follows: every page token is `oklch(from --field-* …)`
+  at a fixed lightness, chroma scaled from the field's, so blue matches the
+  prototype and contrast holds in every palette. Low-chroma palettes (teal,
+  forest, slate, ink) give a near-grey page.
 - **Per-viewer state:** the map view (`books-map`) is kept in localStorage
   via `usePersisted` and read after mount, so SSR renders the default.
 

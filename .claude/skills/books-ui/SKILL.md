@@ -36,7 +36,7 @@ Two, and a page uses one:
 | Surface | Where | How |
 |---|---|---|
 | **Field** | `/`, `/dashboard` | `useHead({ bodyAttrs: { class: 'bg-field text-field-foreground' } })`. White ink; every line, dot and focus ring is `currentColor`. |
-| **Page** | `/books`, `/styleguide` | The body default: `bg-background text-foreground`. The ink is the field's blue desaturated, so it blends with the ground. |
+| **Page** | `/books`, `/styleguide` | The body default: `bg-background text-foreground`. A pale tint of the field with ink in the same hue, desaturated, so it blends with the ground. Derived from `--field-light` / `--field-dark`, so it follows the palette. |
 
 Components draw in `currentColor` (`border-current`, `bg-current`) so they
 work on either surface. Reach for a named token only for what the page
@@ -57,6 +57,7 @@ exceptions. **Never `dark:`**: tokens carry both themes.
 |---|---|
 | `bg-field`, `text-field-foreground` | The field surface. |
 | `bg-background`, `text-foreground` | The page surface and its ink. |
+| `--page-ground-*`, `--page-ink-*` | The page's ground and ink per theme (`-light`, `-dark`), for the cover dither only. Not utilities. |
 | `text-muted-foreground` | Counts beside tab labels. Not for titles. |
 | `bg-muted` | Cover placeholder. |
 | `border-border` | Table top and header rule. |
@@ -69,7 +70,9 @@ entrance), `grid-cols-book` (a book row, columns from a 56rem
 container),
 `filter-dither` (covers). A new color or size is **promoted in `main.css`
 first** (`:root`, both dark blocks, `@theme inline`), added to
-`/styleguide`, then used.
+`/styleguide`, then used. A page color is derived from the field
+(`oklch(from var(--field-light) L calc(c * k) h)`), never a fixed hue, so it
+follows the palette.
 
 ## Typography
 
@@ -129,7 +132,9 @@ No tooltips.
 - **The home grid.** Every finished book, oldest first, about 3:1, reflowing
   on a phone. One entrance animation (`motion-safe:` only), nothing else
   moves.
-- **Dithered covers.** Two inks, the page's foreground and background.
+- **Dithered covers.** Two inks, the page's foreground and background
+  (`filter-dither`, following the palette), or white over the card color
+  on the field (`ink="field"`).
 - **Plain header links**, no arrows or icons; the current page is medium weight.
 
 ## Charts

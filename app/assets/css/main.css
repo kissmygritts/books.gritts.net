@@ -8,9 +8,9 @@
    Two surfaces (approved prototype: prototypes/11-dots.html):
      field  the flat blue of `/` and `/dashboard`; ink is white, and every
             line, dot and focus ring there is `currentColor`.
-     page   the desaturated blue-grey of `/books`; the ink is the same blue,
+     page   a pale tint of the field for `/books`; the ink is the same hue,
             desaturated and dark, so it blends with the ground.
-   Prototype hex → token: #2A62E6 field · #E3E6EC background · #33415E
+   Prototype hex → token (blue): #2A62E6 field · #E3E6EC background · #33415E
    foreground · #4E5B78 muted-foreground · #9AA5BA rule / faint · #D6DBE4 muted.
 
    Themes follow the system. `data-theme="light|dark"` on any element forces
@@ -20,6 +20,13 @@
    usePalette, before paint) picks a pair; each theme block reads its half,
    so an element needs `data-theme` too to repaint a subtree (styleguide).
    Every pair keeps white ink legible. Ids are listed in app/lib/palette.ts.
+
+   The page surface follows the palette too: every page token is the field's
+   hue at a fixed lightness, its chroma scaled from the field's, so blue
+   matches the prototype, ink and slate go near grey, and contrast is the
+   same in every palette. `--page-ink-*` / `--page-ground-*` name the two
+   page inks per theme for the cover dither (<DitherFilters>), which can't
+   read a theme block.
 ---------------------------------------------------------------------------- */
 
 :root {
@@ -63,25 +70,35 @@
   --field-dark: oklch(24% 0.015 264);
 }
 
+/* The page's ink and ground, per theme, from that theme's field. Redeclared
+   wherever `data-palette` is, so a swatch subtree recomputes them. */
+:root,
+[data-palette] {
+  --page-ground-light: oklch(from var(--field-light) 92.4% calc(c * 0.043) h);
+  --page-ink-light: oklch(from var(--field-light) 37.6% calc(c * 0.254) h);
+  --page-ground-dark: oklch(from var(--field-dark) 24.9% calc(c * 0.16) h);
+  --page-ink-dark: oklch(from var(--field-dark) 92.4% calc(c * 0.048) h);
+}
+
 :root,
 [data-theme="light"] {
   color-scheme: light;
 
-  --background: oklch(92.4% 0.009 264.5);
-  --foreground: oklch(37.6% 0.053 264.2);
-  --muted: oklch(89% 0.013 262.4);
-  --muted-foreground: oklch(47.2% 0.05 265.8);
-  --faint: oklch(72% 0.033 263.5);
-  --border: oklch(37.6% 0.053 264.2);
-  --rule: oklch(72% 0.033 263.5);
+  --background: var(--page-ground-light);
+  --foreground: var(--page-ink-light);
+  --muted: oklch(from var(--field-light) 89% calc(c * 0.062) h);
+  --muted-foreground: oklch(from var(--field-light) 47.2% calc(c * 0.239) h);
+  --faint: oklch(from var(--field-light) 72% calc(c * 0.158) h);
+  --border: var(--page-ink-light);
+  --rule: var(--faint);
 
   --field: var(--field-light);
   /* The book card: the field's other shade, so it lifts off the field. */
   --field-card: var(--field-dark);
   --field-foreground: oklch(100% 0 0);
 
-  /* Cover dither: an SVG filter rendered once by <DitherFilters>. Its two
-     ink values are foreground and background, written as sRGB in that file. */
+  /* Cover dither: an SVG filter rendered once by <DitherFilters>, inked in
+     this theme's --page-ink-* / --page-ground-*. */
   --dither: url(#dither-light);
 }
 
@@ -89,13 +106,13 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
 
-    --background: oklch(24.9% 0.03 267.4);
-    --foreground: oklch(92.4% 0.009 264.5);
-    --muted: oklch(30.2% 0.035 265.8);
-    --muted-foreground: oklch(79.4% 0.023 263.2);
-    --faint: oklch(45.1% 0.047 267.3);
-    --border: oklch(92.4% 0.009 264.5);
-    --rule: oklch(45.1% 0.047 267.3);
+    --background: var(--page-ground-dark);
+    --foreground: var(--page-ink-dark);
+    --muted: oklch(from var(--field-dark) 30.2% calc(c * 0.186) h);
+    --muted-foreground: oklch(from var(--field-dark) 79.4% calc(c * 0.122) h);
+    --faint: oklch(from var(--field-dark) 45.1% calc(c * 0.25) h);
+    --border: var(--page-ink-dark);
+    --rule: var(--faint);
 
     --field: var(--field-dark);
     --field-card: var(--field-light);
@@ -108,13 +125,13 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  --background: oklch(24.9% 0.03 267.4);
-  --foreground: oklch(92.4% 0.009 264.5);
-  --muted: oklch(30.2% 0.035 265.8);
-  --muted-foreground: oklch(79.4% 0.023 263.2);
-  --faint: oklch(45.1% 0.047 267.3);
-  --border: oklch(92.4% 0.009 264.5);
-  --rule: oklch(45.1% 0.047 267.3);
+  --background: var(--page-ground-dark);
+  --foreground: var(--page-ink-dark);
+  --muted: oklch(from var(--field-dark) 30.2% calc(c * 0.186) h);
+  --muted-foreground: oklch(from var(--field-dark) 79.4% calc(c * 0.122) h);
+  --faint: oklch(from var(--field-dark) 45.1% calc(c * 0.25) h);
+  --border: var(--page-ink-dark);
+  --rule: var(--faint);
 
   --field: var(--field-dark);
   --field-card: var(--field-light);
@@ -219,7 +236,7 @@
   animation-delay: calc(var(--i, 0) * 4ms);
 }
 
-/* Covers: 1-bit noise dither in foreground / background. */
+/* Covers: 1-bit noise dither in the page's ink / ground. */
 @utility filter-dither {
   filter: var(--dither);
 }

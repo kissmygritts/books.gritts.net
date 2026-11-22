@@ -109,8 +109,8 @@ const columns = computed(() =>
     <div class="grid gap-3">
       <h1 class="font-extralight text-title tracking-display">Styleguide</h1>
       <p class="max-w-prose">
-        Two surfaces: the blue field of the home page and dashboard, and the
-        blue-grey page of Books. One family, Outfit. One mark, the dot: solid
+        Two surfaces: the field of the home page and dashboard, and the pale
+        page of Books, tinted from the field. One family, Outfit. One mark, the dot: solid
         for everyone else, a ring for a white man, a pip for untagged.
       </p>
     </div>
@@ -137,7 +137,8 @@ const columns = computed(() =>
       <h2 class="font-normal text-heading">Field palettes</h2>
       <p class="max-w-prose">
         The field's hue, one per viewer, cycled from the menu. Light, then
-        dark. Only the field changes; the page surface stays blue-grey.
+        dark: the field, then the page it tints (ground and ink, from
+        --page-ground-* / --page-ink-*), which covers dither to.
       </p>
       <ul class="flex flex-wrap gap-6 border-border border-t pt-4">
         <li v-for="p in PALETTES" :key="p.id" class="grid justify-items-center gap-2">
@@ -149,6 +150,17 @@ const columns = computed(() =>
               :data-theme="theme"
               class="size-8 bg-field first:rounded-l-full last:rounded-r-full"
             />
+          </span>
+          <span class="flex">
+            <span
+              v-for="theme in ['light', 'dark']"
+              :key="theme"
+              :data-palette="p.id"
+              :data-theme="theme"
+              class="flex size-8 items-center justify-center border border-rule first:rounded-l-full last:rounded-r-full"
+            >
+              <span class="size-3 rounded-full bg-foreground" />
+            </span>
           </span>
           <span class="text-meta">{{ p.label }}</span>
         </li>
