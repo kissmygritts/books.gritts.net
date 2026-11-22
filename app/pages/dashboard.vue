@@ -45,7 +45,10 @@ const numbersCaption = computed(() =>
   <LedgerNumbers v-model:year="year" :books="books" :years="years" :caption="numbersCaption" />
   <LedgerMonths v-model:year="year" :buckets="months" :years="years" />
   <LedgerRatings v-model:year="year" :books="books" :years="years" />
+  <LedgerLength v-model:year="year" :books="books" :years="years" />
+  <LedgerDays v-model:year="year" :books="books" :years="years" />
   <LedgerDecades v-model:year="year" :books="books" :years="years" />
+  <LedgerAge v-model:year="year" :books="books" :years="years" />
   <LedgerGenres v-model:year="year" :books="books" :years="years" />
   <LedgerAuthors v-model:year="year" :books="books" :years="years" />
   <LedgerPlaces v-model:year="year" :books="books" :years="years" />

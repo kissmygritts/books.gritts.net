@@ -36,8 +36,9 @@ choice isn't saved.
 - `/`: every finished book as one dot, oldest first, about 3:1. Hover or
   arrow keys name the book. Nothing else on the page.
 - `/dashboard`: one chart per full-height page, all on the field: the goal,
-  in numbers, by month (by year under "All"), ratings, when it was
-  published, what it was, most read authors, where it was set, on the map.
+  in numbers, by month (by year under "All"), ratings, how long it was
+  (pages), how long it took (days), when it was published, how old it was
+  when read, what it was, most read authors, where it was set, on the map.
 - `/books`: the table of books by status (Finished, Reading, Up next,
   Abandoned). Finished follows the year filter and sorts; Up next carries
   the goal projection.
@@ -58,6 +59,8 @@ no finish date. The home grid and dashboard leave those out.
 - `app/lib/ledger.ts`: the panel math, ported from the ledger's JS
   (`template.html`). Keep it in step if the ledger changes.
 - `app/lib/derive.ts`: ledger.py's derived fields.
+- `app/lib/shape.ts`: bins for length, days to finish and age when read.
+  These aren't in the private ledger, so there's nothing to check them against.
 - `app/composables/useLedger.ts`: fetches the books and restores null
   booleans (see Gotchas). It also reads the build date, which stands in for
   the ledger's "today".
