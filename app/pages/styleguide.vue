@@ -209,6 +209,10 @@ const columns = computed(() =>
       </p>
     </StyleguideThemePair>
 
+    <StyleguideThemePair title="Year filter on the page">
+      <YearFilter v-model="sgYear" :years="years" surface="page" />
+    </StyleguideThemePair>
+
     <StyleguideThemePair title="Dot charts" field>
       <DotColumns :columns="columns" :per-row="2" />
       <DotRows :rows="rows" />

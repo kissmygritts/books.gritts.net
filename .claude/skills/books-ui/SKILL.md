@@ -113,7 +113,7 @@ titles and author names exactly as the vault spells them.
 | A map of where books were set | `<PlaceMap :books :view>` (`us`, `world`) |
 | A hovered book in words | `<BookCaption :book>` (a `DashPage` caption does this itself) |
 | Figures | `<StatTile value suffix label>` in `<StatGrid>` |
-| Year scope | `<YearFilter v-model :years>` |
+| Year scope | `<YearFilter v-model :years>` (`surface="page"` on the page surface) |
 | Tabs, a sort switch | `<SegmentedControl v-model :options label>` |
 | A list of books | `<BookTable :books :status>` |
 | Cover | `<BookCover :src :title>` (circle, dithered, initials fallback) |

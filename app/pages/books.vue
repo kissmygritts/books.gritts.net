@@ -77,7 +77,7 @@ const summary = computed(() => {
   <div class="mx-auto max-w-ledger px-4 pt-30 pb-24 sm:px-8 lg:px-14">
     <div class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-4">
       <h1 class="font-extralight text-title tracking-display">Books</h1>
-      <YearFilter v-if="status === 'read'" v-model="year" :years="years" />
+      <YearFilter v-if="status === 'read'" v-model="year" :years="years" surface="page" />
     </div>
     <SegmentedControl v-model="status" :options="options" label="List" class="mt-8" />
     <p class="mt-3.5 min-h-6 text-sm tabular-nums">{{ summary }}</p>
