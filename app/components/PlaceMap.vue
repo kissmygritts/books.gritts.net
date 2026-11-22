@@ -3,13 +3,15 @@
 // ledger's renderMap(): one ink, currentColor, more opaque for more books.
 // Empty regions are the ink at 10%. Every region is stroked 1.5px in the
 // field color, a gap that reads the same on shared borders (drawn twice)
-// and on coasts. No hover: the chart's aria-label carries the counts.
+// and on coasts. Hovering, clicking or focusing a shaded region opens a
+// <PlaceCard> listing its books; the chart's aria-label carries the counts.
 // Outlines are us-atlas@3.0.1 / world-atlas@2.0.2 in public/geo/, copied from the
 // vault's ledger/geo/.
 import { geoAlbersUsa, geoEqualEarth, geoPath } from 'd3-geo'
 import type { Feature, FeatureCollection, Geometry } from 'geojson'
 import { feature } from 'topojson-client'
 import type { Topology } from 'topojson-specification'
+import type { Place } from '@/components/PlaceCard.vue'
 import { plural } from '@/lib/format'
 import { type LedgerBook, places } from '@/lib/ledger'
 
@@ -61,6 +63,34 @@ interface Region {
 	d: string
 	n: number
 	opacity: number
+	books: LedgerBook[]
+}
+
+const card = usePopupCard<Place>()
+const place = (r: Region): Place => ({ name: r.name, books: r.books })
+
+// The outlined region, drawn once over the rest: a stroke on the region's own
+// path would be covered by the neighbors painted after it.
+const pointed = ref<string | null>(null)
+const activeRegion = computed(() => {
+	const name = pointed.value ?? card.item.value?.name
+	return name ? model.value?.regions.find((r) => r.name === name) : undefined
+})
+function on(r: Region) {
+	const h = card.on(place(r))
+	return {
+		...h,
+		pointerenter: (e: PointerEvent) => {
+			if (e.pointerType === 'mouse') pointed.value = r.name
+			h.pointerenter(e)
+		},
+		pointerleave: (e: PointerEvent) => {
+			pointed.value = null
+			h.pointerleave(e)
+		},
+		focus: (e: FocusEvent) => card.show(place(r), e.currentTarget as Element, 0),
+		blur: () => card.hide(),
+	}
 }
 
 const model = computed(() => {
@@ -70,7 +100,7 @@ const model = computed(() => {
 	const usNames = new Set(g.us.map((f) => f.properties.name))
 	const worldNames = new Set(g.world.map((f) => f.properties.name))
 
-	const hits: Record<string, Set<string>> = {}
+	const hits: Record<string, Map<string, LedgerBook>> = {}
 	for (const r of places(props.books).regions) {
 		const key = isUS
 			? usNames.has(r.key)
@@ -80,8 +110,8 @@ const model = computed(() => {
 				? 'United States of America'
 				: (COUNTRY_ALIAS[r.key] ?? r.key)
 		if (!key || (!isUS && !worldNames.has(key))) continue
-		hits[key] ??= new Set()
-		for (const b of r.books) hits[key].add(b.slug)
+		hits[key] ??= new Map()
+		for (const b of r.books) hits[key].set(b.slug, b)
 	}
 
 	const max = Math.max(1, ...Object.values(hits).map((h) => h.size))
@@ -103,13 +133,15 @@ const model = computed(() => {
 	const regions: Region[] = feats.flatMap((f) => {
 		const d = path(f)
 		if (!d) return []
-		const n = hits[f.properties.name]?.size ?? 0
+		const books = [...(hits[f.properties.name]?.values() ?? [])]
+		const n = books.length
 		return [
 			{
 				name: DISPLAY[f.properties.name] ?? f.properties.name,
 				d,
 				n,
 				opacity: n ? shade(n) : 0.1,
+				books,
 			},
 		]
 	})
@@ -153,8 +185,21 @@ const label = computed(() => {
         stroke-width="1.5"
         vector-effect="non-scaling-stroke"
         class="fill-current stroke-field"
+        :class="r.n && 'cursor-pointer outline-none'"
+        :tabindex="r.n ? 0 : undefined"
+        :aria-label="r.n ? `${r.name}: ${plural(r.n, 'book')}` : undefined"
+        v-on="r.n ? on(r) : {}"
+      />
+      <path
+        v-if="activeRegion"
+        :d="activeRegion.d"
+        fill="none"
+        stroke-width="1.5"
+        vector-effect="non-scaling-stroke"
+        class="pointer-events-none stroke-current"
       />
     </svg>
+    <PlaceCardPopover :card="card" />
     <div
       v-if="model && model.regions.some((r) => r.n)"
       class="flex items-center gap-2 text-meta tabular-nums"

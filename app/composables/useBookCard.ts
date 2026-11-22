@@ -1,14 +1,16 @@
 // The book card: a small popup over a dot, like a link preview. Hover opens
 // it after a beat, a click (or tap) opens it at once; moving onto the card
 // keeps it open. One per dot container, rendered by <BookCardPopover>.
+// `usePopupCard` is the same behavior for any item (a map region's books,
+// <PlaceCardPopover>).
 import type { Book } from '@/lib/book'
 
 const OPEN_DELAY = 300
 const CLOSE_DELAY = 150
 
-export function useBookCard() {
-	const book = shallowRef<Book | null>(null)
-	const anchor = shallowRef<HTMLElement | null>(null)
+export function usePopupCard<T>() {
+	const item = shallowRef<T | null>(null)
+	const anchor = shallowRef<Element | null>(null)
 	let openT: ReturnType<typeof setTimeout> | undefined
 	let closeT: ReturnType<typeof setTimeout> | undefined
 
@@ -17,14 +19,14 @@ export function useBookCard() {
 		clearTimeout(closeT)
 	}
 
-	/** Open on `el`. Already open: swap at once, so sweeping across dots reads. */
-	function show(b: Book, el: HTMLElement, delay = OPEN_DELAY) {
+	/** Open on `el`. Already open: swap at once, so sweeping across marks reads. */
+	function show(v: T, el: Element, delay = OPEN_DELAY) {
 		clear()
 		const go = () => {
-			book.value = b
+			item.value = v
 			anchor.value = el
 		}
-		if (book.value || delay === 0) go()
+		if (item.value || delay === 0) go()
 		else openT = setTimeout(go, delay)
 	}
 
@@ -35,24 +37,27 @@ export function useBookCard() {
 
 	function close() {
 		clear()
-		book.value = null
+		item.value = null
 	}
 
-	/** Pointer handlers for one dot: `v-on="card.on(book)"`. */
-	function on(b: Book) {
+	/** Pointer handlers for one mark: `v-on="card.on(item)"`. */
+	function on(v: T) {
 		return {
 			pointerenter: (e: PointerEvent) => {
-				if (e.pointerType === 'mouse') show(b, e.currentTarget as HTMLElement)
+				if (e.pointerType === 'mouse') show(v, e.currentTarget as Element)
 			},
 			pointerleave: (e: PointerEvent) => {
 				if (e.pointerType === 'mouse') hide()
 			},
-			click: (e: MouseEvent) => show(b, e.currentTarget as HTMLElement, 0),
+			click: (e: MouseEvent) => show(v, e.currentTarget as Element, 0),
 		}
 	}
 
 	onScopeDispose(clear)
-	return { book, anchor, show, hide, keep: clear, close, on }
+	return { item, anchor, show, hide, keep: clear, close, on }
 }
 
-export type BookCard = ReturnType<typeof useBookCard>
+export type PopupCard<T> = ReturnType<typeof usePopupCard<T>>
+
+export const useBookCard = () => usePopupCard<Book>()
+export type BookCard = PopupCard<Book>

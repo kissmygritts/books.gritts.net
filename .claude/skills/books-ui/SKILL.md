@@ -111,6 +111,7 @@ titles and author names exactly as the vault spells them.
 | Dot columns | `<DotColumns :columns :per-row>` |
 | Dot rows | `<DotRows :rows>` |
 | A map of where books were set | `<PlaceMap :books :view>` (`us`, `world`) |
+| A map region's books | `<PlaceCard>` in `<PlaceCardPopover>` (`<PlaceMap>` does this itself) |
 | A hovered book in words | `<BookCaption :book>` (a `DashPage` caption does this itself) |
 | Figures | `<StatTile value suffix label>` in `<StatGrid>` |
 | Year scope | `<YearFilter v-model :years>` (`surface="page"` on the page surface) |
@@ -129,8 +130,9 @@ new page needs nothing else. The section dots are the one non-book dot:
 solid, shown current by opacity and size, never a ring or pip. Dots inside `<DotColumns>` /
 `<DotRows>` set the page's hovered book via `useHoverBook()`;
 the caption shows it, and the chart's `role="img"` aria-label states the
-count. A mark that isn't one book (a region on `<PlaceMap>`) has no hover;
-its counts live in the aria-label. No tooltips.
+count. A shaded region on `<PlaceMap>` opens a `<PlaceCard>` (its books,
+same popup rules as the book card, via `usePopupCard`); its counts also
+live in the aria-label. No other tooltips.
 
 ## Signature elements: restraint is the rule
 

@@ -59,7 +59,8 @@ choice isn't saved.
 The redesign dropped the "Every year" panel and the Author / Format switch
 on the month chart, and later the audiobook share and "Where it was set".
 The map is "By location": states or countries shaded white by book count,
-empty regions faint, split by field-colored gaps (`<PlaceMap>`), no hover,
+empty regions faint, split by field-colored gaps (`<PlaceMap>`); hover, click
+or focus on a shaded region opens `<PlaceCard>`, its books for the year,
 US / World persisted under `books-map`.
 
 All panel numbers matched the private ledger for 2018 and 2021–2026 plus
