@@ -141,10 +141,10 @@ its counts live in the aria-label. No tooltips.
   icon, the lens's name) cycles what the dots read, on home and every
   dashboard page that sets `legend` (the dot charts; not Numbers or the
   map). One lens for the whole site, from `useLens()`, defined in
-  `app/lib/lens.ts`: White men (the default), Authors of color
-  (`author_poc`), Translated (`original_language` not English), American
+  `app/lib/lens.ts`: White men (the default), Gender
+  (`author_gender`, any author not a man), Authors of color (`author_poc`), Translated (`original_language` not English), American
   (`author_country` includes United States). Solid is always the side away
-  from the default (everyone else, person of color, translated, not
+  from the default (everyone else, woman or nonbinary, person of color, translated, not
   American); a missing field is the pip, labelled "Not recorded". The
   legend and the grid's aria-label follow the lens. The goal page passes
   `<DotRows fixed>` and has no legend, since the goal is defined by

@@ -36,7 +36,7 @@ choice isn't saved.
 - `/`: every finished book as one dot, oldest first, about 3:1, and one
   static line under it. Hover, click or arrow keys open the book card
   (`<BookCard>`). The legend (`<DotLegend>`) cycles what the dots read
-  (White men, Authors of color, Translated, American; `app/lib/lens.ts`,
+  (White men, Gender, Authors of color, Translated, American; `app/lib/lens.ts`,
   shared through `useLens()`, kept as `books-lens`). Nothing else on the
   page. The same legend sits under the year filter on each dashboard dot
   chart (`<DashPage legend>`); the goal stays on `white_male_author`.

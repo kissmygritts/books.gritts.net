@@ -4,7 +4,7 @@
 // `white_male_author`.
 import { type AuthorTag, authorTag, type Book } from '@/lib/book'
 
-export type LensId = 'wm' | 'poc' | 'translated' | 'american'
+export type LensId = 'wm' | 'gender' | 'poc' | 'translated' | 'american'
 
 export interface Lens {
 	id: LensId
@@ -22,6 +22,12 @@ export const LENSES: Lens[] = [
 		name: 'White men',
 		tag: (b) => authorTag(b.white_male_author),
 		label: { other: 'Everyone else', wm: 'White man', untagged: 'Untagged' },
+	},
+	{
+		id: 'gender',
+		name: 'Gender',
+		tag: (b) => yes(b.author_gender?.length ? b.author_gender.some((g) => g !== 'man') : null),
+		label: { other: 'Woman or nonbinary', wm: 'Man', untagged: 'Not recorded' },
 	},
 	{
 		id: 'poc',
