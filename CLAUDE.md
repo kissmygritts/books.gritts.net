@@ -40,7 +40,10 @@ choice isn't saved.
   order: by the numbers (books, pages, average rating, median days), annual
   goal, by month (by year under "All"), by rating, by length (pages), by
   duration (days), by decade, by age (when read), by genre, by author, by
-  location (the map).
+  location (the map). The page snaps section to section (mandatory,
+  `snap-always`, set on <html> by the page), with one dot per section on
+  the right edge (`<ScrollDots>`, hidden below `sm`), the current one full
+  ink and larger, the rest faded; clicking one scrolls to it.
 - `/books`: the table of books by status (Finished, Reading, Up next,
   Abandoned). Finished follows the year filter and sorts; Up next carries
   the goal projection.
@@ -69,6 +72,10 @@ no finish date. The home grid and dashboard leave those out.
   the ledger's "today".
 - `app/components/ledger/*`: one component per dashboard page, each
   rendering a `<DashPage>`.
+- `app/components/ScrollDots.vue`: the dashboard's section dots. It finds
+  `main section[id]` after mount (each `<DashPage>` sets its `id`) and
+  marks the one crossing the viewport's middle, so a new page needs no
+  registration.
 - `app/components/Dot*.vue`, `BookDot.vue`: the dot grid and dot charts.
   `PlaceMap.vue` draws the map with d3-geo + topojson-client.
 - `public/geo/`: us-atlas@3.0.1 / world-atlas@2.0.2 outlines, copies of the
