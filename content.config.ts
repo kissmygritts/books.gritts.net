@@ -35,6 +35,14 @@ export default defineContentConfig({
 				series_number: z.number().nullish(),
 				/** Yearly goal tag. false counts toward the goal; null = untagged. */
 				white_male_author: z.boolean().nullish(),
+				/** One entry per author: man / woman / nonbinary. */
+				author_gender: list,
+				/** true if any author is a person of color. */
+				author_poc: z.boolean().nullish(),
+				/** Author nationality, one or more countries (plain text, e.g. "United States"). */
+				author_country: list,
+				/** Language the book was first written in. Translated = not "English". */
+				original_language: z.string().nullish(),
 				/** Region first (US state, else country), optional city. */
 				places: list,
 			}),
