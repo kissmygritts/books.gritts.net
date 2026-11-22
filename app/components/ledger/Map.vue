@@ -1,8 +1,7 @@
 <script setup lang="ts">
-// On the map: where it was set, US states or countries shaded by book
-// count.
+// By location: the places in each book, US states or countries shaded by
+// book count.
 import type { MapView } from '@/components/PlaceMap.vue'
-import { plural } from '@/lib/format'
 import { type LedgerBook, type LedgerYear, places } from '@/lib/ledger'
 
 const props = defineProps<{ books: LedgerBook[]; years: number[] }>()
@@ -23,19 +22,16 @@ const view = computed<MapView>({
 		picked.value = v
 	},
 })
-
-const omitted = ref<string[]>([])
-const caption = computed(() => {
-	const where = view.value === 'us' ? 'state' : 'country'
-	const off = omitted.value.length
-		? ` Not on this map: ${omitted.value.join(', ')}.`
-		: ''
-	return `Each ${where} shaded by the books set there, whiter for more.${off} ${plural(p.value.without, 'book')} without a place recorded.`
-})
 </script>
 
 <template>
-  <DashPage id="map" v-model:year="year" title="On the map" :caption="caption" :years="years">
+  <DashPage
+    id="map"
+    v-model:year="year"
+    title="By location"
+    caption="Important places for each book on a map (books can have multiple places)."
+    :years="years"
+  >
     <div v-if="p.regions.length" class="grid gap-8">
       <SegmentedControl
         v-model="view"
@@ -45,7 +41,7 @@ const caption = computed(() => {
           { value: 'world', label: 'World' },
         ]"
       />
-      <PlaceMap :books="books" :view="view" @omit="omitted = $event" />
+      <PlaceMap :books="books" :view="view" />
     </div>
     <p v-else class="font-extralight text-verdict">No places recorded.</p>
   </DashPage>

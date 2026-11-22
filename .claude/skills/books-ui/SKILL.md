@@ -22,7 +22,9 @@ visual reference. **Prefer the styleguide over re-deriving styles.**
    I've read"): no other copy, no counts. No
    cards, shadows, gradients, textures or illustration; no skeuomorphism.
 3. **Measured.** Ratings are the owner's **1–8 scale**, always shown as `/8`
-   or eight circles, never stars or rescaled. Every figure in prose carries
+   or eight circles, never stars or rescaled. The one exception is the
+   rating chart's column labels, bare `1` to `8`, because its caption states
+   the scale. Every figure in prose carries
    its unit (`310 pages`, `23 books`). Every frontmatter field is public,
    including `white_male_author`, to-read and abandoned; note bodies never
    are.
@@ -120,9 +122,8 @@ A dashboard chart is a `components/ledger/*` component that renders a
 `<DashPage>` and passes `v-model:year` through. Dots inside `<DotColumns>` /
 `<DotRows>` set the page's hovered book via `useHoverBook()`;
 the caption shows it, and the chart's `role="img"` aria-label states the
-count. A mark that isn't one book (a region on `<PlaceMap>`) sets a line of words via
-`useHoverNote()` instead; the caption shows a book first, then the note.
-No tooltips.
+count. A mark that isn't one book (a region on `<PlaceMap>`) has no hover;
+its counts live in the aria-label. No tooltips.
 
 ## Signature elements: restraint is the rule
 
@@ -150,7 +151,7 @@ what's left out (`34 books unrated, not shown.`).
 
 - [ ] The page picks a surface; field pages set the body class.
 - [ ] No raw palette, arbitrary values or variants, no `dark:`.
-- [ ] Every book shown as a mark is a `<BookDot>`; ratings as `/8`.
+- [ ] Every book shown as a mark is a `<BookDot>`; ratings as `/8` (chart axis excepted).
 - [ ] Sentence case; no uppercase, no mono; prose has no size class.
 - [ ] One chart per dashboard page; caption states scale and omissions.
 - [ ] Null fields render as untagged / not recorded / `–`, never vanish.

@@ -58,13 +58,13 @@ const rows = computed(() =>
 )
 const caption = computed(
 	() =>
-		'The goal: more books by everyone else than by white men. Untagged books count toward neither.' +
+		'Every year I set a goal. Not a book count: I try to read more books by everyone else than by white men. Untagged books count toward neither.' +
 		(year.value === 'all' ? ' Under All, each year is judged on its own.' : ''),
 )
 </script>
 
 <template>
-  <DashPage id="goal" v-model:year="year" title="The goal" :caption="caption" :years="years">
+  <DashPage id="goal" v-model:year="year" title="Annual goal" :caption="caption" :years="years">
     <p class="mb-8 max-w-4xl font-extralight text-verdict tabular-nums sm:mb-14">{{ text }}</p>
     <DotRows :rows="rows" />
   </DashPage>

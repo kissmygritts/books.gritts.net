@@ -41,8 +41,8 @@ const rows = computed(() => {
   <DashPage
     id="genres"
     v-model:year="year"
-    title="What it was"
-    caption="Fiction and non-fiction, then the eight most read genres. A book with several genres has a dot in each of its rows."
+    title="By genre"
+    caption="The most read genres (books can have dots in multiple genres)."
     :years="years"
   >
     <DotRows v-if="rows.length" :rows="rows" />

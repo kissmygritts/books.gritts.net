@@ -17,7 +17,7 @@ const columns = computed(() =>
 const caption = computed(() =>
 	byYear.value
 		? 'Books finished each year. Pick a year to see its months.'
-		: `Books finished each month of ${year.value}, earliest at the bottom.`,
+		: `Books finished each month of ${year.value}.`,
 )
 </script>
 

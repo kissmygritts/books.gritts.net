@@ -29,12 +29,12 @@ const rows = computed(() =>
 )
 const caption = computed(
 	() =>
-		`Authors with more than one book, top twelve, of ${plural(groups.value.length, 'author')} read ${year.value === 'all' ? 'in all' : `in ${year.value}`}.`,
+		`Top ${plural(rows.value.length, 'author')} (only authors with more than one book). ${plural(groups.value.length, 'author')} ${year.value === 'all' ? 'across all years' : `in ${year.value}`}.`,
 )
 </script>
 
 <template>
-  <DashPage id="authors" v-model:year="year" title="Most read authors" :caption="caption" :years="years">
+  <DashPage id="authors" v-model:year="year" title="By author" :caption="caption" :years="years">
     <DotRows v-if="rows.length" :rows="rows" />
     <p v-else class="font-extralight text-verdict">No author read twice in {{ year }}.</p>
   </DashPage>

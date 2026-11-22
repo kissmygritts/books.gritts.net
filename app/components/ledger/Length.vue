@@ -15,7 +15,7 @@ const caption = computed(() => {
 	const m = median(pages.value)
 	const none = props.books.length - pages.value.length
 	return [
-		'Books by page count, in 100-page bins.',
+		'Books by number of pages, in 100-page bins.',
 		m == null ? '' : `Median ${plural(Math.round(m), 'page')}.`,
 		none ? `${plural(none, 'book')} without a page count, not shown.` : '',
 	]
@@ -25,7 +25,7 @@ const caption = computed(() => {
 </script>
 
 <template>
-  <DashPage id="length" v-model:year="year" title="How long it was" :caption="caption" :years="years">
+  <DashPage id="length" v-model:year="year" title="By length" :caption="caption" :years="years">
     <DotColumns v-if="columns.length" :columns="columns" :per-row="4" />
     <p v-else class="font-extralight text-verdict">No page counts recorded.</p>
   </DashPage>

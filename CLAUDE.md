@@ -36,18 +36,20 @@ choice isn't saved.
 - `/`: every finished book as one dot, oldest first, about 3:1, and one
   static line under it. Hover, click or arrow keys open the book card
   (`<BookCard>`). Nothing else on the page.
-- `/dashboard`: one chart per full-height page, all on the field: the goal,
-  in numbers, by month (by year under "All"), ratings, how long it was
-  (pages), how long it took (days), when it was published, how old it was
-  when read, what it was, most read authors, where it was set, on the map.
+- `/dashboard`: one chart per full-height page, all on the field, in this
+  order: by the numbers (books, pages, average rating, median days), annual
+  goal, by month (by year under "All"), by rating, by length (pages), by
+  duration (days), by decade, by age (when read), by genre, by author, by
+  location (the map).
 - `/books`: the table of books by status (Finished, Reading, Up next,
   Abandoned). Finished follows the year filter and sorts; Up next carries
   the goal projection.
 
 The redesign dropped the "Every year" panel and the Author / Format switch
-on the month chart. The US and world maps are back as "On the map", after
-"Where it was set": states or countries shaded white by book count, empty
-regions faint, split by field-colored gaps (`<PlaceMap>`), US / World persisted under `books-map`.
+on the month chart, and later the audiobook share and "Where it was set".
+The map is "By location": states or countries shaded white by book count,
+empty regions faint, split by field-colored gaps (`<PlaceMap>`), no hover,
+US / World persisted under `books-map`.
 
 All panel numbers matched the private ledger for 2018 and 2021–2026 plus
 "All" on 2026-11-21, before the redesign; `ledger.ts` is unchanged since.

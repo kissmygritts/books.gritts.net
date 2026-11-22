@@ -35,6 +35,7 @@ const numbersCaption = computed(() =>
 
 <template>
   <h1 class="sr-only">Dashboard</h1>
+  <LedgerNumbers v-model:year="year" :books="books" :years="years" :caption="numbersCaption" />
   <LedgerGoal
     v-model:year="year"
     :books="books"
@@ -42,7 +43,6 @@ const numbersCaption = computed(() =>
     :years="years"
     :is-current="isCurrent"
   />
-  <LedgerNumbers v-model:year="year" :books="books" :years="years" :caption="numbersCaption" />
   <LedgerMonths v-model:year="year" :buckets="months" :years="years" />
   <LedgerRatings v-model:year="year" :books="books" :years="years" />
   <LedgerLength v-model:year="year" :books="books" :years="years" />
@@ -51,6 +51,5 @@ const numbersCaption = computed(() =>
   <LedgerAge v-model:year="year" :books="books" :years="years" />
   <LedgerGenres v-model:year="year" :books="books" :years="years" />
   <LedgerAuthors v-model:year="year" :books="books" :years="years" />
-  <LedgerPlaces v-model:year="year" :books="books" :years="years" />
   <LedgerMap v-model:year="year" :books="books" :years="years" />
 </template>

@@ -217,8 +217,8 @@ const columns = computed(() =>
       <PlaceMap :books="mapBooks" view="us" />
       <p class="max-w-prose text-meta">
         Regions shaded with the ink, more opaque for more books; empty regions
-        are the ink at 10%; field-colored gaps split them all. A region's count and cities go to the caption through
-        useHoverNote().
+        are the ink at 10%; field-colored gaps split them all. No hover; the
+        counts are in the aria-label.
       </p>
     </StyleguideThemePair>
 
