@@ -104,6 +104,7 @@ titles and author names exactly as the vault spells them.
 | A book as a mark | `<BookDot :value="white_male_author" size>` (`grid`, `md`, `sm`) |
 | The home grid | `<DotGrid :books>` |
 | A dashboard page | `<DashPage id title caption :years v-model:year>`; one chart in the slot |
+| Dashboard section dots | `<ScrollDots>` (once, on `/dashboard`; finds every `<DashPage>` itself) |
 | Dot columns | `<DotColumns :columns :per-row>` |
 | Dot rows | `<DotRows :rows>` |
 | A map of where books were set | `<PlaceMap :books :view>` (`us`, `world`) |
@@ -119,7 +120,10 @@ titles and author names exactly as the vault spells them.
 | Nothing to show | `<EmptyState title>` + prose slot |
 
 A dashboard chart is a `components/ledger/*` component that renders a
-`<DashPage>` and passes `v-model:year` through. Dots inside `<DotColumns>` /
+`<DashPage>` and passes `v-model:year` through. Each `<DashPage>` is a
+snap point and gets a dot in `<ScrollDots>` from its `id` and title, so a
+new page needs nothing else. The section dots are the one non-book dot:
+solid, shown current by opacity and size, never a ring or pip. Dots inside `<DotColumns>` /
 `<DotRows>` set the page's hovered book via `useHoverBook()`;
 the caption shows it, and the chart's `role="img"` aria-label states the
 count. A mark that isn't one book (a region on `<PlaceMap>`) has no hover;
