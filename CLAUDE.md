@@ -58,7 +58,7 @@ The year filter on `/` and on `/books` opens on the current year
 - `/`, the rest: one chart per full-height section, all on the field, in this
   order: by the numbers (books, pages, average rating, median days), annual
   goal, by month (by year under "All"), by rating, by length (pages), by
-  duration (days), by decade, by book age (when read), by genre, by author, by
+  reading time (days to finish), by decade, by book age (when read), by genre, by author, by
   location (the map). The page snaps section to section (`snap-always`;
   mandatory from `sm`, proximity on a phone where a section can be taller
   than the screen; set on <html> by the page), with one dot per section on
