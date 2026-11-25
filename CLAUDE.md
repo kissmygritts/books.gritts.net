@@ -37,11 +37,12 @@ choice isn't saved.
   static line under it. Centered from `sm` up; on a phone it starts at the
   top. Hover, click or arrow keys open the book card
   (`<BookCard>`); a click pins it (hover no longer moves or closes it)
-  until Escape or a click outside. The legend (`<DotLegend>`) cycles what the dots read
+  until Escape or a click outside. The legend (`<DotLegend>`) picks what the dots read from a dropdown
+  styled like the year filter, listed alphabetically
   (White men, Gender, Authors of color, Translated, American, Indigenous,
   LGBTQ+, Debut, Award winner, Challenged; `app/lib/lens.ts`,
   shared through `useLens()`, kept as `books-lens`). Nothing else on the
-  page. The same legend sits with the year filter (switch beside it, key below) on each dashboard dot
+  page. The same legend sits with the year filter (picker beside it, key below) on each dashboard dot
   chart (`<DashPage legend>`), the goal included: its rows follow the
   lens and its caption ends with solid minus ring (labels go mid-sentence
   through `midSentence()`, which keeps "American", "Indigenous", "LGBTQ+").

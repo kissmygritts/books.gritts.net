@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // One dashboard page: a full-height stretch of the field holding one chart,
-// its title, the year filter, and a static caption. `legend` puts the lens switch beside the year filter and the dot key below them.
+// its title, the year filter, and a static caption. `legend` puts the lens picker beside the year filter and the dot key below them.
 import type { LedgerYear } from '@/lib/ledger'
 
 defineProps<{ id: string; title: string; caption: string; years: number[]; legend?: boolean }>()

@@ -1,7 +1,7 @@
 // Ways to fill the home grid's dots. Each lens sorts a book into solid,
 // ring or pip (BookDot's `other` / `wm` / `untagged`) from one frontmatter
-// field. Only the home grid switches; the goal and tables stay on
-// `white_male_author`.
+// field. The home grid and dashboard dot charts follow it; the book card
+// and tables stay on `white_male_author`.
 import { type AuthorTag, authorTag, type Book } from '@/lib/book'
 
 export type LensId = 'wm' | 'gender' | 'poc' | 'translated'
@@ -89,11 +89,6 @@ export const LENSES: Lens[] = [
 
 export function lensById(id: string): Lens | undefined {
 	return LENSES.find((l) => l.id === id)
-}
-
-export function nextLens(id: LensId): Lens {
-	const i = LENSES.findIndex((l) => l.id === id)
-	return LENSES[(i + 1) % LENSES.length] as Lens
 }
 
 // A label mid-sentence: lowercase its first letter, but leave proper words
