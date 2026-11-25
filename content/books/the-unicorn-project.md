@@ -8,7 +8,7 @@ pages: 352
 publication_year: 2019
 isbn: 9781942788768
 status: "read"
-started_at: "2021-01-01"
+started_at: null
 finished_at: "2021-01-01"
 rating: 6
 wikipedia: "none"

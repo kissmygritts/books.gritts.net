@@ -8,7 +8,7 @@ pages: 496
 publication_year: 2022
 isbn: 9781368090421
 status: "read"
-started_at: "2024-08-01"
+started_at: null
 finished_at: "2024-08-01"
 rating: 3
 wikipedia: "none"

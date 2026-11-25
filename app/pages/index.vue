@@ -4,7 +4,7 @@
 // filter starts with the charts and is shared with /books.
 import { ArrowDown } from '@lucide/vue'
 import { byFinishDesc } from '@/lib/derive'
-import { finishBuckets, inYear, monthDay } from '@/lib/ledger'
+import { finishBuckets, inYear } from '@/lib/ledger'
 
 useHead({
 	// Proximity on a phone, where a section can be taller than the screen.
@@ -28,13 +28,6 @@ const months = computed(() =>
 		years: years.value,
 		currentMonth: isCurrent.value ? currentMonth : -1,
 	}),
-)
-const numbersCaption = computed(() =>
-	year.value === 'all'
-		? `Every book with a finish date, ${years.value.at(-1)}–${years.value[0]}. Read books without one are on the Books page.`
-		: isCurrent.value
-			? `${year.value} as of ${monthDay(generatedAt)}.`
-			: `Every book finished in ${year.value}.`,
 )
 const cue = computed(() =>
 	year.value === 'all' ? 'Every year by the numbers' : `${year.value} by the numbers`,
@@ -63,7 +56,7 @@ function toNumbers() {
       </a>
     </DotGrid>
   </section>
-  <LedgerNumbers v-model:year="year" :books="books" :years="years" :caption="numbersCaption" />
+  <LedgerNumbers v-model:year="year" :books="books" :years="years" :as-of="generatedAt" />
   <LedgerGoal v-model:year="year" :books="books" :years="years" />
   <LedgerMonths v-model:year="year" :buckets="months" :years="years" />
   <LedgerRatings v-model:year="year" :books="books" :years="years" />

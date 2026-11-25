@@ -8,7 +8,7 @@ pages: 518
 publication_year: 2021
 isbn: 9780356510408
 status: "read"
-started_at: "2024-10-01"
+started_at: null
 finished_at: "2024-10-01"
 rating: 6
 wikipedia: "https://en.wikipedia.org/wiki/Leviathan_Falls"

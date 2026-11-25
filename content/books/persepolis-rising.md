@@ -8,7 +8,7 @@ pages: 560
 publication_year: 2017
 isbn: 9780356510316
 status: "read"
-started_at: "2024-09-01"
+started_at: null
 finished_at: "2024-09-01"
 rating: 5
 wikipedia: "https://en.wikipedia.org/wiki/Persepolis_Rising"

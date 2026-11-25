@@ -151,6 +151,10 @@
   --text-body--line-height: 1.5;
   --text-heading: 1.0625rem; /* 17px: a book's title in a row */
   --text-heading--line-height: 1.25;
+  --text-lede: clamp(1.375rem, 2.6vw, 2rem); /* 22–32px: the year in a sentence */
+  --text-lede--line-height: 1.35;
+  --text-lede-figure: clamp(1.625rem, 3.1vw, 2.375rem); /* 26–38px: its figures */
+  --text-lede-figure--line-height: 1.35;
   --text-verdict: clamp(1.875rem, 4.6vw, 3.5rem); /* empty chart messages */
   --text-verdict--line-height: 1.1;
   --text-title: clamp(2.5rem, 7vw, 5.5rem); /* page and dashboard titles */

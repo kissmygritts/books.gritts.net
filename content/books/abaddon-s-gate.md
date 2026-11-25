@@ -8,7 +8,7 @@ pages: 547
 publication_year: 2013
 isbn: 9781549153075
 status: "read"
-started_at: "2024-09-01"
+started_at: null
 finished_at: "2024-09-01"
 rating: 5
 wikipedia: "https://en.wikipedia.org/wiki/Abaddon%27s_Gate"

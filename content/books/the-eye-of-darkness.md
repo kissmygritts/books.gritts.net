@@ -8,7 +8,7 @@ pages: 416
 publication_year: 2023
 isbn: 9780593597934
 status: "read"
-started_at: "2024-08-01"
+started_at: null
 finished_at: "2024-08-01"
 rating: 5
 wikipedia: "none"

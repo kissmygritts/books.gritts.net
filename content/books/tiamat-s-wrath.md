@@ -8,7 +8,7 @@ pages: 544
 publication_year: 2019
 isbn: 9780356510361
 status: "read"
-started_at: "2024-09-01"
+started_at: null
 finished_at: "2024-09-01"
 rating: 6
 wikipedia: "https://en.wikipedia.org/wiki/Tiamat%27s_Wrath"

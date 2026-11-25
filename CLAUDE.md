@@ -56,7 +56,7 @@ The year filter on `/` and on `/books` opens on the current year
   Award winner has no unknown: no `awards` means none. The goal's verdict
   line is gone for now (`verdict()` in `ledger.ts` is unused).
 - `/`, the rest: one chart per full-height section, all on the field, in this
-  order: by the numbers (books, pages, average rating, median days), annual
+  order: by the numbers (one sentence: books, pages, pages a day, average rating, median days to finish), annual
   goal, by month (by year under "All"), by rating, by length (pages), by
   reading time (days to finish), by decade, by book age (when read), by genre, by author, by
   location (the map). The page snaps section to section (`snap-always`;

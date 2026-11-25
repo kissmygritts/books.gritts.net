@@ -8,7 +8,7 @@ pages: 448
 publication_year: 2024
 isbn: 9780593723098
 status: "read"
-started_at: "2024-08-01"
+started_at: null
 finished_at: "2024-08-01"
 rating: 4
 wikipedia: "none"

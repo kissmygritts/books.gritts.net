@@ -55,6 +55,16 @@ const type = [
 		note: '52–120px, 200',
 	},
 	{
+		cls: 'text-lede',
+		name: 'text-lede',
+		note: '22–32px, 300',
+	},
+	{
+		cls: 'text-lede-figure underline decoration-2 underline-offset-6',
+		name: 'text-lede-figure',
+		note: '26–38px, 300, underlined 2px',
+	},
+	{
 		cls: 'font-extralight text-verdict',
 		name: 'text-verdict',
 		note: '30–56px, 200',

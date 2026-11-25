@@ -3,7 +3,7 @@
 // its title, the year filter, and a static caption. `legend` puts the lens picker beside the year filter and the dot key below them.
 import type { LedgerYear } from '@/lib/ledger'
 
-defineProps<{ id: string; title: string; caption: string; years: number[]; legend?: boolean }>()
+defineProps<{ id: string; title: string; caption?: string; years: number[]; legend?: boolean }>()
 const year = defineModel<LedgerYear>('year', { required: true })
 </script>
 
@@ -22,7 +22,7 @@ const year = defineModel<LedgerYear>('year', { required: true })
       <div class="flex min-w-0 flex-1 flex-col justify-center py-10 sm:py-24">
         <slot />
       </div>
-      <p class="min-h-12 max-w-prose border-current border-t pt-3 text-sm">{{ caption }}</p>
+      <p v-if="caption" class="min-h-12 max-w-prose border-current border-t pt-3 text-sm">{{ caption }}</p>
     </div>
   </section>
 </template>

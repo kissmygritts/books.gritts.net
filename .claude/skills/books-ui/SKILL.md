@@ -88,6 +88,8 @@ are extralight (200); a book title is 400; emphasis is 500. Never bold.
 |---|---|---|
 | `text-title` | 40–88px, 200 | Page and dashboard titles. |
 | `text-figure` | 52–120px, 200 | The year in numbers. |
+| `text-lede` | 22–32px, 300 | The year in a sentence, `tabular-nums`. |
+| `text-lede-figure` | 26–38px, 300 | Its figures and the year, underlined 2px. |
 | `text-verdict` | 30–56px, 200 | Empty chart messages. |
 | `text-heading` | 17px, 400 | A book's title in a row. |
 | *(none)* | 16px | Prose. Write no size class. |
@@ -115,7 +117,7 @@ titles and author names exactly as the vault spells them.
 | A map of where books were set | `<PlaceMap :books :view>` (`us`, `world`) |
 | A map region's books | `<PlaceCard>` in `<PlaceCardPopover>` (`<PlaceMap>` does this itself) |
 | A hovered book in words | `<BookCaption :book>` (a `DashPage` caption does this itself) |
-| Figures | `<StatTile value suffix label>` in `<StatGrid>` |
+| Figures | `<StatTile value suffix label>` in `<StatGrid>` (on `/styleguide` only; "By the numbers" is a sentence) |
 | Year scope | `<YearFilter v-model :years>` (`surface="page"` on the page surface) |
 | Tabs, a sort switch | `<SegmentedControl v-model :options label>` |
 | A list of books | `<BookTable :books :status>` |

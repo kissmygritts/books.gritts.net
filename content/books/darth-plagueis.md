@@ -8,7 +8,7 @@ pages: 496
 publication_year: 2012
 isbn: 9780593358801
 status: "read"
-started_at: "2024-06-01"
+started_at: null
 finished_at: "2024-06-01"
 rating: 5
 wikipedia: "none"

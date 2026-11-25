@@ -8,7 +8,7 @@ pages: 288
 publication_year: 1988
 isbn: 9780333471432
 status: "read"
-started_at: "2024-05-01"
+started_at: null
 finished_at: "2024-05-01"
 rating: 6
 wikipedia: "https://en.wikipedia.org/wiki/The_Player_of_Games"

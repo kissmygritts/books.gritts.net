@@ -8,7 +8,7 @@ pages: 536
 publication_year: 2015
 isbn: 9780356504247
 status: "read"
-started_at: "2024-09-01"
+started_at: null
 finished_at: "2024-09-01"
 rating: 5
 wikipedia: "https://en.wikipedia.org/wiki/Nemesis_Games"

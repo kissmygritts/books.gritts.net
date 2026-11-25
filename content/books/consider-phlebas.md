@@ -8,7 +8,7 @@ pages: 471
 publication_year: 1987
 isbn: 9780356521633
 status: "read"
-started_at: "2024-05-01"
+started_at: null
 finished_at: "2024-05-01"
 rating: 5
 wikipedia: "https://en.wikipedia.org/wiki/Consider_Phlebas"

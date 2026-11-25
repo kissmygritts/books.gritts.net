@@ -8,7 +8,7 @@ pages: 374
 publication_year: 2024
 isbn: 9781680683585
 status: "read"
-started_at: "2024-10-15"
+started_at: null
 finished_at: "2024-10-15"
 rating: 6
 wikipedia: "none"

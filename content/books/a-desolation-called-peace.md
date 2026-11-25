@@ -8,7 +8,7 @@ pages: 496
 publication_year: 2021
 isbn: 9781250186485
 status: "read"
-started_at: "2024-11-01"
+started_at: null
 finished_at: "2024-11-01"
 rating: 6
 wikipedia: "https://en.wikipedia.org/wiki/A_Desolation_Called_Peace"

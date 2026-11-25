@@ -8,7 +8,7 @@ pages: 352
 publication_year: 1990
 isbn: 9780748110087
 status: "read"
-started_at: "2024-05-01"
+started_at: null
 finished_at: "2024-05-01"
 rating: 4
 wikipedia: "https://en.wikipedia.org/wiki/Use_of_Weapons"

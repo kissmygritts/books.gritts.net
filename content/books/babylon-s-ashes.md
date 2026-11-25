@@ -8,7 +8,7 @@ pages: 544
 publication_year: 2016
 isbn: 9781478965374
 status: "read"
-started_at: "2024-09-01"
+started_at: null
 finished_at: "2024-09-01"
 rating: 5
 wikipedia: "https://en.wikipedia.org/wiki/Babylon%27s_Ashes"

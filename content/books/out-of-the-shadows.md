@@ -8,7 +8,7 @@ pages: 432
 publication_year: 2021
 isbn: 9781368079846
 status: "read"
-started_at: "2024-08-01"
+started_at: null
 finished_at: "2024-08-01"
 rating: 4
 wikipedia: "none"
