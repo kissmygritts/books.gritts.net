@@ -43,6 +43,9 @@ export default defineNuxtConfig({
 		},
 	},
 
+	// The dashboard is now the rest of home; old links land on its first chart.
+	routeRules: { '/dashboard': { redirect: '/#numbers' } },
+
 	nitro: {
 		preset: 'static',
 		prerender: {

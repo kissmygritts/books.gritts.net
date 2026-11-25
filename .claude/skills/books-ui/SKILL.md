@@ -19,8 +19,10 @@ visual reference. **Prefer the styleguide over re-deriving styles.**
    can swap the field behind solid / ring / pip (see Dot lenses). Charts are arrangements of dots, one
    per book, never bars, lines or areas. Pointing at a dot names the book.
 2. **Quiet, with air.** One chart per dashboard page, a full screen of field
-   around it. Home is the dots, one static line under them ("A dot for every book
-   I've read.") and the legend with its lens picker: no other copy, no counts. No
+   around it. Home is the dots, the title and one line under it ("One dot for
+   every book I've read, newest first, 2026–2011."), a link after the legend to the first chart (from `sm` up)
+   ("2026 by the numbers" with a down arrow) and the legend with its lens picker: no other copy.
+   The dashboard follows the grid on the same page, one chart per section. No
    cards, shadows, gradients, textures or illustration; no skeuomorphism.
 3. **Measured.** Ratings are the owner's **1–8 scale**, always shown as `/8`
    or eight circles, never stars or rescaled. The one exception is the
@@ -38,7 +40,7 @@ Two, and a page uses one:
 
 | Surface | Where | How |
 |---|---|---|
-| **Field** | `/`, `/dashboard` | `useHead({ bodyAttrs: { class: 'bg-field text-field-foreground' } })`. White ink; every line, dot and focus ring is `currentColor`. |
+| **Field** | `/` | `useHead({ bodyAttrs: { class: 'bg-field text-field-foreground' } })`. White ink; every line, dot and focus ring is `currentColor`. |
 | **Page** | `/books`, `/styleguide` | The body default: `bg-background text-foreground`. A pale tint of the field with ink in the same hue, desaturated, so it blends with the ground. Derived from `--field-light` / `--field-dark`, so it follows the palette. |
 
 Components draw in `currentColor` (`border-current`, `bg-current`) so they
@@ -101,13 +103,13 @@ titles and author names exactly as the vault spells them.
 
 | Need | Use |
 |---|---|
-| Page links | `<GooeyMenu>` (in the layout) |
+| Page links | `<SiteNav>` (in the layout; Home, Books, palette) |
 | A book as a mark | `<BookDot :value="white_male_author" size>` (`grid`, `md`, `sm`), or `:tag` from a lens |
 | The home grid | `<DotGrid :books>` |
 | The dot key + lens picker | `<DotLegend>` (home legend; `<DashPage legend>` puts the picker beside the year filter, the key below) |
 | The lens itself | `useLens()` (shared, kept as `books-lens`); `<LensSelect v-model>` inside `<DotLegend>` |
 | A dashboard page | `<DashPage id title caption :years v-model:year legend?>`; one chart in the slot |
-| Dashboard section dots | `<ScrollDots>` (once, on `/dashboard`; finds every `<DashPage>` itself) |
+| Section dots | `<ScrollDots>` (once, on `/`; finds the grid's section and every `<DashPage>` itself; up / down chevrons step a section) |
 | Dot columns | `<DotColumns :columns :per-row>` |
 | Dot rows | `<DotRows :rows>` |
 | A map of where books were set | `<PlaceMap :books :view>` (`us`, `world`) |

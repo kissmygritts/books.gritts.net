@@ -1,11 +1,15 @@
 <script setup lang="ts">
-// The home page: every finished book as one dot, left to right and top to
-// bottom by finish date, and one static line under it. Pointing at a dot,
+// The home grid: every finished book as one dot, left to right and top to
+// bottom by finish date, and an optional line after the legend, from `sm` up (the slot). Pointing at a dot,
 // clicking it, or stepping with the arrow keys opens its book card; a
 // screen reader hears the book through a hidden live caption.
 import type { Book } from '@/lib/book'
 
-const props = defineProps<{ books: Book[] }>()
+const props = defineProps<{
+	books: Book[]
+	/** The span's last year; the latest finish when unset. */
+	until?: number
+}>()
 
 // How the dots are filled; the legend's button cycles it.
 const { lens } = useLens()
@@ -23,14 +27,14 @@ const grid = ref<HTMLElement>()
 const book = computed(() => props.books[active.value] ?? null)
 const card = useBookCard()
 
-// Years spanned by recorded finishes, e.g. "2011 – 2026".
+// Years spanned by recorded finishes, newest first like the dots, e.g. "2026–2011".
 const span = computed(() => {
 	const ys = props.books.map((b) => b.finished_at?.slice(0, 4)).filter(Boolean) as string[]
 	if (!ys.length) return ''
 	ys.sort()
 	const lo = ys[0]
-	const hi = ys[ys.length - 1]
-	return lo === hi ? lo : `${lo} – ${hi}`
+	const hi = String(props.until ?? ys[ys.length - 1])
+	return lo === hi ? lo : `${hi}–${lo}`
 })
 
 // Columns actually rendered: dots sharing the first row's top edge.
@@ -78,20 +82,21 @@ function onKey(e: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="grid min-h-svh content-start px-4 pt-16 pb-14 sm:content-center sm:px-8 sm:pt-28">
+  <div class="grid min-h-svh content-start px-4 pt-16 pb-14 sm:content-center sm:px-16 sm:pt-16">
     <div class="w-dot-grid mx-auto" :style="{ '--cols': cols }">
-      <header class="mb-10 sm:mb-16">
+      <header class="mb-10">
         <h1 class="font-extralight text-title tracking-display tabular-nums">
           {{ books.length }} Books
         </h1>
-        <p v-if="span" class="mt-1 text-lg tabular-nums">{{ span }}</p>
+        <p class="mt-1 tabular-nums">
+          One dot for every book I've read, newest first<template v-if="span">, {{ span }}</template>.
+        </p>
       </header>
       <div
         ref="grid"
         tabindex="0"
         role="group"
         :aria-label="ariaLabel"
-        aria-describedby="dot-caption"
         class="dot-grid rounded-sm outline-offset-12"
         @focus="onFocus"
         @blur="onBlur"
@@ -114,9 +119,9 @@ function onKey(e: KeyboardEvent) {
         />
       </div>
       <BookCardPopover :card="card" />
-      <div class="mt-16 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 text-sm">
-        <p id="dot-caption">A dot for every book I've read.</p>
+      <div class="mt-10 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3 text-sm">
         <DotLegend />
+        <p v-if="$slots.default" class="hidden sm:block"><slot /></p>
       </div>
       <p class="sr-only" aria-live="polite">
         <BookCaption v-if="book" :book="book" />

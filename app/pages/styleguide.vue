@@ -31,7 +31,7 @@ const page = [
 	{ cls: 'bg-rule', name: 'rule', role: 'Hairline between rows' },
 ]
 const field = [
-	{ cls: 'bg-field', name: 'field', role: 'The ground of / and /dashboard' },
+	{ cls: 'bg-field', name: 'field', role: 'The ground of /' },
 	{
 		cls: 'bg-field-card',
 		name: 'field-card',

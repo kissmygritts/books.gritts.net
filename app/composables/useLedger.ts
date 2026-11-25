@@ -1,4 +1,4 @@
-// The ledger's data for `/` and `/dashboard`: every book in the ledger's order, the finished
+// The ledger's data for `/`: every book in the ledger's order, the finished
 // ones, their years, and the build date that stands in for "today".
 import { type Book, NULLABLE_BOOLEANS } from '@/lib/book'
 import { finishedBooks, ledgerBooks, ledgerYears } from '@/lib/ledger'

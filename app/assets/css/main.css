@@ -6,7 +6,7 @@
    renders every token live.
 
    Two surfaces (approved prototype: prototypes/11-dots.html):
-     field  the flat color of `/` and `/dashboard`; ink is white, and every
+     field  the flat color of `/`; ink is white, and every
             line, dot and focus ring there is `currentColor`.
      page   a pale tint of the field for `/books`; the ink is the same hue,
             desaturated and dark, so it blends with the ground.
@@ -210,6 +210,9 @@
 @utility dot-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, var(--dot));
+  /* Spread the leftover width between columns, so the grid fills its box
+     edge to edge while the first column stays in line with the title. */
+  justify-content: space-between;
   gap: var(--dot-gap);
   & > * {
     width: var(--dot);

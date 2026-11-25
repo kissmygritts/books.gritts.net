@@ -2,5 +2,5 @@
   <main>
     <slot />
   </main>
-  <GooeyMenu />
+  <SiteNav />
 </template>

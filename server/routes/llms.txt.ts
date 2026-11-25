@@ -44,8 +44,7 @@ Otherwise, empty cells mean unknown or not recorded, not false. Books not yet re
 
 ## Site
 
-- [Home](/): every finished book as a dot.
-- [Dashboard](/dashboard): charts by year: goal, month, rating, length, genre, author, location.
+- [Home](/): every finished book as a dot, then charts by year below it: goal, month, rating, length, genre, author, location.
 - [Books](/books): the tables by status.
 `
 })
