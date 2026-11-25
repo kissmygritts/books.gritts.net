@@ -1,6 +1,6 @@
 // The ledger's data for `/` and `/dashboard`: every book in the ledger's order, the finished
 // ones, their years, and the build date that stands in for "today".
-import type { Book } from '@/lib/book'
+import { type Book, NULLABLE_BOOLEANS } from '@/lib/book'
 import { finishedBooks, ledgerBooks, ledgerYears } from '@/lib/ledger'
 
 export async function useLedger() {
@@ -20,15 +20,6 @@ export async function useLedger() {
 // author / book flags below) comes back as false ("everyone
 // else", "print"). The column itself stores NULL, so ask for those rows and
 // put the nulls back. The files, and so the data contract, are untouched.
-const NULLABLE_BOOLEANS = [
-	'white_male_author',
-	'audible',
-	'author_poc',
-	'author_indigenous',
-	'author_lgbtq',
-	'debut',
-	'challenged',
-] as const
 
 // Only the fields the site reads, to keep the page payload small.
 const FIELDS = [

@@ -29,12 +29,18 @@ The log holds ${books.length} books: ${count('read')} read, ${count('reading')} 
 - \`author_gender\`: one entry per author: man, woman or nonbinary.
 - \`white_male_author\`: true if the authors are white men. The owner tracks a yearly goal of books by anyone else.
 - \`author_poc\`: true if any author is a person of color.
+- \`author_indigenous\`: true if any author is Indigenous, anywhere.
+- \`author_lgbtq\`: true if any author has publicly identified as LGBTQ+.
 - \`author_country\`: the authors' nationality, one or more countries.
+- \`author_died\`: death years of the authors who have died; empty means all are living.
 - \`original_language\`: the language the book was first written in; anything but English means it was read in translation.
 - \`places\`: where the book is set: a US state or a country first, then optionally a city.
+- \`debut\`: true if this is the first book of any of its authors.
+- \`awards\`: major juried prizes the book won (e.g. Hugo Award); empty means none.
+- \`challenged\`: true if the book is on an ALA Top 10 / Top 100 challenged list or in PEN America's ban index.
 - \`isbn\`, \`wikipedia\`: identifiers; \`wikipedia\` is a URL or "none".
 
-Empty cells mean unknown or not recorded, not false. Books not yet read usually have most columns empty.
+Otherwise, empty cells mean unknown or not recorded, not false. Books not yet read usually have most columns empty.
 
 ## Site
 

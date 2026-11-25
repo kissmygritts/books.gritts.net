@@ -2,13 +2,7 @@
 // null-boolean fix as app/composables/useLedger.ts: Nuxt Content decodes
 // BOOLEAN columns with Boolean(value), so NULL comes back as false.
 import type { H3Event } from 'h3'
-import type { Book } from '~/lib/book'
-
-const NULLABLE_BOOLEANS = [
-	'white_male_author',
-	'audible',
-	'author_poc',
-] as const
+import { type Book, NULLABLE_BOOLEANS } from '~/lib/book'
 
 export async function allBooks(event: H3Event): Promise<Book[]> {
 	const [books, ...nulls] = await Promise.all([

@@ -94,3 +94,15 @@ export function bookForm(genre: string[] | null | undefined): Form | null {
 	if (genre.some((g) => g.endsWith('fiction'))) return 'fiction'
 	return null
 }
+
+/** Boolean fields where null means unknown. Nuxt Content decodes them with
+ * Boolean(value), so readers must put the nulls back (useLedger, server/utils). */
+export const NULLABLE_BOOLEANS = [
+	'white_male_author',
+	'audible',
+	'author_poc',
+	'author_indigenous',
+	'author_lgbtq',
+	'debut',
+	'challenged',
+] as const
