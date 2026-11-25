@@ -47,7 +47,14 @@ export default defineNuxtConfig({
 		preset: 'static',
 		prerender: {
 			crawlLinks: true,
-			routes: ['/', '/dashboard', '/books', '/styleguide'],
+			routes: [
+				'/',
+				'/dashboard',
+				'/books',
+				'/styleguide',
+				'/llms.txt',
+				'/books.csv',
+			],
 		},
 	},
 
