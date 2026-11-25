@@ -2,7 +2,7 @@
 // Every token and primitive, both themes, both surfaces. The rules are in
 // .claude/skills/books-ui/SKILL.md.
 import type { BookStatus } from '@/lib/book'
-import { LENSES } from '@/lib/lens'
+import { LENSES, midSentence } from '@/lib/lens'
 import { PALETTES } from '@/lib/palette'
 
 useHead({ title: 'Styleguide' })
@@ -201,7 +201,7 @@ const columns = computed(() =>
       <DotLegend />
       <ul class="grid gap-1.5 text-meta">
         <li v-for="l in LENSES" :key="l.id">
-          {{ l.name }}: solid {{ l.label.other.toLowerCase() }}, ring {{ l.label.wm.toLowerCase() }}, pip {{ l.label.untagged.toLowerCase() }}
+          {{ l.name }}: solid {{ midSentence(l.label.other) }}, ring {{ midSentence(l.label.wm) }}, pip {{ midSentence(l.label.untagged) }}
         </li>
       </ul>
     </StyleguideThemePair>

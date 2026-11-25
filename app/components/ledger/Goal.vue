@@ -5,6 +5,7 @@
 import type { AuthorTag } from '@/lib/book'
 import { plural } from '@/lib/format'
 import type { LedgerBook, LedgerYear } from '@/lib/ledger'
+import { midSentence } from '@/lib/lens'
 
 const props = defineProps<{ books: LedgerBook[]; years: number[] }>()
 const year = defineModel<LedgerYear>('year', { required: true })
@@ -34,7 +35,7 @@ const caption = computed(() => {
 	const lead =
 		lens.value.id === 'wm'
 			? 'Every year I set a goal. Not a book count: I try to read more books by everyone else than by white men.'
-			: `${l.other} against ${l.wm.toLowerCase()}.`
+			: `${l.other} against ${midSentence(l.wm)}.`
 	return `${lead} ${diff.value}. ${l.untagged} counts toward neither.`
 })
 </script>

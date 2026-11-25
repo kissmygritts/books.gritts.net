@@ -25,7 +25,7 @@ first.
 - Re-sync the data, run from the vault root:
   `bun .claude/skills/book/scripts/sync-site.ts ~/dev/sandbox/web/books.gritts.net/content/books`
 
-## State (as of 2026-11-22)
+## State (as of 2026-11-24)
 
 Phases 1 to 3 are done, and the redesign approved as
 `prototypes/11-dots.html` is in: a flat field (forest by default; the prototype was blue), white ink, every book a
@@ -38,11 +38,14 @@ choice isn't saved.
   top. Hover, click or arrow keys open the book card
   (`<BookCard>`); a click pins it (hover no longer moves or closes it)
   until Escape or a click outside. The legend (`<DotLegend>`) cycles what the dots read
-  (White men, Gender, Authors of color, Translated, American; `app/lib/lens.ts`,
+  (White men, Gender, Authors of color, Translated, American, Indigenous,
+  LGBTQ+, Debut, Award winner, Challenged; `app/lib/lens.ts`,
   shared through `useLens()`, kept as `books-lens`). Nothing else on the
   page. The same legend sits with the year filter (switch beside it, key below) on each dashboard dot
   chart (`<DashPage legend>`), the goal included: its rows follow the
-  lens and its caption ends with solid minus ring. The goal's verdict
+  lens and its caption ends with solid minus ring (labels go mid-sentence
+  through `midSentence()`, which keeps "American", "Indigenous", "LGBTQ+").
+  Award winner has no unknown: no `awards` means none. The goal's verdict
   line is gone for now (`verdict()` in `ledger.ts` is unused).
 - `/dashboard`: one chart per full-height page, all on the field, in this
   order: by the numbers (books, pages, average rating, median days), annual
@@ -101,7 +104,8 @@ no finish date. The home grid and dashboard leave those out.
 
 - **Nulls become `false`:** Nuxt Content decodes BOOLEAN columns with
   `Boolean(v)`, so null or missing `white_male_author` / `audible` /
-  `author_poc` come back
+  `author_poc` / `author_indigenous` / `author_lgbtq` / `debut` /
+  `challenged` come back
   as `false`. `useLedger` fixes this. Don't query the collection anywhere
   else without the same fix.
 - **Field pages set the body class:** `/` and `/dashboard` paint the field
@@ -146,6 +150,11 @@ no finish date. The home grid and dashboard leave those out.
    `npm run dev`?
 
 ## Next (from the brief, not yet scheduled)
+
+- Book card: show `awards`, and small flags for debut, challenged, and
+  author died before it was read (any `author_died` year < the
+  `finished_at` year). The fields are loaded (`useLedger` FIELDS) but not
+  shown yet.
 
 - Choose a host and deploy. Out of scope until the owner picks a host.
 - In `~/dev/sandbox/web/gritts.dev`, replace `/books` with a link or redirect

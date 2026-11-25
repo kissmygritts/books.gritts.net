@@ -45,6 +45,18 @@ export default defineContentConfig({
 				original_language: z.string().nullish(),
 				/** Region first (US state, else country), optional city. */
 				places: list,
+				/** true if any author is Indigenous, anywhere. */
+				author_indigenous: z.boolean().nullish(),
+				/** true if any author has publicly identified as LGBTQ+. */
+				author_lgbtq: z.boolean().nullish(),
+				/** Death years of the authors who have died; empty = all living. */
+				author_died: z.array(z.number().int()).nullish(),
+				/** true if this is the first book of any of its authors. */
+				debut: z.boolean().nullish(),
+				/** Major juried prizes the book won; empty = none. */
+				awards: list,
+				/** On an ALA Top 10 / Top 100 list or in PEN America's ban index. */
+				challenged: z.boolean().nullish(),
 			}),
 		}),
 	},

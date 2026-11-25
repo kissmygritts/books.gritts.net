@@ -38,6 +38,18 @@ export interface Book {
 	original_language?: string | null
 	/** Region first (US state, else country), optional city. */
 	places?: string[] | null
+	/** true if any author is Indigenous, anywhere. */
+	author_indigenous?: boolean | null
+	/** true if any author has publicly identified as LGBTQ+. */
+	author_lgbtq?: boolean | null
+	/** Death years of the authors who have died; empty = all living. */
+	author_died?: number[] | null
+	/** true if this is the first book of any of its authors. */
+	debut?: boolean | null
+	/** Major juried prizes the book won; empty = none. */
+	awards?: string[] | null
+	/** On an ALA Top 10 / Top 100 list or in PEN America's ban index. */
+	challenged?: boolean | null
 }
 
 export const RATING_MAX = 8
