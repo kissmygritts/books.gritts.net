@@ -23,4 +23,10 @@ audible: false
 series: ["Harry Potter"]
 series_number: 4
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Hugo Award"]
+challenged: true
 ---

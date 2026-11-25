@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["Illinois","Louisiana","Nevada","Hawaii","Australia","Iceland","Chicago, IL"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 ---

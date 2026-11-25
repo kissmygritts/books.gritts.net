@@ -15,6 +15,12 @@ wikipedia: "https://en.wikipedia.org/wiki/Pedro_P%C3%A1ramo"
 hardcover_id: "https://hardcover.app/books/pedro-paramo"
 storygraph_id: "https://app.thestorygraph.com/books/05613fcc-cfa1-429a-a8e8-e091c56e35a6"
 places: ["Mexico"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [1986]
+debut: false
+awards: ["Xavier Villaurrutia Award"]
+challenged: false
 white_male_author: false
 author_gender: ["man"]
 author_poc: true

@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["North Carolina","Asheville, NC"]
+author_indigenous: true
+author_lgbtq: false
+author_died: null
+debut: true
+awards: null
+challenged: false
 ---

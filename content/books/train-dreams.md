@@ -17,6 +17,12 @@ storygraph_id: null
 audible: false
 series: null
 places: ["Montana","Idaho"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2017]
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

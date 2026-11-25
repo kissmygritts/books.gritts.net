@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/the-bear"
 storygraph_id: "https://app.thestorygraph.com/books/925459a4-39e8-42c8-af66-aeca828ba6e2"
 audible: false
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

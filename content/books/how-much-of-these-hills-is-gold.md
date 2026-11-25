@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["California"]
+author_indigenous: false
+author_lgbtq: null
+author_died: null
+debut: true
+awards: ["Asian/Pacific American Award for Literature"]
+challenged: false
 ---

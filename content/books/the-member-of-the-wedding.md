@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["Georgia"]
+author_indigenous: false
+author_lgbtq: null
+author_died: [1967]
+debut: false
+awards: null
+challenged: false
 ---

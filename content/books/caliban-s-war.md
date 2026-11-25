@@ -23,4 +23,10 @@ audible: true
 series: ["The Expanse"]
 series_number: 2
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 ---

@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["Tennessee","Knoxville, TN"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [1955]
+debut: false
+awards: ["Pulitzer Prize for Fiction"]
+challenged: false
 ---

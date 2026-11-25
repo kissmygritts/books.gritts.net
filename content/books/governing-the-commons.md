@@ -18,5 +18,11 @@ audible: null
 series: null
 series_number: null
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: [2012]
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 ---

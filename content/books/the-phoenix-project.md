@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/the-phoenix-project"
 storygraph_id: "https://app.thestorygraph.com/books/33ac3b6a-d7c2-49b1-badf-8fa8a6ccb13e"
 audible: false
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["man","man","man"]
 author_poc: true

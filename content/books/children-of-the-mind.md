@@ -23,4 +23,10 @@ audible: false
 series: ["The Ender Saga"]
 series_number: 4
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 ---

@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["China"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [1973]
+debut: false
+awards: ["Pulitzer Prize for Fiction","William Dean Howells Medal"]
+challenged: false
 ---

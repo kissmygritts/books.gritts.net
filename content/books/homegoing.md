@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["Ghana","Alabama","Maryland","New York","Baltimore, MD","New York City, NY"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: ["PEN/Hemingway Award","National Book Critics Circle Award"]
+challenged: true
 ---

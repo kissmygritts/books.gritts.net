@@ -17,6 +17,12 @@ storygraph_id: "https://app.thestorygraph.com/books/a312aaee-2250-4291-8e56-aa09
 audible: false
 series: ["Foundation (series)"]
 series_number: 1
+author_indigenous: false
+author_lgbtq: false
+author_died: [1992]
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

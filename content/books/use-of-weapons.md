@@ -17,6 +17,12 @@ storygraph_id: null
 audible: false
 series: ["The Culture"]
 series_number: 3
+author_indigenous: false
+author_lgbtq: false
+author_died: [2013]
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

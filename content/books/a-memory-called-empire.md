@@ -17,6 +17,12 @@ storygraph_id: null
 audible: true
 series: ["Teixcalaan"]
 series_number: 1
+author_indigenous: false
+author_lgbtq: true
+author_died: null
+debut: true
+awards: ["Hugo Award"]
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: false

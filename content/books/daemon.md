@@ -17,6 +17,12 @@ storygraph_id: null
 audible: true
 series: ["Daemon (series)"]
 series_number: 1
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

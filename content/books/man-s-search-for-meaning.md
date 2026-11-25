@@ -16,6 +16,12 @@ hardcover_id: null
 storygraph_id: null
 audible: false
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: [1997]
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

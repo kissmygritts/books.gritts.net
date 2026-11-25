@@ -17,6 +17,12 @@ storygraph_id: null
 audible: true
 series: ["Xenogenesis"]
 series_number: 1
+author_indigenous: false
+author_lgbtq: false
+author_died: [2006]
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: true

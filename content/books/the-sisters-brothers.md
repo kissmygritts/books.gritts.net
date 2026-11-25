@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["Oregon","California"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Governor General's Award","Rogers Writers' Trust Fiction Prize"]
+challenged: false
 ---

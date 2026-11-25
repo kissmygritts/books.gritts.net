@@ -18,6 +18,12 @@ audible: false
 series: null
 series_number: null
 places: ["Illinois"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2000]
+debut: false
+awards: ["National Book Award","William Dean Howells Medal"]
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

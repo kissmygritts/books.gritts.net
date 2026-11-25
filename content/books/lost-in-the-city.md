@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["District of Columbia"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: ["PEN/Hemingway Award"]
+challenged: false
 ---

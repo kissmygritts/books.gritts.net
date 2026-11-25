@@ -16,6 +16,12 @@ hardcover_id: null
 storygraph_id: "https://app.thestorygraph.com/books/9230bcbf-b3bf-4ca8-9dda-6be257a7f283"
 audible: false
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: [2000]
+debut: true
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

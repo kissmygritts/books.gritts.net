@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["California"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2011]
+debut: true
+awards: null
+challenged: false
 ---

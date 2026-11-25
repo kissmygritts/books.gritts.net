@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/grit"
 storygraph_id: "https://app.thestorygraph.com/books/80e944b9-e381-46a8-bf3b-b6e458c1fecc"
 audible: true
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: true

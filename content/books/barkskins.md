@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["Canada","Maine","Michigan","New Zealand"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 ---

@@ -17,6 +17,12 @@ storygraph_id: "https://app.thestorygraph.com/books/85880713-93a9-4691-9240-b06e
 audible: true
 series: ["Children of Time (series)"]
 series_number: 2
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

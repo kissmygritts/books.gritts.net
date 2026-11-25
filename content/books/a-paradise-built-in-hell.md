@@ -18,6 +18,12 @@ audible: true
 series: null
 series_number: null
 places: ["California","Louisiana","New York","Mexico","Canada","San Francisco, CA","New Orleans, LA","New York City, NY","Mexico City","Halifax, Canada"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: false

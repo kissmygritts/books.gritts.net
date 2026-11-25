@@ -17,6 +17,12 @@ storygraph_id: "https://app.thestorygraph.com/books/663597e5-e3d0-4375-bd16-26ba
 audible: false
 series: null
 places: ["Montana"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

@@ -18,5 +18,11 @@ audible: null
 series: null
 series_number: null
 places: ["Maryland"]
+author_indigenous: false
+author_lgbtq: true
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 ---

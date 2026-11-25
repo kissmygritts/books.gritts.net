@@ -18,6 +18,12 @@ audible: true
 series: ["The Masquerade"]
 series_number: 1
 places: null
+author_indigenous: false
+author_lgbtq: null
+author_died: null
+debut: true
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

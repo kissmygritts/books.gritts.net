@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["England","Peru","Pennsylvania","Tahiti","Netherlands","London","Philadelphia, PA","Amsterdam"]
+author_indigenous: false
+author_lgbtq: true
+author_died: null
+debut: false
+awards: null
+challenged: false
 ---

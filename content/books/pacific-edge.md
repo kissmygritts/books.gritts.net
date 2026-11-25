@@ -18,5 +18,11 @@ audible: null
 series: ["Three Californias"]
 series_number: 3
 places: ["California"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["John W. Campbell Memorial Award"]
+challenged: false
 white_male_author: true
 ---

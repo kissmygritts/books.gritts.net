@@ -23,4 +23,10 @@ audible: false
 series: null
 series_number: null
 places: ["Montana","Missoula, MT"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [1990]
+debut: true
+awards: null
+challenged: false
 ---

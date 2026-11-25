@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["Finland"]
+author_indigenous: false
+author_lgbtq: true
+author_died: [2001]
+debut: false
+awards: null
+challenged: false
 ---

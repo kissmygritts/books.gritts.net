@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/the-antidote"
 storygraph_id: "https://app.thestorygraph.com/books/ad925815-1e92-4296-b790-e4db9cd467fd"
 audible: false
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

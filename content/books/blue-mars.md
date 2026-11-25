@@ -17,6 +17,12 @@ storygraph_id: null
 audible: true
 series: ["Mars Trilogy"]
 series_number: 3
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Hugo Award","Locus Award"]
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

@@ -17,6 +17,12 @@ storygraph_id: "https://app.thestorygraph.com/books/46735b48-d752-421b-9f74-b297
 audible: true
 series: null
 places: ["Texas"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

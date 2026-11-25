@@ -18,6 +18,12 @@ audible: true
 series: null
 series_number: null
 places: ["New York","New York City, NY"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: ["Kirkus Prize"]
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: true

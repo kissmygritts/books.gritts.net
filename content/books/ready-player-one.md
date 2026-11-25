@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/ready-player-one"
 storygraph_id: "https://app.thestorygraph.com/books/c84bba55-3c4c-4351-b445-3f6f780156c4"
 audible: true
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: ["Prometheus Award"]
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

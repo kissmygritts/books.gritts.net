@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/the-adventures-of-huckleberry-finn"
 storygraph_id: "https://app.thestorygraph.com/books/266a7be1-ee3d-48d5-91c4-3a8f1ebaef34"
 audible: true
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: [1910]
+debut: false
+awards: null
+challenged: true
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

@@ -17,6 +17,12 @@ storygraph_id: "https://app.thestorygraph.com/books/1ee3f05f-17bd-4cc1-bc6b-af35
 audible: false
 series: ["Dune (series)"]
 series_number: 1
+author_indigenous: false
+author_lgbtq: false
+author_died: [1986]
+debut: false
+awards: ["Hugo Award","Nebula Award"]
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

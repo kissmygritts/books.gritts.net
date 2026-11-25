@@ -17,6 +17,12 @@ storygraph_id: "https://app.thestorygraph.com/books/142bc3cb-3aac-49e5-8527-b3cc
 audible: true
 series: ["Children of Time (series)"]
 series_number: 1
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Arthur C. Clarke Award"]
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["India"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Giller Prize","Commonwealth Writers' Prize","Los Angeles Times Book Prize"]
+challenged: false
 ---

@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/10-happier"
 storygraph_id: "https://app.thestorygraph.com/books/3068ca4f-e661-402a-bff3-cbab24371c81"
 audible: false
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

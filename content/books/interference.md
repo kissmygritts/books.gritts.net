@@ -17,6 +17,12 @@ storygraph_id: null
 audible: true
 series: ["Semiosis (series)"]
 series_number: 2
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: false

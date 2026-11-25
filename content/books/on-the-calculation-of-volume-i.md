@@ -23,4 +23,10 @@ audible: false
 series: ["On the Calculation of Volume"]
 series_number: 1
 places: ["France"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Nordic Council Literature Prize"]
+challenged: false
 ---

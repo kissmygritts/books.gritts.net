@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["Illinois"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2012]
+debut: false
+awards: null
+challenged: false
 ---

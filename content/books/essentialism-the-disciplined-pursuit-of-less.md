@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/essentialism"
 storygraph_id: "https://app.thestorygraph.com/books/5ae05d76-9534-4499-a502-2f984696ae03"
 audible: true
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

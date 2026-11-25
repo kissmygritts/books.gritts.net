@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/the-singularity-trap"
 storygraph_id: "https://app.thestorygraph.com/books/22621e77-3f46-481c-b29f-82946823cc6d"
 audible: true
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

@@ -23,4 +23,10 @@ audible: false
 series: ["The Lord of the Rings"]
 series_number: 1
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: [1973]
+debut: false
+awards: null
+challenged: false
 ---

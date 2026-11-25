@@ -23,4 +23,10 @@ audible: false
 series: ["Hannibal Lecter"]
 series_number: 2
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Bram Stoker Award","Anthony Award"]
+challenged: true
 ---

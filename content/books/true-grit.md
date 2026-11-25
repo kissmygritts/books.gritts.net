@@ -18,6 +18,12 @@ audible: true
 series: null
 series_number: null
 places: ["Arkansas","Oklahoma"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2020]
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

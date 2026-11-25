@@ -17,6 +17,12 @@ storygraph_id: null
 audible: true
 series: ["Wayfarers"]
 series_number: 3
+author_indigenous: false
+author_lgbtq: true
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: false

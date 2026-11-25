@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["North Dakota"]
+author_indigenous: true
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 ---

@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/world-war-z"
 storygraph_id: "https://app.thestorygraph.com/books/5acbfc41-517f-4672-bf71-66a3c1fcd291"
 audible: true
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

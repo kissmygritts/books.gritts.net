@@ -18,6 +18,12 @@ audible: true
 series: null
 series_number: null
 places: ["Chile","Iraq","Poland","Russia","Louisiana","Sri Lanka","New Orleans, LA"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: false

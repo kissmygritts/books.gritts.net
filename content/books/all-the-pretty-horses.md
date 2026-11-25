@@ -18,6 +18,12 @@ audible: false
 series: ["Border Trilogy"]
 series_number: 1
 places: ["Mexico","Texas"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2023]
+debut: false
+awards: ["National Book Award","National Book Critics Circle Award"]
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

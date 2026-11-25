@@ -17,7 +17,13 @@ storygraph_id: null
 audible: true
 series: ["Lonesome Dove (series)"]
 series_number: 1
-places: ["Texas","Montana"]
+places: ["Texas","Mexico","Oklahoma","Kansas","Nebraska","Wyoming","Montana","Arkansas","Ogallala, NE","Fort Smith, AR"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2021]
+debut: false
+awards: ["Pulitzer Prize for Fiction","Spur Award"]
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

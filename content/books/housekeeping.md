@@ -18,5 +18,11 @@ audible: false
 series: null
 series_number: null
 places: ["Idaho"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: ["PEN/Hemingway Award"]
+challenged: false
 white_male_author: false
 ---

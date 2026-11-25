@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["Idaho","England","Cambridge, England"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: null
+challenged: true
 ---

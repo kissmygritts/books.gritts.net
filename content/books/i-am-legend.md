@@ -23,4 +23,10 @@ audible: false
 series: null
 series_number: null
 places: ["California","Los Angeles, CA"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2013]
+debut: false
+awards: null
+challenged: false
 ---

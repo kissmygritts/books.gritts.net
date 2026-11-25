@@ -23,4 +23,10 @@ audible: false
 series: ["A Song of Ice and Fire"]
 series_number: 5
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Locus Award"]
+challenged: true
 ---

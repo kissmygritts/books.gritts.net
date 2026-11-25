@@ -16,6 +16,12 @@ hardcover_id: null
 storygraph_id: null
 audible: true
 series: ["The High Republic"]
+author_indigenous: false
+author_lgbtq: true
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["nonbinary"]
 author_poc: false

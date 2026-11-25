@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/atomic-habits"
 storygraph_id: "https://app.thestorygraph.com/books/7595d6e0-b75d-4f37-9226-50d5a73851df"
 audible: true
 series: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

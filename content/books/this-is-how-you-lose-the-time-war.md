@@ -16,6 +16,12 @@ hardcover_id: null
 storygraph_id: null
 audible: true
 series: null
+author_indigenous: false
+author_lgbtq: true
+author_died: null
+debut: true
+awards: ["Hugo Award","Nebula Award","Locus Award","BSFA Award"]
+challenged: false
 white_male_author: false
 author_gender: ["woman","man"]
 author_poc: true

@@ -18,6 +18,12 @@ audible: false
 series: ["Holt, CO"]
 series_number: 2
 places: ["Colorado"]
+author_indigenous: false
+author_lgbtq: false
+author_died: [2014]
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/light-bringer"
 storygraph_id: "https://app.thestorygraph.com/books/ba690f5d-177f-491f-bec1-000c4af68969"
 audible: true
 series: ["Red Rising (series)"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

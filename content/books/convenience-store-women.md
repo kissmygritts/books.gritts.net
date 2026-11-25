@@ -17,6 +17,12 @@ storygraph_id: null
 audible: false
 series: null
 places: ["Japan"]
+author_indigenous: false
+author_lgbtq: null
+author_died: null
+debut: false
+awards: ["Akutagawa Prize"]
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: true

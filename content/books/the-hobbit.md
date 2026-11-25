@@ -23,4 +23,10 @@ audible: false
 series: null
 series_number: null
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: [1973]
+debut: false
+awards: null
+challenged: false
 ---

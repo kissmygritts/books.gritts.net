@@ -23,4 +23,10 @@ audible: true
 series: null
 series_number: null
 places: ["North Dakota"]
+author_indigenous: true
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["National Book Critics Circle Award"]
+challenged: false
 ---

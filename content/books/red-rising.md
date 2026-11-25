@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/red-rising"
 storygraph_id: "https://app.thestorygraph.com/books/84498a18-8f34-4c2b-b2dd-515972a5e504"
 audible: true
 series: ["Red Rising (series)"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: null
+challenged: false
 series_number: 1
 white_male_author: true
 author_gender: ["man"]

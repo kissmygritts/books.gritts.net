@@ -17,6 +17,12 @@ storygraph_id: null
 audible: false
 series: ["The Murderbot Diaries"]
 series_number: 1
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Hugo Award","Nebula Award","Locus Award"]
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: false

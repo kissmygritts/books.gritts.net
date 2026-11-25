@@ -15,6 +15,12 @@ wikipedia: "https://en.wikipedia.org/wiki/Prodigal_Summer"
 hardcover_id: "https://hardcover.app/books/prodigal-summer"
 storygraph_id: "https://app.thestorygraph.com/books/fa8da5e3-6e1e-43a8-adee-cf5092a02ca4"
 audible: true
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: false
 author_gender: ["woman"]
 author_poc: false

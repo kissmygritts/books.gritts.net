@@ -17,6 +17,12 @@ storygraph_id: "https://app.thestorygraph.com/books/4559b842-7e1b-4670-bdfa-7d8d
 audible: true
 series: ["Bobiverse"]
 series_number: 1
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

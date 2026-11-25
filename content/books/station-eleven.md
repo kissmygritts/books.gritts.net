@@ -18,5 +18,11 @@ audible: null
 series: null
 series_number: null
 places: ["Michigan","Canada"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: ["Arthur C. Clarke Award"]
+challenged: false
 white_male_author: false
 ---

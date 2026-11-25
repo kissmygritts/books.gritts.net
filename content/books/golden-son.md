@@ -16,6 +16,12 @@ hardcover_id: "https://hardcover.app/books/golden-son"
 storygraph_id: "https://app.thestorygraph.com/books/559a99d7-32f2-4344-878c-1eefd5219e17"
 audible: true
 series: ["Red Rising (series)"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 series_number: 2
 white_male_author: true
 author_gender: ["man"]

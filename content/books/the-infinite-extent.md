@@ -23,4 +23,10 @@ audible: true
 series: ["Bobiverse"]
 series_number: 6
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 ---

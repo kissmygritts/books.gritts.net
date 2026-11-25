@@ -19,4 +19,10 @@ audible: null
 series: null
 series_number: null
 places: ["Illinois","Chicago, IL"]
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: true
+awards: ["American Book Award"]
+challenged: true
 ---

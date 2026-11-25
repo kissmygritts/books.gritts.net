@@ -18,6 +18,12 @@ audible: true
 series: ["Darwin's Radio (series)"]
 series_number: 1
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: [2022]
+debut: false
+awards: ["Nebula Award"]
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false

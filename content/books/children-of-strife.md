@@ -18,6 +18,12 @@ audible: true
 series: ["Children of Time (series)"]
 series_number: 4
 places: null
+author_indigenous: false
+author_lgbtq: false
+author_died: null
+debut: false
+awards: null
+challenged: false
 white_male_author: true
 author_gender: ["man"]
 author_poc: false
